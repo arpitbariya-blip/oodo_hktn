@@ -256,46 +256,43 @@
 <span class="material-symbols-outlined text-on-surface-variant text-sm">add_circle</span>
 </div>
 <div class="p-space-md flex flex-col gap-space-md">
-<!-- Overlap Error State (Demonstrated active) -->
-<div class="bg-error-container border border-error/20 p-space-sm rounded-DEFAULT flex items-start gap-space-sm">
+<!-- Overlap Error State -->
+<div id="booking-conflict-alert" class="hidden bg-error-container border border-error/20 p-space-sm rounded-DEFAULT flex items-start gap-space-sm">
 <span class="material-symbols-outlined text-on-error-container text-base mt-0.5">error</span>
 <div>
 <h4 class="font-label-md text-label-md text-on-error-container">Scheduling Conflict</h4>
-<p class="font-body-sm text-body-sm text-on-error-container/80 mt-1">The selected resource 'Server Rack A2' is already booked during this time by Sarah Jenkins.</p>
+<p id="booking-conflict-msg" class="font-body-sm text-body-sm text-on-error-container/80 mt-1"></p>
 </div>
 </div>
 <div>
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Resource</label>
 <div class="relative">
-<select class="w-full bg-surface border border-error rounded-DEFAULT pl-3 pr-8 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-error appearance-none">
-<option>Server Rack A2</option>
-<option>Conference Room 4B</option>
-<option>Projector Pro-X</option>
+<select id="booking-asset" class="w-full bg-surface border border-outline-variant rounded-DEFAULT pl-3 pr-8 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary appearance-none">
 </select>
 <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">arrow_drop_down</span>
 </div>
 </div>
-<div class="grid grid-cols-2 gap-space-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
 <div>
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Date</label>
-<input class="w-full bg-surface border border-error rounded-DEFAULT px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-error" type="date" value="2023-10-27"/>
+<input id="booking-date" class="w-full bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary" type="date" />
 </div>
 <div>
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Time</label>
 <div class="flex items-center gap-2">
-<input class="w-full bg-surface border border-error rounded-DEFAULT px-2 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-error" type="time" value="09:00"/>
-<span class="text-on-surface-variant">-</span>
-<input class="w-full bg-surface border border-error rounded-DEFAULT px-2 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-error" type="time" value="11:00"/>
+<input id="booking-start" class="flex-1 bg-surface border border-outline-variant rounded-DEFAULT px-2 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary min-w-0" type="time" />
+<span class="text-on-surface-variant font-bold">-</span>
+<input id="booking-end" class="flex-1 bg-surface border border-outline-variant rounded-DEFAULT px-2 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary min-w-0" type="time" />
 </div>
 </div>
 </div>
 <div>
-<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Purpose</label>
-<textarea class="w-full bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary resize-none placeholder:text-on-surface-variant/50" placeholder="Brief description..." rows="2"></textarea>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Purpose (Optional)</label>
+<textarea id="booking-purpose" class="w-full bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 font-body-md text-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary resize-none placeholder:text-on-surface-variant/50" placeholder="Brief description..." rows="2"></textarea>
 </div>
 <div class="pt-space-sm flex justify-end gap-space-sm border-t border-outline-variant mt-2">
-<button class="px-space-md py-2 border border-outline-variant text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors">Cancel</button>
-<button class="px-space-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-DEFAULT hover:bg-primary/90 transition-colors opacity-50 cursor-not-allowed">Book Resource</button>
+<button class="px-space-md py-2 border border-outline-variant text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors" onclick="resetBookingForm()">Clear</button>
+<button id="book-btn" class="px-space-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-DEFAULT hover:bg-primary/90 transition-colors" onclick="submitBooking()">Book Resource</button>
 </div>
 </div>
 </div>
@@ -305,111 +302,26 @@
 <h3 class="font-title-md text-title-md text-on-surface">Your Upcoming</h3>
 <button class="font-label-sm text-label-sm text-secondary hover:underline">View All</button>
 </div>
-<div class="divide-y divide-outline-variant">
-<div class="p-space-sm flex justify-between items-center hover:bg-surface-container-lowest/50 transition-colors">
-<div>
-<p class="font-label-md text-label-md text-on-surface">Projector Pro-X</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Tomorrow, 14:00 - 16:00</p>
-</div>
-<span class="px-2 py-1 bg-surface-container text-secondary font-label-sm text-label-sm rounded-DEFAULT border border-secondary/20">Upcoming</span>
-</div>
-<div class="p-space-sm flex justify-between items-center hover:bg-surface-container-lowest/50 transition-colors">
-<div>
-<p class="font-label-md text-label-md text-on-surface">Conf Room 4B</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Oct 29, 09:00 - 10:00</p>
-</div>
-<span class="px-2 py-1 bg-surface-container text-secondary font-label-sm text-label-sm rounded-DEFAULT border border-secondary/20">Upcoming</span>
-</div>
+<div id="upcoming-bookings-container" class="divide-y divide-outline-variant">
+<!-- JS Rendered -->
 </div>
 </div>
 </div>
 <!-- Right Panel: Calendar Grid (Day View Simulation) -->
 <div class="xl:col-span-8 bg-surface border border-outline-variant rounded-lg overflow-hidden flex flex-col h-[700px]">
 <!-- Calendar Header -->
-<div class="grid grid-cols-[80px_repeat(4,_1fr)] border-b border-outline-variant bg-surface-bright sticky top-0 z-10">
-<div class="grid-header p-2 flex items-center justify-center border-r border-outline-variant">
-<span class="font-mono-md text-mono-md text-on-surface-variant">GMT-4</span>
-</div>
-<div class="grid-header p-space-sm text-center border-r border-outline-variant">
-<h4 class="font-label-md text-label-md text-on-surface">Server Rack A2</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">IT Dept</p>
-</div>
-<div class="grid-header p-space-sm text-center border-r border-outline-variant">
-<h4 class="font-label-md text-label-md text-on-surface">Conf Room 4B</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Floor 4</p>
-</div>
-<div class="grid-header p-space-sm text-center border-r border-outline-variant">
-<h4 class="font-label-md text-label-md text-on-surface">Projector Pro</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Portable</p>
-</div>
-<div class="grid-header p-space-sm text-center">
-<h4 class="font-label-md text-label-md text-on-surface">Test Bench C</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Lab 2</p>
-</div>
+<div id="calendar-header" class="grid grid-cols-[80px_repeat(4,_1fr)] border-b border-outline-variant bg-surface-bright sticky top-0 z-10">
+<!-- Rendered by JS -->
 </div>
 <!-- Calendar Body (Scrollable) -->
 <div class="flex-1 overflow-y-auto relative bg-surface-bright/30">
 <!-- Grid Lines Background -->
-<div class="absolute inset-0 grid grid-cols-[80px_repeat(4,_1fr)] pointer-events-none">
-<div class="border-r border-outline-variant bg-surface h-full"></div>
-<div class="border-r border-outline-variant border-dashed h-full"></div>
-<div class="border-r border-outline-variant border-dashed h-full"></div>
-<div class="border-r border-outline-variant border-dashed h-full"></div>
-<div class="h-full"></div>
+<div id="calendar-bg-grid" class="absolute inset-0 grid grid-cols-[80px_repeat(4,_1fr)] pointer-events-none">
+<!-- Rendered by JS -->
 </div>
 <!-- Time Rows & Events Container -->
-<div class="relative" style="height: 1440px;"> <!-- 24 hours * 60px -->
-<!-- Time Labels (08:00 to 18:00 shown for brevity in this snippet) -->
-<div class="absolute left-0 w-[80px] h-full flex flex-col font-mono-md text-mono-md text-on-surface-variant text-right pr-2">
-<div style="height: 60px; position: absolute; top: 480px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">08:00</span></div>
-<div style="height: 60px; position: absolute; top: 540px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">09:00</span></div>
-<div style="height: 60px; position: absolute; top: 600px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">10:00</span></div>
-<div style="height: 60px; position: absolute; top: 660px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">11:00</span></div>
-<div style="height: 60px; position: absolute; top: 720px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">12:00</span></div>
-<div style="height: 60px; position: absolute; top: 780px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">13:00</span></div>
-<div style="height: 60px; position: absolute; top: 840px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">14:00</span></div>
-<div style="height: 60px; position: absolute; top: 900px; width: 100%; border-top: 1px solid theme('colors.outline-variant');"><span class="-mt-3 block bg-surface px-1">15:00</span></div>
-</div>
-<!-- Events -->
-<!-- Server Rack A2 (Col 1) -->
-<!-- Conflict Block -->
-<div class="absolute bg-surface border-l-4 border-l-error border border-error/30 rounded-r-DEFAULT p-2 shadow-sm overflow-hidden" style="left: 80px; width: calc(25% - 20px); top: 540px; height: 120px; z-index: 5;"> <!-- 09:00 - 11:00 -->
-<div class="flex justify-between items-start mb-1">
-<span class="font-label-sm text-label-sm text-error uppercase">Booked</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface truncate">S. Jenkins</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Maintenance</p>
-</div>
-<!-- Attempted Booking (Ghost/Striped) -->
-<div class="absolute bg-error-container/40 border-2 border-dashed border-error rounded-DEFAULT p-2 flex items-center justify-center opacity-80" style="left: 80px; width: calc(25% - 20px); top: 540px; height: 120px; z-index: 6; pointer-events: none;"> <!-- 09:00 - 11:00 -->
-<span class="material-symbols-outlined text-error font-bold">block</span>
-</div>
-<!-- Conf Room 4B (Col 2) -->
-<div class="absolute bg-surface-container border-l-4 border-l-primary border border-outline-variant rounded-r-DEFAULT p-2 shadow-sm overflow-hidden" style="left: calc(80px + 25%); width: calc(25% - 20px); top: 600px; height: 90px;"> <!-- 10:00 - 11:30 -->
-<div class="flex justify-between items-start mb-1">
-<span class="px-1.5 py-0.5 bg-primary/10 text-primary font-label-sm text-label-sm rounded-sm">Ongoing</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface truncate">Design Sync</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Team A</p>
-</div>
-<!-- Projector Pro (Col 3) -->
-<div class="absolute bg-surface border-l-4 border-l-secondary border border-outline-variant rounded-r-DEFAULT p-2 shadow-sm overflow-hidden opacity-60" style="left: calc(80px + 50%); width: calc(25% - 20px); top: 480px; height: 60px;"> <!-- 08:00 - 09:00 -->
-<div class="flex justify-between items-start mb-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Completed</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface truncate">Training</p>
-</div>
-<div class="absolute bg-surface-bright border-l-4 border-l-tertiary-fixed-dim border border-outline-variant rounded-r-DEFAULT p-2 shadow-sm overflow-hidden" style="left: calc(80px + 50%); width: calc(25% - 20px); top: 780px; height: 120px;"> <!-- 13:00 - 15:00 -->
-<div class="flex justify-between items-start mb-1">
-<span class="px-1.5 py-0.5 bg-surface-container text-secondary font-label-sm text-label-sm rounded-sm border border-secondary/20">Upcoming</span>
-</div>
-<p class="font-label-md text-label-md text-on-surface truncate">Client Pitch</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Sales Dept</p>
-</div>
-<!-- Current Time Indicator -->
-<div class="absolute left-[80px] right-0 flex items-center z-10 pointer-events-none" style="top: 645px;"> <!-- ~10:45 -->
-<div class="w-2 h-2 rounded-full bg-primary -ml-1"></div>
-<div class="h-px bg-primary w-full shadow-[0_1px_2px_rgba(0,0,0,0.1)]"></div>
+<div id="calendar-body" class="relative" style="height: 1440px;"> <!-- 24 hours * 60px -->
+<!-- Rendered by JS -->
 </div>
 </div>
 </div>
@@ -417,15 +329,6 @@
 </div>
 </main>
 </div>
-<script>
-        // Simple script to scroll the calendar to 8 AM on load for demonstration
-        document.addEventListener("DOMContentLoaded", function() {
-            const calendarBody = document.querySelector('.flex-1.overflow-y-auto');
-            if (calendarBody) {
-                // 480px corresponds to 08:00 (8 hours * 60px)
-                calendarBody.scrollTop = 450; 
-            }
-        });
-    </script>
+    <script src="assets/js/bookings.js"></script>
     <script src="assets/js/auth.js"></script>
 </body></html>

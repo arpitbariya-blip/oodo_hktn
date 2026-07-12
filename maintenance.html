@@ -215,89 +215,33 @@
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
 <!-- Active Request Workflow (Bento Grid Item 1) -->
-<div class="lg:col-span-8 bg-surface-lowest border border-outline-variant rounded bg-white p-space-lg flex flex-col">
-<div class="flex justify-between items-center mb-space-lg border-b border-outline-variant pb-space-sm">
-<h3 class="font-title-md text-title-md text-on-surface">Active Request: MR-4092</h3>
-<span class="bg-surface-container-highest text-on-surface px-2 py-1 rounded font-label-sm text-label-sm flex items-center gap-1">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-                            In Progress
-                        </span>
-</div>
-<div class="flex gap-space-lg mb-space-xl">
-<div class="w-24 h-24 rounded border border-outline-variant overflow-hidden flex-shrink-0">
-<img class="w-full h-full object-cover" data-alt="A modern industrial CNC machine in a bright, clean manufacturing facility, showing precision engineering details in a corporate setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4IPWzb848__MP3F6X062CiVYxD0NgevUOhqjS7Z_ZRb0tA2hZtdxR6E-VJoU3R7r2xb7JiXSsqbNo2l3LMO6Z96-K0ppMKtkKqx9RlSd7zZywn5qD2NmoTlUUKzb9ZFJcK52WCoID5WraGZY4JgzZQ5ZJg1d6KbVSEHDTfsoAROr86-iB7NiBMcfhQ1LeG66UDVkGXVWWK5dJAdTwwAHJ0bw84GvDWWBP19L9bd1Ic78_VW_6c92Jxf4mwnVfIHRyylaXB6OIcQE"/>
-</div>
-<div>
-<a href="assets.html" class="font-title-md text-title-md text-on-surface hover:text-secondary transition-colors">Haas VF-2 CNC Mill</a>
-<p class="font-mono-md text-mono-md text-on-surface-variant mb-2">Asset ID: <a href="assets.html" class="hover:text-secondary transition-colors">AST-88102</a></p>
-<p class="font-body-sm text-body-sm text-on-surface">Issue: Spindle bearing noise exceeding acceptable decibel levels during high-speed roughing cycles. Requires immediate inspection.</p>
-</div>
-</div>
-<!-- Workflow Stepper -->
-<div class="mt-auto pt-space-lg">
-<div class="flex items-center justify-between relative">
-<!-- Line connecting steps -->
-<div class="absolute top-1/2 left-0 w-full h-0.5 bg-outline-variant -z-10 -translate-y-1/2"></div>
-<div class="absolute top-1/2 left-0 w-3/4 h-0.5 bg-secondary -z-10 -translate-y-1/2"></div>
-<!-- Step 1 -->
-<div class="flex flex-col items-center gap-2 bg-white px-2">
-<div class="w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center">
-<span class="material-symbols-outlined text-[14px]">check</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface">Pending</span>
-</div>
-<!-- Step 2 -->
-<div class="flex flex-col items-center gap-2 bg-white px-2">
-<div class="w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center">
-<span class="material-symbols-outlined text-[14px]">check</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface">Approved</span>
-</div>
-<!-- Step 3 -->
-<div class="flex flex-col items-center gap-2 bg-white px-2">
-<div class="w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center">
-<span class="material-symbols-outlined text-[14px]">check</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface">Assigned</span>
-</div>
-<!-- Step 4 (Current) -->
-<div class="flex flex-col items-center gap-2 bg-white px-2">
-<div class="w-6 h-6 rounded-full border-2 border-secondary bg-white text-secondary flex items-center justify-center">
-<div class="w-2 h-2 rounded-full bg-secondary"></div>
-</div>
-<span class="font-label-sm text-label-sm text-primary font-bold">In Progress</span>
-</div>
-<!-- Step 5 -->
-<div class="flex flex-col items-center gap-2 bg-white px-2">
-<div class="w-6 h-6 rounded-full border-2 border-outline-variant bg-white flex items-center justify-center">
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Resolved</span>
-</div>
-</div>
-</div>
+<div class="lg:col-span-8 border border-outline-variant rounded bg-white p-space-lg flex flex-col h-[500px] overflow-y-auto" id="active-requests-wrapper">
+<!-- JS Rendered -->
 </div>
 <!-- Raise Request Form (Bento Grid Item 2) -->
-<div class="lg:col-span-4 bg-white border border-outline-variant rounded p-space-lg">
+<div class="lg:col-span-4 bg-white border border-outline-variant rounded p-space-lg h-[500px]">
 <h3 class="font-title-md text-title-md text-on-surface mb-space-md border-b border-outline-variant pb-space-sm">New Request</h3>
-<form class="flex flex-col gap-space-md">
+<form class="flex flex-col gap-space-md" id="maint-form">
 <div>
-<label class="block font-label-md text-label-md text-on-surface mb-1">Asset ID</label>
-<input class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="e.g. AST-12345" type="text"/>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Asset</label>
+<select id="maint-asset" class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
+<option value="">Loading...</option>
+</select>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Priority</label>
-<select class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-<option>Critical</option>
+<select id="maint-priority" class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
+<option value="Low">Low</option>
+<option value="Medium">Medium</option>
+<option value="High">High</option>
+<option value="Critical">Critical</option>
 </select>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Description</label>
-<textarea class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Describe the issue..." rows="3"></textarea>
+<textarea id="maint-desc" class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Describe the issue..." rows="3"></textarea>
 </div>
-<button class="mt-2 w-full bg-surface-container-high text-on-surface py-2 rounded font-label-md text-label-md hover:bg-surface-container-highest transition-colors border border-outline-variant" type="button">
+<button id="maint-submit-btn" class="mt-2 w-full bg-primary text-on-primary py-2 rounded font-label-md text-label-md hover:bg-primary/90 transition-colors border border-primary" type="button" onclick="submitRequest()">
                             Submit Request
                         </button>
 </form>
@@ -305,33 +249,13 @@
 <!-- Asset History Timeline (Bento Grid Item 3) -->
 <div class="lg:col-span-12 bg-white border border-outline-variant rounded p-space-lg">
 <h3 class="font-title-md text-title-md text-on-surface mb-space-md border-b border-outline-variant pb-space-sm">Asset Maintenance History</h3>
-<div class="relative pl-6 border-l-2 border-surface-container-highest ml-3 mt-4 space-y-6">
-<!-- Timeline Item 1 -->
-<div class="relative">
-<div class="absolute w-3 h-3 bg-white border-2 border-secondary rounded-full -left-[1.65rem] top-1"></div>
-<div class="flex items-start justify-between">
-<div>
-<h4 class="font-label-md text-label-md text-primary">Oct 12, 2023 - Preventative Maintenance</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Routine fluid change, calibration, and safety check completed by Tech A. Smith.</p>
-</div>
-<a href="assets.html" class="bg-surface-container text-on-surface hover:text-secondary px-2 py-1 rounded font-label-sm text-label-sm text-xs transition-colors">AST-88102</a>
-</div>
-</div>
-<!-- Timeline Item 2 -->
-<div class="relative">
-<div class="absolute w-3 h-3 bg-white border-2 border-outline-variant rounded-full -left-[1.65rem] top-1"></div>
-<div class="flex items-start justify-between">
-<div>
-<h4 class="font-label-md text-label-md text-on-surface">Jun 05, 2023 - Unplanned Repair</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Coolant pump failure. Replaced unit and verified flow rates.</p>
-</div>
-<a href="assets.html" class="bg-surface-container text-on-surface hover:text-secondary px-2 py-1 rounded font-label-sm text-label-sm text-xs transition-colors">AST-88102</a>
-</div>
-</div>
+<div id="maintenance-history-container" class="relative pl-6 border-l-2 border-surface-container-highest ml-3 mt-4 space-y-6">
+<!-- JS Rendered -->
 </div>
 </div>
 </div>
 </main>
 </div>
+    <script src="assets/js/maintenance.js"></script>
     <script src="assets/js/auth.js"></script>
 </body></html>

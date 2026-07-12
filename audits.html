@@ -223,15 +223,12 @@
 <main class="mt-16 ml-sidebar-width w-full h-[calc(100vh-64px)] overflow-y-auto p-margin-page bg-surface-bright">
 <!-- Top Action Area -->
 <div class="flex justify-between items-end mb-space-lg">
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface mb-space-xs">Active Audit Cycle</h2>
-<div class="flex items-center gap-space-md text-on-surface-variant font-body-sm text-body-sm">
-<span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">location_on</span> Facility Alpha (Datacenter)</span>
-<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-<span>Cycle ID: #AUD-2023-Q4-01</span>
+<div id="active-cycle-header">
+<!-- JS Rendered Header -->
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-space-xs">No Active Audit Cycle</h2>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Start a new audit cycle to begin verifying assets.</p>
 </div>
-</div>
-<button class="flex items-center gap-space-sm bg-surface text-on-surface border border-outline-variant px-space-lg py-space-sm rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors shadow-sm">
+<button onclick="openCreateAuditModal()" class="flex items-center gap-space-sm bg-surface text-on-surface border border-outline-variant px-space-lg py-space-sm rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors shadow-sm">
 <span class="material-symbols-outlined text-[18px]">add_circle</span>
                 Create Audit Cycle
             </button>
@@ -263,75 +260,8 @@
 <th class="py-space-sm px-space-md font-label-md text-label-md text-on-surface-variant font-medium text-right">Audit Action</th>
 </tr>
 </thead>
-<tbody class="font-mono-md text-mono-md text-on-surface divide-y divide-outline-variant/50">
-<!-- Row 1 (Verified) -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="py-3 px-space-md">SRV-892-XT</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Dell PowerEdge R740</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Rack A-04, U12</td>
-<td class="py-3 px-space-md">
-<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[11px] font-medium border border-outline-variant/30">
-<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div> Active
-                                    </span>
-</td>
-<td class="py-3 px-space-md text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:border-secondary hover:text-secondary transition-colors" title="Mark Verified">
-<span class="material-symbols-outlined text-[18px]">check</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:border-[#b3261e] hover:text-[#b3261e] transition-colors" title="Mark Missing">
-<span class="material-symbols-outlined text-[18px]">visibility_off</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:border-[#b3261e] hover:text-[#b3261e] transition-colors" title="Mark Damaged">
-<span class="material-symbols-outlined text-[18px]">broken_image</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 (Pending) -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="py-3 px-space-md">SWT-441-CS</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Cisco Catalyst 9300</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Rack A-04, U40</td>
-<td class="py-3 px-space-md">
-<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[11px] font-medium border border-outline-variant/30">
-<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div> Active
-                                    </span>
-</td>
-<td class="py-3 px-space-md text-right">
-<div class="flex justify-end gap-2 opacity-100">
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors" title="Mark Verified">
-<span class="material-symbols-outlined text-[18px]">check</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors" title="Mark Missing">
-<span class="material-symbols-outlined text-[18px]">visibility_off</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors" title="Mark Damaged">
-<span class="material-symbols-outlined text-[18px]">broken_image</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 (Missing flagged during session) -->
-<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors border-l-2 border-l-error">
-<td class="py-3 px-space-md">LPT-901-LP</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Lenovo ThinkPad T14</td>
-<td class="py-3 px-space-md font-body-sm text-body-sm">Tech Room B</td>
-<td class="py-3 px-space-md">
-<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[11px] font-medium border border-outline-variant/30">
-<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div> Active
-                                    </span>
-</td>
-<td class="py-3 px-space-md text-right">
-<span class="inline-flex items-center gap-1 text-error font-label-sm text-label-sm mr-2">
-<span class="material-symbols-outlined text-[14px]">warning</span> Missing Flagged
-                                    </span>
-<button class="text-on-surface-variant hover:text-on-surface underline text-label-sm font-label-sm">Undo</button>
-</td>
-</tr>
-<!-- Dummy rows to fill space -->
-<tr class="hover:bg-surface-container-lowest transition-colors group"><td class="py-3 px-space-md">MNT-102-DL</td><td class="py-3 px-space-md font-body-sm text-body-sm">Dell UltraSharp 27</td><td class="py-3 px-space-md font-body-sm text-body-sm">Desk 412</td><td class="py-3 px-space-md"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[11px] font-medium border border-outline-variant/30"><div class="w-1.5 h-1.5 rounded-full bg-secondary"></div> Active</span></td><td class="py-3 px-space-md text-right"><div class="flex justify-end gap-2 opacity-100"><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">check</span></button><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">visibility_off</span></button><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">broken_image</span></button></div></td></tr>
-<tr class="hover:bg-surface-container-lowest transition-colors group"><td class="py-3 px-space-md">SRV-893-XT</td><td class="py-3 px-space-md font-body-sm text-body-sm">Dell PowerEdge R740</td><td class="py-3 px-space-md font-body-sm text-body-sm">Rack A-04, U14</td><td class="py-3 px-space-md"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[11px] font-medium border border-outline-variant/30"><div class="w-1.5 h-1.5 rounded-full bg-secondary"></div> Active</span></td><td class="py-3 px-space-md text-right"><div class="flex justify-end gap-2 opacity-100"><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">check</span></button><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">visibility_off</span></button><button class="w-8 h-8 rounded bg-surface border border-outline-variant flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">broken_image</span></button></div></td></tr>
+<tbody id="audit-items-tbody" class="font-mono-md text-mono-md text-on-surface divide-y divide-outline-variant/50">
+<!-- JS Rendered Rows -->
 </tbody>
 </table>
 </div>
@@ -342,13 +272,13 @@
 <div class="bg-surface rounded-xl border border-outline-variant p-space-lg flex flex-col">
 <h3 class="font-title-md text-title-md text-on-surface mb-space-md">Cycle Progress</h3>
 <div class="flex justify-between items-end mb-2">
-<span class="font-display text-display text-on-surface">342</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant mb-1">/ 400 Expected Assets</span>
+<span id="progress-verified" class="font-display text-display text-on-surface">0</span>
+<span id="progress-total" class="font-body-sm text-body-sm text-on-surface-variant mb-1">/ 0 Expected Assets</span>
 </div>
 <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden mb-space-sm">
-<div class="h-full bg-secondary-container rounded-full" style="width: 85%;"></div>
+<div id="progress-bar" class="h-full bg-secondary-container rounded-full" style="width: 0%;"></div>
 </div>
-<p class="font-label-sm text-label-sm text-on-surface-variant text-right">85% Complete</p>
+<p id="progress-pct" class="font-label-sm text-label-sm text-on-surface-variant text-right">0% Complete</p>
 </div>
 <!-- Discrepancy Report Card -->
 <div class="bg-surface rounded-xl border border-outline-variant flex flex-col flex-1 overflow-hidden">
@@ -365,7 +295,7 @@
 <div class="w-2 h-2 rounded-full bg-[#1b5e20]"></div>
 <span class="font-body-md text-body-md text-on-surface">Verified Found</span>
 </div>
-<span class="font-mono-md text-mono-md font-medium">338</span>
+<span id="count-verified" class="font-mono-md text-mono-md font-medium">0</span>
 </div>
 <!-- Stat Item -->
 <div class="flex justify-between items-center pb-space-sm border-b border-outline-variant/30">
@@ -373,7 +303,7 @@
 <div class="w-2 h-2 rounded-full bg-error"></div>
 <span class="font-body-md text-body-md text-on-surface">Marked Missing</span>
 </div>
-<span class="font-mono-md text-mono-md font-medium text-error">3</span>
+<span id="count-missing" class="font-mono-md text-mono-md font-medium text-error">0</span>
 </div>
 <!-- Stat Item -->
 <div class="flex justify-between items-center pb-space-sm border-b border-outline-variant/30">
@@ -381,7 +311,7 @@
 <div class="w-2 h-2 rounded-full bg-[#f57f17]"></div>
 <span class="font-body-md text-body-md text-on-surface">Marked Damaged</span>
 </div>
-<span class="font-mono-md text-mono-md font-medium text-[#f57f17]">1</span>
+<span id="count-damaged" class="font-mono-md text-mono-md font-medium text-[#f57f17]">0</span>
 </div>
 <!-- Auto-Generated Note -->
 <div class="mt-auto bg-surface-container-low p-space-md rounded-lg border border-outline-variant/50">
@@ -393,7 +323,7 @@
 </div>
 <!-- Master Action -->
 <div class="p-space-md border-t border-outline-variant bg-surface-container-lowest">
-<button class="w-full bg-primary hover:bg-on-surface transition-colors text-on-primary font-title-md text-title-md py-space-md rounded-lg flex items-center justify-center gap-space-sm shadow-sm">
+<button onclick="closeAudit()" id="close-audit-btn" class="w-full bg-primary hover:bg-on-surface transition-colors text-on-primary font-title-md text-title-md py-space-md rounded-lg flex items-center justify-center gap-space-sm shadow-sm hidden">
 <span class="material-symbols-outlined text-[20px]">lock</span>
                             Close Audit &amp; Apply Changes
                         </button>
@@ -405,5 +335,37 @@
 </div>
 </div>
 </main>
+
+<!-- Create Audit Modal -->
+<div id="create-audit-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+    <div class="bg-surface rounded-xl shadow-lg w-full max-w-md overflow-hidden transform transition-transform scale-95 border border-outline-variant">
+        <div class="p-space-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+            <h2 class="font-title-lg text-title-lg text-on-surface">Create Audit Cycle</h2>
+            <button onclick="closeCreateAuditModal()" class="text-on-surface-variant hover:text-on-surface transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-space-lg flex flex-col gap-space-md">
+            <div>
+                <label class="block font-label-md text-label-md text-on-surface mb-1">Cycle Name</label>
+                <input id="audit-name" class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="e.g. Q4 Global Audit" type="text" />
+            </div>
+            <div>
+                <label class="block font-label-md text-label-md text-on-surface mb-1">Department Scope (Optional)</label>
+                <select id="audit-department" class="w-full border border-outline-variant rounded px-3 py-2 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
+                    <option value="">All Departments (Global)</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <p class="font-body-xs text-body-xs text-on-surface-variant mt-2">Creating an audit cycle will lock the selected assets into an active verification state.</p>
+        </div>
+        <div class="p-space-md border-t border-outline-variant bg-surface-container-lowest flex justify-end gap-space-sm">
+            <button onclick="closeCreateAuditModal()" class="px-space-md py-2 border border-outline-variant text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors">Cancel</button>
+            <button onclick="submitAuditCycle()" class="px-space-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors shadow-sm">Start Audit</button>
+        </div>
+    </div>
+</div>
+
+    <script src="assets/js/audits.js"></script>
     <script src="assets/js/auth.js"></script>
 </body></html>

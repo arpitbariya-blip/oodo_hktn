@@ -339,10 +339,10 @@
 <!-- Date Range Picker Mock -->
 <div class="relative flex items-center border border-outline-variant rounded-DEFAULT bg-surface-container-lowest px-3 py-1.5 h-10">
 <span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm" data-icon="calendar_today">calendar_today</span>
-<span class="font-label-md text-label-md text-on-surface mr-4">Q3 2023: Jul 1 - Sep 30</span>
+<span class="font-label-md text-label-md text-on-surface mr-4" id="report-date-range">Live View</span>
 <span class="material-symbols-outlined text-on-surface-variant text-sm cursor-pointer" data-icon="arrow_drop_down">arrow_drop_down</span>
 </div>
-<button class="h-10 px-4 bg-primary text-on-primary rounded-DEFAULT font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center gap-2">
+<button onclick="exportReport()" class="h-10 px-4 bg-primary text-on-primary rounded-DEFAULT font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center gap-2">
 <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
                             Export Report
                         </button>
@@ -355,10 +355,10 @@
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Asset Value</span>
 <span class="material-symbols-outlined text-outline text-sm" data-icon="payments">payments</span>
 </div>
-<div class="font-display text-display text-primary">$12.4M</div>
+<div class="font-display text-display text-primary" id="kpi-total-value">$0</div>
 <div class="flex items-center mt-2 font-label-sm text-label-sm text-secondary-container">
 <span class="material-symbols-outlined text-sm mr-1" data-icon="trending_up">trending_up</span>
-<span>+4.2% vs last quarter</span>
+<span>Active Registry</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest border border-surface-container p-5 rounded-DEFAULT">
@@ -366,10 +366,10 @@
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Utilization</span>
 <span class="material-symbols-outlined text-outline text-sm" data-icon="insights">insights</span>
 </div>
-<div class="font-display text-display text-primary">78.5%</div>
-<div class="flex items-center mt-2 font-label-sm text-label-sm text-error">
-<span class="material-symbols-outlined text-sm mr-1" data-icon="trending_down">trending_down</span>
-<span>-1.1% vs last quarter</span>
+<div class="font-display text-display text-primary" id="kpi-utilization">0%</div>
+<div class="flex items-center mt-2 font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="horizontal_rule">horizontal_rule</span>
+<span>Allocated Assets</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest border border-surface-container p-5 rounded-DEFAULT">
@@ -377,10 +377,10 @@
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Maintenance Costs</span>
 <span class="material-symbols-outlined text-outline text-sm" data-icon="build_circle">build_circle</span>
 </div>
-<div class="font-display text-display text-primary">$428K</div>
-<div class="flex items-center mt-2 font-label-sm text-label-sm text-secondary-container">
+<div class="font-display text-display text-primary" id="kpi-maintenance-costs">$0</div>
+<div class="flex items-center mt-2 font-label-sm text-label-sm text-error">
 <span class="material-symbols-outlined text-sm mr-1" data-icon="trending_down">trending_down</span>
-<span>-8.4% vs last quarter</span>
+<span>Est. Repair Value</span>
 </div>
 </div>
 <div class="bg-surface-container-lowest border border-surface-container p-5 rounded-DEFAULT">
@@ -388,10 +388,10 @@
 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Idle Assets</span>
 <span class="material-symbols-outlined text-outline text-sm" data-icon="inventory">inventory</span>
 </div>
-<div class="font-display text-display text-primary">1,204</div>
+<div class="font-display text-display text-primary" id="kpi-idle-assets">0</div>
 <div class="flex items-center mt-2 font-label-sm text-label-sm text-on-surface-variant">
 <span class="material-symbols-outlined text-sm mr-1" data-icon="horizontal_rule">horizontal_rule</span>
-<span>Unchanged</span>
+<span>Available in Stock</span>
 </div>
 </div>
 </div>
@@ -450,47 +450,8 @@
 <th class="font-label-md text-label-md text-on-surface-variant border-b border-surface-container font-medium text-right pr-4">Total Issues</th>
 </tr>
 </thead>
-<tbody class="font-mono-md text-mono-md text-on-surface">
-<tr class="hover:bg-surface-container-lowest/5 transition-colors">
-<td class="border-b border-surface-container font-label-md">Heavy Machinery</td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/20 rounded flex items-center justify-center text-xs">4</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/40 rounded flex items-center justify-center text-xs font-bold text-on-error-container">12</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/10 rounded flex items-center justify-center text-xs">2</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/80 rounded flex items-center justify-center text-xs font-bold text-white">28</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/10 rounded flex items-center justify-center text-xs">1</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/30 rounded flex items-center justify-center text-xs">7</div></td>
-<td class="border-b border-surface-container text-right pr-4 font-bold">54</td>
-</tr>
-<tr class="hover:bg-surface-container-lowest/5 transition-colors">
-<td class="border-b border-surface-container font-label-md">IT Equipment</td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">2</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">3</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/20 rounded flex items-center justify-center text-xs">5</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">2</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">1</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">2</div></td>
-<td class="border-b border-surface-container text-right pr-4 font-bold">15</td>
-</tr>
-<tr class="hover:bg-surface-container-lowest/5 transition-colors">
-<td class="border-b border-surface-container font-label-md">Fleet Vehicles</td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/60 rounded flex items-center justify-center text-xs font-bold text-white">18</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/30 rounded flex items-center justify-center text-xs">8</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/40 rounded flex items-center justify-center text-xs font-bold text-on-error-container">14</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/50 rounded flex items-center justify-center text-xs font-bold text-white">16</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/20 rounded flex items-center justify-center text-xs">5</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-error/30 rounded flex items-center justify-center text-xs">9</div></td>
-<td class="border-b border-surface-container text-right pr-4 font-bold">70</td>
-</tr>
-<tr class="hover:bg-surface-container-lowest/5 transition-colors">
-<td class="border-b border-surface-container font-label-md">Office Furniture</td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-transparent rounded flex items-center justify-center text-xs text-outline-variant">-</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">1</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-transparent rounded flex items-center justify-center text-xs text-outline-variant">-</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-transparent rounded flex items-center justify-center text-xs text-outline-variant">-</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-secondary-container/10 rounded flex items-center justify-center text-xs">2</div></td>
-<td class="border-b border-surface-container p-1"><div class="w-full h-8 bg-transparent rounded flex items-center justify-center text-xs text-outline-variant">-</div></td>
-<td class="border-b border-surface-container text-right pr-4 font-bold">3</td>
-</tr>
+<tbody id="maintenance-freq-tbody" class="font-mono-md text-mono-md text-on-surface">
+<!-- JS Populated -->
 </tbody>
 </table>
 </div>
@@ -511,173 +472,6 @@
 </div>
 </main>
 </div>
-<script>
-        // Chart.js Default Configurations for the Design System
-        Chart.defaults.font.family = 'Inter';
-        Chart.defaults.color = '#7c839b'; // on-primary-container as generic gray
-        Chart.defaults.scale.grid.color = '#e5eeff'; // surface-container
-        
-        // 1. Utilization Line Chart
-        const ctxUtil = document.getElementById('utilizationChart').getContext('2d');
-        
-        // Create gradient for line chart
-        const gradient = ctxUtil.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(33, 112, 228, 0.2)'); // secondary-container low opacity
-        gradient.addColorStop(1, 'rgba(33, 112, 228, 0)');
-
-        new Chart(ctxUtil, {
-            type: 'line',
-            data: {
-                labels: ['Jul 1', 'Jul 15', 'Aug 1', 'Aug 15', 'Sep 1', 'Sep 15', 'Sep 30'],
-                datasets: [
-                    {
-                        label: 'Heavy Machinery',
-                        data: [65, 72, 68, 79, 85, 82, 88],
-                        borderColor: '#2170e4', // secondary-container
-                        backgroundColor: gradient,
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#2170e4',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    },
-                    {
-                        label: 'IT Equipment',
-                        data: [90, 88, 92, 91, 95, 94, 96],
-                        borderColor: '#000000', // primary
-                        borderWidth: 2,
-                        tension: 0.4,
-                        borderDash: [5, 5],
-                        fill: false,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#000000',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'end',
-                        labels: {
-                            usePointStyle: true,
-                            boxWidth: 8,
-                            font: { size: 12, weight: '500' }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: '#131b2e', // primary-container
-                        titleFont: { size: 13, family: 'Inter' },
-                        bodyFont: { size: 13, family: 'JetBrains Mono' },
-                        padding: 12,
-                        cornerRadius: 4,
-                        displayColors: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 50,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) { return value + '%'; },
-                            font: { family: 'JetBrains Mono', size: 11 }
-                        },
-                        border: { display: false }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 11 } },
-                        border: { display: false }
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-            }
-        });
-
-        // 2. Allocation Doughnut Chart
-        const ctxAlloc = document.getElementById('allocationChart').getContext('2d');
-        new Chart(ctxAlloc, {
-            type: 'doughnut',
-            data: {
-                labels: ['Engineering', 'Logistics', 'Administration', 'Field Ops'],
-                datasets: [{
-                    data: [45, 25, 10, 20],
-                    backgroundColor: [
-                        '#000000', // primary
-                        '#2170e4', // secondary-container
-                        '#dec29a', // tertiary-fixed-dim
-                        '#76777d'  // outline
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20,
-                            font: { size: 12, family: 'Inter' }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: '#131b2e',
-                        bodyFont: { size: 13, family: 'JetBrains Mono' },
-                        callbacks: {
-                            label: function(context) {
-                                return ' ' + context.label + ': ' + context.raw + '%';
-                            }
-                        }
-                    }
-                }
-            },
-            plugins: [{
-                id: 'textCenter',
-                beforeDraw: function(chart) {
-                    var width = chart.width,
-                        height = chart.height,
-                        ctx = chart.ctx;
-
-                    ctx.restore();
-                    var fontSize = (height / 160).toFixed(2);
-                    ctx.font = "600 " + fontSize + "em Inter";
-                    ctx.textBaseline = "middle";
-                    ctx.fillStyle = "#000000";
-
-                    var text = "1,842",
-                        textX = Math.round((width - ctx.measureText(text).width) / 2),
-                        textY = height / 2.2;
-
-                    ctx.fillText(text, textX, textY);
-                    
-                    ctx.font = "400 " + (fontSize*0.4).toFixed(2) + "em Inter";
-                    ctx.fillStyle = "#7c839b";
-                    var text2 = "Total Assets",
-                        text2X = Math.round((width - ctx.measureText(text2).width) / 2),
-                        text2Y = height / 2.2 + 25;
-                        
-                    ctx.fillText(text2, text2X, text2Y);
-                    ctx.save();
-                }
-            }]
-        });
-    </script>
+    <script src="assets/js/reports.js"></script>
     <script src="assets/js/auth.js"></script>
 </body></html>

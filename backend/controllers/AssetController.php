@@ -125,4 +125,21 @@ class AssetController {
             Response::error('Database error: ' . $e->getMessage(), 500);
         }
     }
+
+    public function getBookable() {
+        try {
+            $db = Database::getConnection();
+            $query = "
+                SELECT a.id, a.name, a.asset_tag, d.name as location_name 
+                FROM assets a
+                LEFT JOIN departments d ON a.department_id = d.id
+                WHERE a.is_shared_bookable = 1
+                ORDER BY a.name ASC
+            ";
+            $stmt = $db->query($query);
+            Response::json($stmt->fetchAll());
+        } catch(PDOException $e) {
+            Response::error('Database error: ' . $e->getMessage(), 500);
+        }
+    }
 }

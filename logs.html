@@ -311,10 +311,12 @@
 <div class="p-space-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
 <h3 class="font-title-md text-title-md text-on-surface">System Activity</h3>
 <div class="flex gap-2">
-<select class="bg-surface border border-outline-variant rounded-DEFAULT px-3 py-1 font-body-sm text-body-sm text-on-surface-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
-<option>All Actions</option>
-<option>Assignments</option>
-<option>Status Changes</option>
+<select id="log-module-filter" onchange="loadLogs()" class="bg-surface border border-outline-variant rounded-DEFAULT px-3 py-1 font-body-sm text-body-sm text-on-surface-variant focus:ring-2 focus:ring-secondary focus:border-secondary outline-none">
+<option value="All Actions">All Actions</option>
+<option value="Allocations">Allocations</option>
+<option value="Bookings">Bookings</option>
+<option value="Maintenance">Maintenance</option>
+<option value="Audit">Audit</option>
 </select>
 </div>
 </div>
@@ -329,40 +331,8 @@
 <th class="px-space-md py-3 font-label-md text-label-md text-on-surface-variant text-right">Details</th>
 </tr>
 </thead>
-<tbody class="font-body-sm text-body-sm divide-y divide-outline-variant/50">
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-space-md py-3 font-mono-md text-on-surface-variant">2023-10-27 14:32:01</td>
-<td class="px-space-md py-3 font-medium">Sarah Jenkins</td>
-<td class="px-space-md py-3">
-<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary-container font-label-sm">Assigned</span>
-</td>
-<td class="px-space-md py-3"><a href="assets.html" class="hover:text-secondary transition-colors">ThinkPad X1 Carbon (LPT-092)</a></td>
-<td class="px-space-md py-3 text-right">
-<a href="allocation.html" class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span></a>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-space-md py-3 font-mono-md text-on-surface-variant">2023-10-27 13:15:44</td>
-<td class="px-space-md py-3 font-medium">System Admin</td>
-<td class="px-space-md py-3">
-<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-error/10 text-error font-label-sm">Status Change</span>
-</td>
-<td class="px-space-md py-3"><a href="assets.html" class="hover:text-secondary transition-colors">Projector EPS-4K (AV-11)</a></td>
-<td class="px-space-md py-3 text-right">
-<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span></button>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-space-md py-3 font-mono-md text-on-surface-variant">2023-10-27 11:05:22</td>
-<td class="px-space-md py-3 font-medium">Mike Torres</td>
-<td class="px-space-md py-3">
-<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-fixed-dim/30 text-tertiary-container font-label-sm">Reserved</span>
-</td>
-<td class="px-space-md py-3">Conference Room A</td>
-<td class="px-space-md py-3 text-right">
-<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span></button>
-</td>
-</tr>
+<tbody id="activity-logs-tbody" class="font-body-sm text-body-sm divide-y divide-outline-variant/50">
+<!-- JS Populated -->
 </tbody>
 </table>
 </div>
@@ -371,42 +341,16 @@
 <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT flex flex-col h-[700px]">
 <div class="p-space-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
 <h3 class="font-title-md text-title-md text-on-surface">Recent Alerts</h3>
-<button class="font-label-sm text-label-sm text-secondary hover:underline">Mark all read</button>
+<button onclick="markAllRead()" class="font-label-sm text-label-sm text-secondary hover:underline">Mark all read</button>
 </div>
-<div class="flex-1 overflow-y-auto p-space-sm flex flex-col gap-2">
-<!-- Unread Alert -->
-<a href="maintenance.html" class="p-space-md border border-error/20 bg-error/5 rounded-DEFAULT relative pl-10 cursor-pointer hover:bg-error/10 transition-colors block no-underline">
-<div class="absolute left-3 top-4 text-error">
-<span class="material-symbols-outlined" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
-</div>
-<div class="absolute top-4 right-3 w-2 h-2 rounded-full bg-error"></div>
-<h4 class="font-label-md text-label-md text-on-surface">Overdue Maintenance</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Forklift FL-04 is 3 days overdue for scheduled service.</p>
-<span class="font-mono-md text-xs text-on-surface-variant/70 mt-2 block">10 mins ago</span>
-</a>
-<!-- Read Notification -->
-<a href="allocation.html" class="p-space-md border border-outline-variant/30 bg-surface-container-lowest rounded-DEFAULT relative pl-10 cursor-pointer hover:bg-surface-container-low transition-colors block no-underline">
-<div class="absolute left-3 top-4 text-secondary-container">
-<span class="material-symbols-outlined" data-icon="assignment_returned">assignment_returned</span>
-</div>
-<h4 class="font-label-md text-label-md text-on-surface">Asset Returned</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sarah Jenkins returned iPad Pro (TAB-02).</p>
-<span class="font-mono-md text-xs text-on-surface-variant/70 mt-2 block">2 hours ago</span>
-</a>
-<!-- Read Notification -->
-<div class="p-space-md border border-outline-variant/30 bg-surface-container-lowest rounded-DEFAULT relative pl-10 cursor-pointer hover:bg-surface-container-low transition-colors">
-<div class="absolute left-3 top-4 text-outline">
-<span class="material-symbols-outlined" data-icon="info">info</span>
-</div>
-<h4 class="font-label-md text-label-md text-on-surface">System Update</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">AssetFlow v2.4 deployed successfully.</p>
-<span class="font-mono-md text-xs text-on-surface-variant/70 mt-2 block">Yesterday, 22:00</span>
-</div>
+<div id="notifications-feed" class="flex-1 overflow-y-auto p-space-sm flex flex-col gap-2">
+<!-- JS Populated -->
 </div>
 </div>
 </div>
 </div>
 </main>
 </div>
+    <script src="assets/js/logs.js"></script>
     <script src="assets/js/auth.js"></script>
 </body></html>

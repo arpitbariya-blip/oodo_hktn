@@ -114,5 +114,96 @@ $routes = [
             ['RoleMiddleware', ['Admin', 'Asset Manager', 'Department Head']]
         ],
         'controller' => 'AllocationController@resolveTransfer'
+    ],
+
+    // Booking Routes
+    'GET /api/assets/bookable' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AssetController@getBookable'
+    ],
+    'GET /api/bookings/calendar' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'BookingController@getCalendar'
+    ],
+    'GET /api/bookings/upcoming' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'BookingController@getMyUpcoming'
+    ],
+    'POST /api/bookings' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'BookingController@create'
+    ],
+    'POST /api/bookings/cancel' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'BookingController@cancel'
+    ],
+
+    // Maintenance Routes
+    'GET /api/maintenance' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'MaintenanceController@getAll'
+    ],
+    'POST /api/maintenance' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'MaintenanceController@create'
+    ],
+    'POST /api/maintenance/status' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager']]
+        ],
+        'controller' => 'MaintenanceController@updateStatus'
+    ],
+
+    // Audit Routes
+    'GET /api/audits/active' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AuditController@getActive'
+    ],
+    'POST /api/audits' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager', 'Department Head']]
+        ],
+        'controller' => 'AuditController@create'
+    ],
+    'POST /api/audits/items' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AuditController@updateItem'
+    ],
+    'POST /api/audits/close' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager']]
+        ],
+        'controller' => 'AuditController@closeCycle'
+    ],
+
+    // Report Routes
+    'GET /api/reports/dashboard' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'ReportController@getDashboard'
+    ],
+    'GET /api/reports/export' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'ReportController@export'
+    ],
+
+    // Log & Notification Routes
+    'GET /api/logs' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'LogController@getLogs'
+    ],
+    'GET /api/notifications' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'LogController@getNotifications'
+    ],
+    'POST /api/notifications/mark-read' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'LogController@markAllRead'
+    ],
+    'POST /api/logs/seed' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'LogController@seedData'
     ]
 ];
