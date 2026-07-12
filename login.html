@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AssetFlow - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#271901",
+                        "surface-bright": "#f8f9ff",
+                        "secondary": "#0058be",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "tertiary-container": "#271901",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary": "#ffffff",
+                        "primary": "#000000",
+                        "on-secondary-fixed-variant": "#004395",
+                        "outline": "#76777d",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "surface-container": "#e5eeff",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#131b2e",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#2170e4",
+                        "on-primary-fixed": "#131b2e",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#bec6e0",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#7c839b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-container": "#98805d",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline-variant": "#c6c6cd",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed": "#fcdeb5",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#adc6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "2rem",
+                        "space-sm": "0.5rem",
+                        "space-md": "1rem",
+                        "space-xl": "2rem",
+                        "gutter": "1rem",
+                        "space-xs": "0.25rem",
+                        "sidebar-width": "260px",
+                        "space-lg": "1.5rem",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "mono-md": ["JetBrains Mono"],
+                        "title-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "mono-md": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen w-screen overflow-hidden flex">
+<!-- Left Side: Brand Imagery -->
+<div class="hidden lg:flex w-1/2 h-full bg-primary-container relative">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container to-on-primary-fixed opacity-90 z-10"></div>
+<img class="w-full h-full object-cover z-0 mix-blend-overlay opacity-60" data-alt="A macro shot of highly organized server racks or warehouse logistics systems in a clean, modern facility. The lighting is cool and clinical, emphasizing precision and order. Slate blues and stark whites dominate the palette, conveying a sense of enterprise reliability and systematic control." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFOY_GCrztR-VgyvYxG238kRSufkuo91Ed9WP-vwFCwWlugVS7IU_VxQywvd8x1qTD9qX-gOlF6WvJsaSnf4DD7hoTJ6bmNzTTCcWprilWfo0g7rjpc2sMfA-6ISpjf9TEXFqCZ4CAanowm4OcHmOsPGW8STJJFdHR9CPOMPxzdiT40DxhuR3jukSindWDcL420TCbqi7GDXYGS0X6SELBKfLCDXJgpaD9U2Nobxw598Ac9H7g4tNX2DlVAbmgkA-UBhUGOpZCR8I"/>
+<div class="absolute inset-0 z-20 flex flex-col justify-center px-16 xl:px-24">
+<div class="mb-12">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-4xl text-on-primary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<h1 class="font-display text-display text-on-primary">AssetFlow</h1>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-primary max-w-md">Global Inventory Management for the Modern Enterprise.</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="bg-surface-container-lowest/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-primary">sync_alt</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-primary">Real-time Allocation</h3>
+<p class="font-body-sm text-body-sm text-on-primary-container">Track assets instantly across multiple facilities and geographies.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-surface-container-lowest/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-primary">fact_check</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-primary">Precision Auditing</h3>
+<p class="font-body-sm text-body-sm text-on-primary-container">Maintain compliance with automated, highly detailed audit trails.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Forms -->
+<div class="w-full lg:w-1/2 h-full flex flex-col justify-center items-center bg-surface px-6 sm:px-12 relative overflow-y-auto">
+<div class="w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-xl p-8 relative">
+<!-- Tab Navigation for Login/Signup -->
+<div class="flex border-b border-outline-variant mb-8 relative">
+<button class="flex-1 pb-3 text-center font-title-md text-title-md text-primary border-b-2 border-secondary-container transition-colors focus:outline-none" id="tab-login" onclick="switchTab('login')">
+                    Log In
+                </button>
+<button class="flex-1 pb-3 text-center font-title-md text-title-md text-on-surface-variant border-b-2 border-transparent hover:text-primary transition-colors focus:outline-none" id="tab-signup" onclick="switchTab('signup')">
+                    Employee Sign Up
+                </button>
+</div>
+<!-- Login Form -->
+<div class="block animate-fade-in" id="form-login">
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Welcome Back</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enter your credentials to access the inventory system.</p>
+</div>
+<form class="space-y-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="login-email">Corporate Email</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="login-email" placeholder="name@company.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block font-label-md text-label-md text-on-surface" for="login-password">Password</label>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">Forgot Password?</a>
+</div>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="login-password" placeholder="••••••••" type="password"/>
+</div>
+<button class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button" onclick="window.location.href='dashboard.html'">
+<span>Sign In</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Signup Form (Hidden by default) -->
+<div class="hidden animate-fade-in" id="form-signup">
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Request Access</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Register for an Employee account. Administrator roles are assigned post-registration.</p>
+</div>
+<form class="space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-first">First Name</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-first" placeholder="Jane" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-last">Last Name</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-last" placeholder="Doe" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-email">Corporate Email</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-email" placeholder="name@company.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-department">Department Code</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md font-mono-md" id="signup-department" placeholder="DEP-1234" type="text"/>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/50 flex items-start gap-2 mt-4">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Default registration grants 'Employee' read-only access. Contact your IT admin for 'Manager' or 'Admin' provisioning.</p>
+</div>
+<button class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button" onclick="alert('Request submitted. An Admin will provision your account.'); switchTab('login')">
+<span>Submit Request</span>
+</button>
+</form>
+</div>
+</div>
+<!-- Mobile/Small Screen Branding -->
+<div class="lg:hidden mt-12 text-center">
+<div class="flex items-center justify-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-title-lg text-title-lg text-primary font-bold">AssetFlow</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Global Inventory Management</p>
+</div>
+</div>
+<script>
+        function switchTab(tab) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const loginTab = document.getElementById('tab-login');
+            const signupTab = document.getElementById('tab-signup');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                loginForm.classList.add('block');
+                signupForm.classList.remove('block');
+                signupForm.classList.add('hidden');
+                
+                loginTab.classList.add('text-primary', 'border-secondary-container');
+                loginTab.classList.remove('text-on-surface-variant', 'border-transparent');
+                
+                signupTab.classList.add('text-on-surface-variant', 'border-transparent');
+                signupTab.classList.remove('text-primary', 'border-secondary-container');
+            } else {
+                signupForm.classList.remove('hidden');
+                signupForm.classList.add('block');
+                loginForm.classList.remove('block');
+                loginForm.classList.add('hidden');
+                
+                signupTab.classList.add('text-primary', 'border-secondary-container');
+                signupTab.classList.remove('text-on-surface-variant', 'border-transparent');
+                
+                loginTab.classList.add('text-on-surface-variant', 'border-transparent');
+                loginTab.classList.remove('text-primary', 'border-secondary-container');
+            }
+        }
+    </script>
+</body></html>
