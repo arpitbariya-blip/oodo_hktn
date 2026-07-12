@@ -10,14 +10,18 @@ class Response {
         exit;
     }
 
-    public static function error($message, $statusCode = 400) {
+    public static function error($message, $statusCode = 400, $extraData = []) {
         http_response_code($statusCode);
         header('Content-Type: application/json');
-        echo json_encode([
+        $payload = [
             'success' => false,
             'error' => $message,
             'code' => $statusCode
-        ]);
+        ];
+        if (!empty($extraData)) {
+            $payload = array_merge($payload, $extraData);
+        }
+        echo json_encode($payload);
         exit;
     }
 }

@@ -243,25 +243,25 @@
 <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md flex flex-wrap gap-space-md items-end shadow-sm">
 <div class="flex-1 min-w-[200px]">
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Asset Tag / Serial</label>
-<input class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary" placeholder="e.g. AST-001" type="text"/>
+<input id="search-filter" class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary" placeholder="e.g. AST-001" type="text"/>
 </div>
 <div class="flex-1 min-w-[150px]">
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Category</label>
-<select class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary">
-<option>All Categories</option>
-<option>IT Equipment</option>
-<option>Vehicles</option>
-<option>Machinery</option>
+<select id="category-filter" class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary">
+<option value="">All Categories</option>
 </select>
 </div>
 <div class="flex-1 min-w-[150px]">
 <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Status</label>
-<select class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary">
-<option>Any Status</option>
-<option>Available</option>
-<option>Allocated</option>
-<option>Maintenance</option>
-<option>Retired</option>
+<select id="status-filter" class="w-full px-space-sm py-space-xs bg-surface border border-outline-variant rounded-md font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary">
+<option value="">Any Status</option>
+<option value="Available">Available</option>
+<option value="Allocated">Allocated</option>
+<option value="Under Maintenance">Under Maintenance</option>
+<option value="Reserved">Reserved</option>
+<option value="Lost">Lost</option>
+<option value="Retired">Retired</option>
+<option value="Disposed">Disposed</option>
 </select>
 </div>
 <div>
@@ -277,67 +277,23 @@
 <table class="w-full text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-low border-b border-outline-variant">
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Asset Tag</th>
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Serial Number</th>
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Category</th>
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Model / Name</th>
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Location</th>
-<th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low">Status</th>
+<th onclick="sortAssets('asset_tag')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Asset Tag <span class="text-[10px]" id="sort-asset_tag"></span></th>
+<th onclick="sortAssets('serial_number')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Serial Number <span class="text-[10px]" id="sort-serial_number"></span></th>
+<th onclick="sortAssets('category_name')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Category <span class="text-[10px]" id="sort-category_name"></span></th>
+<th onclick="sortAssets('name')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Model / Name <span class="text-[10px]" id="sort-name"></span></th>
+<th onclick="sortAssets('department_name')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Location <span class="text-[10px]" id="sort-department_name"></span></th>
+<th onclick="sortAssets('lifecycle_status')" class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low cursor-pointer hover:bg-surface-container-highest transition-colors">Status <span class="text-[10px]" id="sort-lifecycle_status"></span></th>
 <th class="py-space-sm px-space-md font-label-sm text-label-sm text-on-surface-variant font-semibold sticky top-0 bg-surface-container-low text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="font-body-sm text-body-sm text-on-surface">
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors group cursor-pointer" onclick="document.getElementById('detail-drawer').classList.remove('translate-x-full'); document.getElementById('drawer-overlay').classList.remove('hidden');">
-<td class="py-2 px-space-md font-mono-md text-mono-md text-secondary">AST-1042</td>
-<td class="py-2 px-space-md font-mono-md text-mono-md text-on-surface-variant">SN-998234A</td>
-<td class="py-2 px-space-md">IT Equipment</td>
-<td class="py-2 px-space-md font-medium">MacBook Pro 16"</td>
-<td class="py-2 px-space-md text-on-surface-variant">HQ - Floor 3</td>
-<td class="py-2 px-space-md">
-<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">AVAILABLE</span>
-</td>
-<td class="py-2 px-space-md text-right">
-<button class="text-on-surface-variant hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
-</button>
-</td>
-</tr>
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors group">
-<td class="py-2 px-space-md font-mono-md text-mono-md text-secondary">AST-1043</td>
-<td class="py-2 px-space-md font-mono-md text-mono-md text-on-surface-variant">SN-882711B</td>
-<td class="py-2 px-space-md">Vehicles</td>
-<td class="py-2 px-space-md font-medium">Ford Transit Van</td>
-<td class="py-2 px-space-md text-on-surface-variant">Depot A</td>
-<td class="py-2 px-space-md">
-<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">ALLOCATED</span>
-</td>
-<td class="py-2 px-space-md text-right">
-<button class="text-on-surface-variant hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
-</button>
-</td>
-</tr>
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors group">
-<td class="py-2 px-space-md font-mono-md text-mono-md text-secondary">AST-1044</td>
-<td class="py-2 px-space-md font-mono-md text-mono-md text-on-surface-variant">SN-110029X</td>
-<td class="py-2 px-space-md">Machinery</td>
-<td class="py-2 px-space-md font-medium">Industrial Lathe Mk2</td>
-<td class="py-2 px-space-md text-on-surface-variant">Workshop B</td>
-<td class="py-2 px-space-md">
-<a href="maintenance.html" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-800 hover:bg-yellow-200 transition-colors">MAINTENANCE</a>
-</td>
-<td class="py-2 px-space-md text-right">
-<button class="text-on-surface-variant hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
-</button>
-</td>
-</tr>
+<tbody id="asset-table-body" class="font-body-sm text-body-sm text-on-surface">
+<!-- Rendered by JS -->
 </tbody>
 </table>
 </div>
 <!-- Pagination / Footer -->
 <div class="mt-auto border-t border-outline-variant p-space-sm flex justify-between items-center bg-surface-container-lowest">
-<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 3 of 156 assets</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="table-footer-text">Loading...</span>
 <div class="flex gap-space-xs">
 <button class="p-1 rounded text-outline hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
 <span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
@@ -367,39 +323,36 @@
 <label class="block font-label-md text-label-md text-on-surface mb-1">Asset Tag <span class="text-error">*</span></label>
 <div class="flex">
 <span class="inline-flex items-center px-3 border border-r-0 border-outline-variant bg-surface-container-low text-on-surface-variant text-sm rounded-l-md font-mono-md">AST-</span>
-<input class="flex-1 px-space-sm py-2 border border-outline-variant rounded-r-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="1045" type="text"/>
+<input id="new-asset-tag" class="flex-1 px-space-sm py-2 border border-outline-variant rounded-r-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="1045" type="text"/>
 </div>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Category <span class="text-error">*</span></label>
-<select class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none bg-surface-container-lowest">
+<select id="new-asset-category" class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none bg-surface-container-lowest">
 <option disabled="" selected="" value="">Select category</option>
-<option>IT Equipment</option>
-<option>Vehicles</option>
-<option>Furniture</option>
 </select>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Model / Description</label>
-<input class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="e.g. Dell UltraSharp 27 Monitor" type="text"/>
+<input id="new-asset-name" class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="e.g. Dell UltraSharp 27 Monitor" type="text"/>
 </div>
 <div class="grid grid-cols-2 gap-space-md">
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Acquisition Date</label>
-<input class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none text-on-surface-variant" type="date"/>
+<input id="new-asset-date" class="w-full px-space-sm py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none text-on-surface-variant" type="date"/>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Purchase Cost</label>
 <div class="relative">
 <span class="absolute left-3 top-2 text-on-surface-variant">$</span>
-<input class="w-full pl-8 pr-3 py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="0.00" type="number"/>
+<input id="new-asset-cost" class="w-full pl-8 pr-3 py-2 border border-outline-variant rounded-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="0.00" type="number"/>
 </div>
 </div>
 </div>
 <div class="pt-4 border-t border-outline-variant mt-6">
 <label class="flex items-center gap-3 cursor-pointer group">
 <div class="relative">
-<input class="sr-only peer" type="checkbox"/>
+<input id="new-asset-bookable" class="sr-only peer" type="checkbox"/>
 <div class="w-10 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
 </div>
 <div>
@@ -412,7 +365,7 @@
 </div>
 <div class="p-space-md border-t border-outline-variant bg-surface-container-low flex justify-end gap-space-sm">
 <button class="px-space-md py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-lowest transition-colors" onclick="closeDrawers()">Cancel</button>
-<button class="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary/90 transition-colors">Save Asset</button>
+<button id="save-asset-btn" onclick="saveAsset()" class="px-space-md py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary/90 transition-colors">Save Asset</button>
 </div>
 </div>
 <!-- Asset Detail & Allocation Drawer (Example) -->
@@ -494,6 +447,187 @@
             setTimeout(() => {
                 document.getElementById('drawer-overlay').classList.add('hidden');
             }, 300); // Wait for transition
+        }
+
+        const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+        let currentAssets = [];
+        let currentSort = { column: 'id', order: 'desc' };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadAssets();
+            
+            // Filter listeners
+            document.getElementById('search-filter').addEventListener('keyup', debounce(loadAssets, 300));
+            document.getElementById('category-filter').addEventListener('change', loadAssets);
+            document.getElementById('status-filter').addEventListener('change', loadAssets);
+        });
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        function loadCategories() {
+            fetch(API_BASE + '/api/categories')
+                .then(r => r.json())
+                .then(res => {
+                    if(res.success) {
+                        const catFilter = document.getElementById('category-filter');
+                        const catSelect = document.getElementById('new-asset-category');
+                        res.data.forEach(c => {
+                            catFilter.add(new Option(c.name, c.id));
+                            catSelect.add(new Option(c.name, c.id));
+                        });
+                    }
+                });
+        }
+
+        function loadAssets() {
+            const search = document.getElementById('search-filter').value;
+            const category = document.getElementById('category-filter').value;
+            const status = document.getElementById('status-filter').value;
+            
+            let url = new URL(window.location.origin + API_BASE + '/api/assets');
+            if (search) url.searchParams.append('search', search);
+            if (category) url.searchParams.append('category_id', category);
+            if (status) url.searchParams.append('status', status);
+
+            fetch(url)
+                .then(r => r.json())
+                .then(res => {
+                    if(res.success) {
+                        currentAssets = res.data;
+                        renderAssets();
+                    }
+                });
+        }
+
+        function sortAssets(column) {
+            // Toggle order if same column
+            if (currentSort.column === column) {
+                currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.order = 'asc';
+            }
+            
+            // Clear UI arrows
+            document.querySelectorAll('th span[id^="sort-"]').forEach(el => el.innerHTML = '');
+            document.getElementById('sort-' + column).innerHTML = currentSort.order === 'asc' ? '▲' : '▼';
+
+            currentAssets.sort((a, b) => {
+                let valA = a[column] || '';
+                let valB = b[column] || '';
+                if (typeof valA === 'string') valA = valA.toLowerCase();
+                if (typeof valB === 'string') valB = valB.toLowerCase();
+                if (valA < valB) return currentSort.order === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.order === 'asc' ? 1 : -1;
+                return 0;
+            });
+            renderAssets();
+        }
+
+        function renderAssets() {
+            const tbody = document.getElementById('asset-table-body');
+            tbody.innerHTML = '';
+            
+            if (currentAssets.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-on-surface-variant">No assets found.</td></tr>';
+                document.getElementById('table-footer-text').textContent = 'Showing 0 assets';
+                return;
+            }
+
+            document.getElementById('table-footer-text').textContent = `Showing ${currentAssets.length} assets`;
+
+            currentAssets.forEach(asset => {
+                let statusColor = 'bg-surface-container-highest text-on-surface';
+                if(asset.lifecycle_status === 'Available') statusColor = 'bg-green-100 text-green-800';
+                if(asset.lifecycle_status === 'Allocated') statusColor = 'bg-blue-100 text-blue-800';
+                if(asset.lifecycle_status === 'Under Maintenance') statusColor = 'bg-yellow-100 text-yellow-800';
+                if(asset.lifecycle_status === 'Reserved') statusColor = 'bg-purple-100 text-purple-800';
+                
+                tbody.innerHTML += `
+                    <tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors group cursor-pointer" onclick="openDetail(${asset.id})">
+                        <td class="py-2 px-space-md font-mono-md text-mono-md text-secondary">${asset.asset_tag}</td>
+                        <td class="py-2 px-space-md font-mono-md text-mono-md text-on-surface-variant">${asset.serial_number || '-'}</td>
+                        <td class="py-2 px-space-md">${asset.category_name || '-'}</td>
+                        <td class="py-2 px-space-md font-medium">${asset.name}</td>
+                        <td class="py-2 px-space-md text-on-surface-variant">${asset.location || '-'}</td>
+                        <td class="py-2 px-space-md">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${statusColor}">${asset.lifecycle_status.toUpperCase()}</span>
+                        </td>
+                        <td class="py-2 px-space-md text-right">
+                            <button class="text-on-surface-variant hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function saveAsset() {
+            const data = {
+                asset_tag: document.getElementById('new-asset-tag').value,
+                category_id: document.getElementById('new-asset-category').value,
+                name: document.getElementById('new-asset-name').value,
+                acquisition_date: document.getElementById('new-asset-date').value,
+                acquisition_cost: document.getElementById('new-asset-cost').value,
+                is_shared_bookable: document.getElementById('new-asset-bookable').checked ? 1 : 0
+            };
+
+            if(!data.category_id || !data.name) {
+                alert('Please fill out all required fields.');
+                return;
+            }
+
+            const btn = document.getElementById('save-asset-btn');
+            btn.innerHTML = 'Saving...';
+            btn.disabled = true;
+
+            fetch(API_BASE + '/api/assets', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(res => {
+                if(res.success) {
+                    closeDrawers();
+                    // Clear form
+                    document.getElementById('new-asset-tag').value = '';
+                    document.getElementById('new-asset-name').value = '';
+                    document.getElementById('new-asset-cost').value = '';
+                    loadAssets(); // Refresh table
+                } else {
+                    alert('Error: ' + res.error);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('JS Error: ' + err.message);
+            })
+            .finally(() => {
+                btn.innerHTML = 'Save Asset';
+                btn.disabled = false;
+            });
+        }
+
+        function openDetail(id) {
+            // Just basic open for now, can implement fetch /api/assets/details later if detailed view is fully built
+            const asset = currentAssets.find(a => a.id == id);
+            if(!asset) return;
+            
+            // You can populate the detail-drawer elements here.
+            // Example:
+            // document.getElementById('detail-drawer-title').textContent = asset.name;
+            
+            document.getElementById('detail-drawer').classList.remove('translate-x-full'); 
+            document.getElementById('drawer-overlay').classList.remove('hidden');
         }
     </script>
     <script src="assets/js/auth.js"></script>

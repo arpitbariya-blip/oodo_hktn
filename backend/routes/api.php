@@ -59,5 +59,60 @@ $routes = [
             ['RoleMiddleware', ['Admin']] // Only Admins can promote/update roles
         ],
         'controller' => 'EmployeeController@updateRole'
+    ],
+
+    // Asset Routes
+    'GET /api/assets' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AssetController@getAll'
+    ],
+    'GET /api/assets/details' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AssetController@getDetails'
+    ],
+    'POST /api/assets' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager']] // Only Admins and Asset Managers can register assets
+        ],
+        'controller' => 'AssetController@create'
+    ],
+
+    // Allocation & Transfer Routes
+    'GET /api/allocations' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AllocationController@getAll'
+    ],
+    'POST /api/allocations' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager', 'Department Head']]
+        ],
+        'controller' => 'AllocationController@create'
+    ],
+    'GET /api/allocations/transfers' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'AllocationController@getTransfers'
+    ],
+    'POST /api/allocations/transfers/request' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager', 'Department Head']]
+        ],
+        'controller' => 'AllocationController@requestTransfer'
+    ],
+    'POST /api/allocations/return' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager']]
+        ],
+        'controller' => 'AllocationController@returnAsset'
+    ],
+    'POST /api/allocations/transfers/resolve' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager', 'Department Head']]
+        ],
+        'controller' => 'AllocationController@resolveTransfer'
     ]
 ];

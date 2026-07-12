@@ -204,76 +204,19 @@
 <button class="px-4 py-2 border border-outline bg-surface text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors">
                     Export Log
                 </button>
-<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors flex items-center gap-2">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors flex items-center gap-2" onclick="openNewAllocationModal()">
 <span class="material-symbols-outlined text-[16px]">add</span> New Allocation
                 </button>
 </div>
 </div>
 <!-- Transfer Workflow Card (Bento style) -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md mb-space-xl">
-<!-- Pending Transfer Request -->
-<div class="bg-surface border border-outline-variant p-space-lg rounded-lg col-span-2">
-<div class="flex justify-between items-start mb-space-md">
-<div>
-<h3 class="font-title-md text-title-md text-on-surface">Active Transfer Request</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant">REQ-8942 • High Priority</p>
-</div>
-<span class="px-2 py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-full">Pending Approval</span>
-</div>
-<div class="flex items-center gap-space-xl my-space-lg p-space-md bg-surface-container-lowest border border-outline-variant rounded">
-<div class="flex items-center gap-space-sm">
-<div class="w-10 h-10 bg-surface-container rounded-full flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-secondary text-[20px]">laptop_mac</span>
-</div>
-<div>
-<div class="font-label-md text-label-md text-on-surface">MacBook Pro 16"</div>
-<div class="font-mono-md text-mono-md text-on-surface-variant text-xs">AST-2023-041</div>
-</div>
-</div>
-<span class="material-symbols-outlined text-outline-variant">arrow_forward</span>
-<div>
-<div class="font-label-md text-label-md text-on-surface">Current Custodian</div>
-<div class="font-body-sm text-body-sm text-on-surface-variant">Sarah Jenkins (Engineering)</div>
-</div>
-<span class="material-symbols-outlined text-outline-variant">arrow_forward</span>
-<div>
-<div class="font-label-md text-label-md text-on-surface">Requested Custodian</div>
-<div class="font-body-sm text-body-sm text-on-surface-variant">David Chen (Design)</div>
-</div>
-</div>
-<!-- Status Stepper -->
-<div class="flex items-center justify-between mt-space-lg relative">
-<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-outline-variant z-0"></div>
-<div class="relative z-10 flex flex-col items-center gap-2 bg-surface px-2">
-<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-on-secondary">
-<span class="material-symbols-outlined text-[14px]">check</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface">Requested</span>
-</div>
-<div class="relative z-10 flex flex-col items-center gap-2 bg-surface px-2">
-<div class="w-6 h-6 rounded-full border-2 border-secondary bg-surface flex items-center justify-center">
-<div class="w-2 h-2 rounded-full bg-secondary"></div>
-</div>
-<span class="font-label-sm text-label-sm text-secondary font-bold">Approval</span>
-</div>
-<div class="relative z-10 flex flex-col items-center gap-2 bg-surface px-2">
-<div class="w-6 h-6 rounded-full border border-outline-variant bg-surface flex items-center justify-center text-outline-variant">
-<span class="material-symbols-outlined text-[14px]">sync</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Re-allocated</span>
-</div>
-</div>
-<div class="flex justify-end gap-space-sm mt-space-lg border-t border-outline-variant pt-space-md">
-<button class="px-4 py-2 border border-outline bg-surface text-error font-label-md text-label-md rounded hover:bg-error-container/20 transition-colors">
-                        Deny
-                    </button>
-<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors">
-                        Approve Transfer
-                    </button>
-</div>
-</div>
-<!-- Overdue Return Card -->
-<div class="bg-error-container/20 border border-error/30 p-space-lg rounded-lg flex flex-col">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md mb-space-xl items-start">
+    <div id="transfer-request-container" class="col-span-1 lg:col-span-2 flex flex-col gap-space-md">
+        <!-- Rendered by JS -->
+    </div>
+    
+    <!-- Overdue Return Card -->
+    <div class="bg-error-container/20 border border-error/30 p-space-lg rounded-lg flex flex-col w-full h-full">
 <div class="flex items-center gap-2 text-error mb-space-md">
 <span class="material-symbols-outlined">warning</span>
 <h3 class="font-title-md text-title-md font-bold">Action Required</h3>
@@ -321,86 +264,8 @@
 <th class="p-3 font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-outline-variant font-body-sm text-body-sm">
-<!-- Row 1: Normal -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="p-3">
-<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px]">smartphone</span>
-</div>
-</td>
-<td class="p-3">
-<a href="assets.html" class="font-medium text-on-surface hover:text-secondary transition-colors">iPhone 14 Pro</a>
-<div class="font-mono-md text-mono-md text-on-surface-variant text-[11px]">MOB-449-B</div>
-</td>
-<td class="p-3 text-on-surface">Alice Johnson</td>
-<td class="p-3 text-on-surface-variant">NYC Office</td>
-<td class="p-3">
-<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-xs font-medium">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Allocated
-                                </span>
-</td>
-<td class="p-3 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-<span class="material-symbols-outlined text-[18px]">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 2: Overdue -->
-<tr class="hover:bg-surface-container-lowest transition-colors bg-error-container/5 group">
-<td class="p-3">
-<div class="w-8 h-8 rounded bg-error-container/50 flex items-center justify-center text-error">
-<span class="material-symbols-outlined text-[16px]">laptop_windows</span>
-</div>
-</td>
-<td class="p-3">
-<div class="font-medium text-on-surface">ThinkPad T14 Gen 3</div>
-<div class="font-mono-md text-mono-md text-on-surface-variant text-[11px]">AST-2022-118</div>
-</td>
-<td class="p-3 text-on-surface">M. Roberts</td>
-<td class="p-3 text-on-surface-variant">Remote - US</td>
-<td class="p-3">
-<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-error text-xs font-medium border border-error/20">
-<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Overdue (14d)
-                                </span>
-</td>
-<td class="p-3 text-right">
-<button class="px-3 py-1 border border-outline bg-surface text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors text-xs mr-2" onclick="document.getElementById('return-modal').classList.remove('hidden')">
-                                    Log Return
-                                </button>
-<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[18px]">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 3: Transfer Pending -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="p-3">
-<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined text-[16px]">laptop_mac</span>
-</div>
-</td>
-<td class="p-3">
-<div class="font-medium text-on-surface">MacBook Pro 16"</div>
-<div class="font-mono-md text-mono-md text-on-surface-variant text-[11px]">AST-2023-041</div>
-</td>
-<td class="p-3 text-on-surface flex items-center gap-2">
-                                Sarah Jenkins
-                                <span class="material-symbols-outlined text-outline-variant text-[14px]">arrow_forward</span>
-<span class="text-on-surface-variant">David Chen</span>
-</td>
-<td class="p-3 text-on-surface-variant">SFO Office</td>
-<td class="p-3">
-<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-xs font-medium border border-outline-variant">
-<span class="material-symbols-outlined text-[12px] text-secondary">sync</span> Transfer Pending
-                                </span>
-</td>
-<td class="p-3 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-<span class="material-symbols-outlined text-[18px]">more_vert</span>
-</button>
-</td>
-</tr>
+<tbody id="allocation-table-body" class="divide-y divide-outline-variant font-body-sm text-body-sm">
+<!-- Rendered by JS -->
 </tbody>
 </table>
 </div>
@@ -427,13 +292,14 @@
 </div>
 <div class="p-space-lg">
 <div class="mb-space-lg bg-surface-container-lowest p-3 border border-outline-variant rounded">
-<div class="font-label-md text-label-md text-on-surface">ThinkPad T14 Gen 3 (AST-2022-118)</div>
-<div class="font-body-sm text-body-sm text-on-surface-variant">Returning from: M. Roberts</div>
+<div id="return-asset-name" class="font-label-md text-label-md text-on-surface">Asset Name</div>
+<div id="return-custodian-name" class="font-body-sm text-body-sm text-on-surface-variant">Returning from: -</div>
+<input type="hidden" id="return-allocation-id">
 </div>
 <div class="space-y-space-md">
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Return Condition</label>
-<select class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none">
+<select id="return-condition" class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none">
 <option>Good - Ready for Re-allocation</option>
 <option>Fair - Minor Wear</option>
 <option>Poor - Needs Maintenance</option>
@@ -442,7 +308,7 @@
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Check-in Notes</label>
-<textarea class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Enter any notes regarding condition or accessories..." rows="3"></textarea>
+<textarea id="return-notes" class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none" placeholder="Enter any notes regarding condition or accessories..." rows="3"></textarea>
 </div>
 <div class="flex items-center gap-2 pt-2 border-t border-outline-variant">
 <input checked="" class="rounded border-outline text-secondary focus:ring-secondary" id="unassign-check" type="checkbox"/>
@@ -454,11 +320,378 @@
 <button class="px-4 py-2 border border-outline bg-surface text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors" onclick="document.getElementById('return-modal').classList.add('hidden')">
                     Cancel
                 </button>
-<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors" onclick="document.getElementById('return-modal').classList.add('hidden')">
+<button id="return-confirm-btn" class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors" onclick="submitReturn()">
                     Confirm Return
                 </button>
 </div>
 </div>
 </div>
+
+<!-- Modal: New Allocation -->
+<div class="fixed inset-0 z-50 hidden" id="new-allocation-modal">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-primary/20 backdrop-blur-sm" onclick="closeNewAllocationModal()"></div>
+    <!-- Dialog -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-surface border border-outline-variant rounded-xl shadow-[0_4px_6px_rgba(15,23,42,0.08)] flex flex-col">
+        <div class="p-space-lg border-b border-outline-variant flex justify-between items-center">
+            <h2 class="font-title-lg text-title-lg text-on-surface">New Allocation</h2>
+            <button class="text-on-surface-variant hover:text-on-surface" onclick="closeNewAllocationModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-space-lg">
+            <div id="allocation-conflict-alert" class="hidden mb-space-lg bg-error-container/20 border border-error/30 p-3 rounded flex items-start gap-2 text-error">
+                <span class="material-symbols-outlined text-[20px]">warning</span>
+                <div>
+                    <div class="font-bold text-sm">Asset Already Allocated</div>
+                    <div id="conflict-message" class="text-xs mt-1">Currently held by X.</div>
+                </div>
+            </div>
+            
+            <div class="space-y-space-md">
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-1">Select Asset</label>
+                    <select id="new-alloc-asset" class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-1">Assign To (Employee)</label>
+                    <select id="new-alloc-user" class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-1">Expected Return Date (Optional)</label>
+                    <input type="date" id="new-alloc-date" class="w-full p-2 border border-outline-variant rounded bg-surface text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none">
+                </div>
+            </div>
+        </div>
+        <div class="p-space-lg border-t border-outline-variant bg-surface-container-lowest flex justify-end gap-space-sm rounded-b-xl">
+            <button class="px-4 py-2 border border-outline bg-surface text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors" onclick="closeNewAllocationModal()">
+                Cancel
+            </button>
+            <button id="save-allocation-btn" class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors" onclick="submitNewAllocation()">
+                Allocate Asset
+            </button>
+            <button id="request-transfer-btn" class="hidden px-4 py-2 bg-secondary text-on-secondary font-label-md text-label-md rounded hover:bg-secondary/90 transition-colors" onclick="submitTransferRequest()">
+                Request Transfer
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+    let currentAllocations = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAllocations();
+        loadTransfers();
+    });
+
+    function loadAllocations() {
+        fetch(API_BASE + '/api/allocations')
+            .then(r => r.json())
+            .then(res => {
+                if(res.success) {
+                    currentAllocations = res.data;
+                    renderAllocations();
+                }
+            })
+            .catch(err => console.error('Error fetching allocations:', err));
+    }
+
+    function renderAllocations() {
+        const tbody = document.getElementById('allocation-table-body');
+        tbody.innerHTML = '';
+        if (currentAllocations.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-on-surface-variant">No active allocations found.</td></tr>';
+            return;
+        }
+
+        currentAllocations.forEach(alloc => {
+            const isOverdue = alloc.status === 'Overdue';
+            const rowClass = isOverdue ? 'hover:bg-surface-container-lowest transition-colors bg-error-container/5 group' : 'hover:bg-surface-container-lowest transition-colors group';
+            const iconBg = isOverdue ? 'bg-error-container/50 text-error' : 'bg-surface-container text-on-surface-variant';
+            
+            let statusBadge = '';
+            if (isOverdue) {
+                statusBadge = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-error text-xs font-medium border border-error/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-error"></span> Overdue
+                </span>`;
+            } else {
+                statusBadge = `
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-xs font-medium">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Allocated
+                </span>`;
+            }
+
+            const safeName = alloc.asset_name ? alloc.asset_name.replace(/'/g, "\\'") : '';
+            const safeCustodian = alloc.custodian_name ? alloc.custodian_name.replace(/'/g, "\\'") : '-';
+
+            tbody.innerHTML += `
+                <tr class="${rowClass}">
+                    <td class="p-3">
+                        <div class="w-8 h-8 rounded flex items-center justify-center ${iconBg}">
+                            <span class="material-symbols-outlined text-[16px]">devices</span>
+                        </div>
+                    </td>
+                    <td class="p-3">
+                        <div class="font-medium text-on-surface">${alloc.asset_name}</div>
+                        <div class="font-mono-md text-mono-md text-on-surface-variant text-[11px]">${alloc.asset_tag}</div>
+                    </td>
+                    <td class="p-3 text-on-surface">${alloc.custodian_name || '-'}</td>
+                    <td class="p-3 text-on-surface-variant">${alloc.location_name || alloc.purpose || '-'}</td>
+                    <td class="p-3">${statusBadge}</td>
+                    <td class="p-3 text-right">
+                        <button class="px-3 py-1 border border-outline bg-surface text-on-surface font-label-md text-label-md rounded hover:bg-surface-container-low transition-colors text-xs mr-2 opacity-0 group-hover:opacity-100 focus:opacity-100" onclick="openReturnModal(${alloc.id}, '${safeName}', '${safeCustodian}')">
+                            Log Return
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function loadTransfers() {
+        const container = document.getElementById('transfer-request-container');
+        fetch(API_BASE + '/api/allocations/transfers')
+            .then(r => r.json())
+            .then(res => {
+                if(res.success) {
+                    if (res.data.length === 0) {
+                        container.innerHTML = '<div class="col-span-3 p-4 text-center text-on-surface-variant bg-surface rounded-lg border border-outline-variant">No pending transfer requests.</div>';
+                    } else {
+                        container.innerHTML = res.data.map(t => `
+                            <div class="bg-surface border border-outline-variant p-space-lg rounded-lg col-span-2">
+                                <div class="flex justify-between items-start mb-space-md">
+                                    <div>
+                                        <h3 class="font-title-md text-title-md text-on-surface">Active Transfer Request</h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">REQ-${t.id}</p>
+                                    </div>
+                                    <span class="px-2 py-1 bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-full">Pending Approval</span>
+                                </div>
+                                <div class="flex items-center gap-space-xl my-space-lg p-space-md bg-surface-container-lowest border border-outline-variant rounded">
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-10 h-10 bg-surface-container rounded-full flex items-center justify-center shrink-0">
+                                            <span class="material-symbols-outlined text-secondary text-[20px]">sync</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-label-md text-label-md text-on-surface">${t.asset_name}</div>
+                                            <div class="font-mono-md text-mono-md text-on-surface-variant text-xs">${t.asset_tag}</div>
+                                        </div>
+                                    </div>
+                                    <span class="material-symbols-outlined text-outline-variant">arrow_forward</span>
+                                    <div>
+                                        <div class="font-label-md text-label-md text-on-surface">Current Custodian</div>
+                                        <div class="font-body-sm text-body-sm text-on-surface-variant">${t.current_custodian || '-'}</div>
+                                    </div>
+                                    <span class="material-symbols-outlined text-outline-variant">arrow_forward</span>
+                                    <div>
+                                        <div class="font-label-md text-label-md text-on-surface">Requested Custodian</div>
+                                        <div class="font-body-sm text-body-sm text-on-surface-variant">${t.requested_custodian || '-'}</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end gap-space-sm mt-space-lg border-t border-outline-variant pt-space-md">
+                                    <button onclick="resolveTransfer(${t.id}, 'deny')" class="px-4 py-2 border border-outline bg-surface text-error font-label-md text-label-md rounded hover:bg-error-container/20 transition-colors">
+                                        Deny
+                                    </button>
+                                    <button onclick="resolveTransfer(${t.id}, 'approve')" class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary/90 transition-colors">
+                                        Approve Transfer
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            })
+            .catch(console.error);
+    }
+
+    function openReturnModal(id, assetName, custodian) {
+        document.getElementById('return-allocation-id').value = id;
+        document.getElementById('return-asset-name').textContent = assetName;
+        document.getElementById('return-custodian-name').textContent = "Returning from: " + custodian;
+        document.getElementById('return-notes').value = '';
+        
+        document.getElementById('return-modal').classList.remove('hidden');
+    }
+
+    function submitReturn() {
+        const id = document.getElementById('return-allocation-id').value;
+        const condition = document.getElementById('return-condition').value;
+        const notes = document.getElementById('return-notes').value;
+
+        const btn = document.getElementById('return-confirm-btn');
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+
+        fetch(API_BASE + '/api/allocations/return', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ allocation_id: id, condition: condition, notes: notes })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if(res.success) {
+                document.getElementById('return-modal').classList.add('hidden');
+                loadAllocations();
+            } else {
+                alert('Error: ' + res.error);
+            }
+        })
+        .catch(console.error)
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = 'Confirm Return';
+        });
+    }
+
+    function resolveTransfer(id, action) {
+        if(!confirm('Are you sure you want to ' + action + ' this transfer request?')) return;
+
+        fetch(API_BASE + '/api/allocations/transfers/resolve', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ request_id: id, action: action })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if(res.success) {
+                loadTransfers();
+                loadAllocations(); // Since custody changed
+            } else {
+                alert('Error: ' + res.error);
+            }
+        })
+        .catch(console.error);
+    }
+
+    let conflictData = null; // Store conflict context if a 409 occurs
+
+    function openNewAllocationModal() {
+        document.getElementById('allocation-conflict-alert').classList.add('hidden');
+        document.getElementById('save-allocation-btn').classList.remove('hidden');
+        document.getElementById('request-transfer-btn').classList.add('hidden');
+        conflictData = null;
+        document.getElementById('new-alloc-date').value = '';
+        
+        loadDropdowns();
+        document.getElementById('new-allocation-modal').classList.remove('hidden');
+    }
+
+    function closeNewAllocationModal() {
+        document.getElementById('new-allocation-modal').classList.add('hidden');
+    }
+
+    function loadDropdowns() {
+        fetch(API_BASE + '/api/assets')
+            .then(r => r.json())
+            .then(res => {
+                const sel = document.getElementById('new-alloc-asset');
+                sel.innerHTML = '<option value="">Select an asset...</option>';
+                if(res.success) {
+                    res.data.forEach(a => {
+                        sel.innerHTML += `<option value="${a.id}">${a.name} (${a.asset_tag})</option>`;
+                    });
+                }
+            });
+
+        fetch(API_BASE + '/api/employees')
+            .then(r => r.json())
+            .then(res => {
+                const sel = document.getElementById('new-alloc-user');
+                sel.innerHTML = '<option value="">Select an employee...</option>';
+                if(res.success) {
+                    res.data.forEach(u => {
+                        sel.innerHTML += `<option value="${u.id}">${u.name} (${u.role})</option>`;
+                    });
+                }
+            });
+    }
+
+    function submitNewAllocation() {
+        const assetId = document.getElementById('new-alloc-asset').value;
+        const userId = document.getElementById('new-alloc-user').value;
+        const retDate = document.getElementById('new-alloc-date').value;
+
+        if(!assetId || !userId) {
+            alert("Asset and Assignee are required.");
+            return;
+        }
+
+        const btn = document.getElementById('save-allocation-btn');
+        btn.disabled = true;
+        btn.textContent = 'Allocating...';
+
+        fetch(API_BASE + '/api/allocations', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                asset_id: assetId,
+                allocated_to_user_id: userId,
+                expected_return_date: retDate
+            })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if(res.success) {
+                closeNewAllocationModal();
+                loadAllocations();
+            } else if (res.code === 409 && res.conflict_data) {
+                // Conflict state triggered!
+                conflictData = res.conflict_data;
+                conflictData.asset_id = assetId;
+                conflictData.requested_to_user_id = userId;
+                
+                document.getElementById('conflict-message').textContent = 'Currently held by ' + conflictData.current_custodian + '.';
+                document.getElementById('allocation-conflict-alert').classList.remove('hidden');
+                
+                document.getElementById('save-allocation-btn').classList.add('hidden');
+                document.getElementById('request-transfer-btn').classList.remove('hidden');
+            } else {
+                alert('Error: ' + res.error);
+            }
+        })
+        .catch(console.error)
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = 'Allocate Asset';
+        });
+    }
+
+    function submitTransferRequest() {
+        if (!conflictData) return;
+
+        const btn = document.getElementById('request-transfer-btn');
+        btn.disabled = true;
+        btn.textContent = 'Requesting...';
+
+        fetch(API_BASE + '/api/allocations/transfers/request', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                asset_id: conflictData.asset_id,
+                current_allocation_id: conflictData.current_allocation_id,
+                requested_to_user_id: conflictData.requested_to_user_id
+            })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if(res.success) {
+                closeNewAllocationModal();
+                loadTransfers();
+            } else {
+                alert('Error: ' + res.error);
+            }
+        })
+        .catch(console.error)
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = 'Request Transfer';
+        });
+    }
+</script>
 <script src="assets/js/auth.js"></script>
 </body></html>
