@@ -113,7 +113,7 @@
         body { background-color: #f8f9ff; color: #0b1c30; font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex">
+<body style="visibility: hidden;" class="bg-background text-on-background min-h-screen flex">
 <!-- SideNavBar -->
 <nav class="hidden md:flex flex-col h-full bg-primary text-on-primary font-label-md text-label-md w-sidebar-width h-screen fixed left-0 top-0 z-20">
 <!-- Brand / Header -->
@@ -168,13 +168,13 @@
             </a>
 </div>
 <!-- User Profile -->
-<div onclick="window.location.href='login.html'" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
+<div id="sidebar-logout-btn" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
 <div class="w-8 h-8 rounded-full bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-on-primary text-sm">person</span>
 </div>
 <div class="flex-1 min-w-0">
-<p class="truncate font-body-sm text-body-sm text-on-primary">Admin User</p>
-<p class="truncate font-label-sm text-label-sm text-on-primary/70">System Administrator</p>
+<p id="sidebar-profile-name" class="truncate font-body-sm text-body-sm text-on-primary">Loading...</p>
+<p id="sidebar-profile-role" class="truncate font-label-sm text-label-sm text-on-primary/70">Loading...</p>
 </div>
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
@@ -333,4 +333,5 @@
 </div>
 </main>
 </div>
+    <script src="assets/js/auth.js"></script>
 </body></html>

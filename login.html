@@ -167,6 +167,7 @@
 <div class="mb-6">
 <h2 class="font-headline-md text-headline-md text-on-surface mb-1">Welcome Back</h2>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Enter your credentials to access the inventory system.</p>
+<div id="login-error" class="hidden mt-2 p-2 bg-error-container text-on-error-container text-body-sm rounded"></div>
 </div>
 <form class="space-y-4">
 <div>
@@ -180,7 +181,7 @@
 </div>
 <input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="login-password" placeholder="••••••••" type="password"/>
 </div>
-<button class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button" onclick="window.location.href='dashboard.html'">
+<button id="login-btn" class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button">
 <span>Sign In</span>
 <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </button>
@@ -261,5 +262,40 @@
                 loginTab.classList.remove('text-primary', 'border-secondary-container');
             }
         }
+
+        // Login Logic
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
+            const basePath = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+
+            errorDiv.classList.add('hidden');
+
+            if (!email || !password) {
+                errorDiv.textContent = 'Please enter both email and password.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            fetch(basePath + '/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorDiv.textContent = data.error || 'Login failed';
+                    errorDiv.classList.remove('hidden');
+                }
+            })
+            .catch(err => {
+                errorDiv.textContent = 'Network error. Please try again.';
+                errorDiv.classList.remove('hidden');
+            });
+        });
     </script>
 </body></html>

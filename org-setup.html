@@ -127,7 +127,7 @@
         }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex">
+<body style="visibility: hidden;" class="bg-background text-on-background antialiased min-h-screen flex">
 <!-- SideNavBar (Shared Component) -->
 <nav class="hidden md:flex flex-col h-full bg-primary text-on-primary font-label-md text-label-md w-sidebar-width h-screen fixed left-0 top-0 z-20">
 <!-- Brand / Header -->
@@ -182,13 +182,13 @@
             </a>
 </div>
 <!-- User Profile -->
-<div onclick="window.location.href='login.html'" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
+<div id="sidebar-logout-btn" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
 <div class="w-8 h-8 rounded-full bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-on-primary text-sm">person</span>
 </div>
 <div class="flex-1 min-w-0">
-<p class="truncate font-body-sm text-body-sm text-on-primary">Admin User</p>
-<p class="truncate font-label-sm text-label-sm text-on-primary/70">System Administrator</p>
+<p id="sidebar-profile-name" class="truncate font-body-sm text-body-sm text-on-primary">Loading...</p>
+<p id="sidebar-profile-role" class="truncate font-label-sm text-label-sm text-on-primary/70">Loading...</p>
 </div>
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
@@ -263,44 +263,25 @@
 <span class="material-symbols-outlined text-[18px]">add</span>
 </button>
 </div>
-<div class="flex-1 p-space-md overflow-y-auto">
-<!-- Tree Node 1 -->
-<div class="flex flex-col gap-1">
-<div class="flex items-center gap-2 py-1 px-2 hover:bg-surface-container-low rounded cursor-pointer group bg-surface-container-highest/30 text-secondary">
-<span class="material-symbols-outlined text-[16px] transition-transform">keyboard_arrow_down</span>
-<span class="material-symbols-outlined text-[16px]">domain</span>
-<span class="font-body-md text-body-sm font-medium flex-1">Global Headquarters</span>
-</div>
-<!-- Children -->
-<div class="ml-6 flex flex-col gap-1 border-l border-outline-variant/30 pl-2">
-<div class="flex items-center gap-2 py-1 px-2 hover:bg-surface-container-low rounded cursor-pointer group">
-<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-on-surface-variant">keyboard_arrow_right</span>
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant">corporate_fare</span>
-<span class="font-body-md text-body-sm text-on-surface flex-1">Engineering</span>
-</div>
-<div class="flex items-center gap-2 py-1 px-2 hover:bg-surface-container-low rounded cursor-pointer group">
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant">keyboard_arrow_right</span>
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant">corporate_fare</span>
-<span class="font-body-md text-body-sm text-on-surface flex-1">Operations</span>
-</div>
-<div class="flex items-center gap-2 py-1 px-2 hover:bg-surface-container-low rounded cursor-pointer group">
-<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-on-surface-variant">keyboard_arrow_right</span>
-<span class="material-symbols-outlined text-[16px] text-on-surface-variant">corporate_fare</span>
-<span class="font-body-md text-body-sm text-on-surface flex-1">Facilities</span>
-</div>
-</div>
+<div class="flex-1 p-space-md overflow-y-auto" id="departments-tree">
+<p class="text-on-surface-variant text-body-sm text-center">Loading hierarchy...</p>
 </div>
 </div>
 </div>
 <!-- Department Details Panel -->
 <div class="col-span-1 lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded flex flex-col">
+<div id="department-details-empty" class="flex-1 flex items-center justify-center h-full">
+<p class="text-on-surface-variant font-body-md">Select a department from the hierarchy to view details</p>
+</div>
+
+<div id="department-details-content" class="hidden flex-1 flex flex-col">
 <div class="p-space-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
 <div>
 <h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
 <span class="material-symbols-outlined text-secondary">domain</span>
-                                Global Headquarters
-                            </h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">ID: DEP-001 • Created Oct 12, 2023</p>
+<span id="detail-dept-name">Global Headquarters</span>
+</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="detail-dept-subtitle">ID: DEP-001</p>
 </div>
 <div class="flex gap-2">
 <button class="px-3 py-1.5 border border-outline-variant rounded font-title-md text-body-sm hover:bg-surface-container-low text-error border-error-container hover:bg-error-container/20">Delete</button>
@@ -312,29 +293,29 @@
 <!-- Field -->
 <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
 <label class="font-label-md text-label-sm text-on-surface-variant">Department Name</label>
-<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent">Global Headquarters</div>
+<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent" id="detail-field-name">--</div>
 </div>
 <!-- Field -->
 <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
 <label class="font-label-md text-label-sm text-on-surface-variant">Cost Center Code</label>
-<div class="font-mono-md text-mono-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent">CC-GHQ-00</div>
+<div class="font-mono-md text-mono-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent" id="detail-field-cc">--</div>
 </div>
 <!-- Field -->
 <div class="col-span-2 flex flex-col gap-1">
 <label class="font-label-md text-label-sm text-on-surface-variant">Description</label>
-<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent min-h-[80px]">Primary administrative hub overseeing global operations and core infrastructure assets.</div>
+<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent min-h-[80px]" id="detail-field-desc">--</div>
 </div>
 <!-- Assigned Manager -->
-<div class="col-span-2 flex flex-col gap-2 mt-4">
+<div class="col-span-2 flex flex-col gap-2 mt-4" id="detail-head-container">
 <h4 class="font-title-md text-body-md text-on-surface border-b border-outline-variant pb-2">Department Head</h4>
 <div class="flex items-center justify-between p-3 border border-outline-variant rounded bg-surface-bright">
 <div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-title-md">
-                                            SA
-                                        </div>
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-title-md" id="detail-head-avatar">
+--
+</div>
 <div>
-<p class="font-title-md text-body-md text-on-surface">Sarah Alvarez</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Director of Operations</p>
+<p class="font-title-md text-body-md text-on-surface" id="detail-head-name">--</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="detail-head-role">--</p>
 </div>
 </div>
 <button class="text-secondary font-title-md text-body-sm hover:underline">Reassign</button>
@@ -344,11 +325,15 @@
 </div>
 </div>
 </div>
+</div>
 <!-- Tab Content: Asset Categories (Hidden by default) -->
 <div class="hidden h-[calc(100vh-280px)] min-h-[500px] flex gap-gutter" id="tab-categories">
 <!-- Implementation omitted for brevity to focus on Tab C requirement, but structure remains -->
-<div class="w-1/3 bg-surface-container-lowest border border-outline-variant rounded flex flex-col p-4">
-<p class="text-on-surface-variant text-center my-auto font-body-md">Category List Placeholder</p>
+<div class="w-1/3 bg-surface-container-lowest border border-outline-variant rounded flex flex-col overflow-hidden">
+<div class="p-space-sm border-b border-outline-variant bg-surface-bright"><h3 class="font-title-md text-on-surface px-2">Categories</h3></div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1" id="categories-list">
+<p class="text-on-surface-variant text-center my-auto font-body-md mt-4">Loading...</p>
+</div>
 </div>
 <div class="w-2/3 bg-surface-container-lowest border border-outline-variant rounded flex flex-col p-4">
 <p class="text-on-surface-variant text-center my-auto font-body-md">Custom Field Builder Placeholder</p>
@@ -387,62 +372,8 @@
 <th class="py-2.5 px-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-outline-variant font-body-md text-body-sm text-on-surface">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="py-2 px-4 flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-title-md text-xs">
-                                            SA
-                                        </div>
-<div>
-<p class="font-medium text-on-surface">Sarah Alvarez</p>
-<p class="text-on-surface-variant text-xs">salvarez@assetflow.com</p>
-</div>
-</td>
-<td class="py-2 px-4 font-mono-md">EMP-0142</td>
-<td class="py-2 px-4">Operations</td>
-<td class="py-2 px-4">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-surface-container-highest text-on-surface">
-                                            Standard User
-                                        </span>
-</td>
-<td class="py-2 px-4 text-right">
-<!-- The specific requested action -->
-<button class="px-3 py-1 border border-secondary text-secondary rounded hover:bg-secondary/10 transition-colors font-title-md text-xs mr-2">
-                                            Promote Employee
-                                        </button>
-<button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-variant transition-colors opacity-0 group-hover:opacity-100">
-<span class="material-symbols-outlined text-[18px]">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="py-2 px-4 flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-tertiary-fixed/40 flex items-center justify-center text-tertiary font-title-md text-xs">
-                                            MJ
-                                        </div>
-<div>
-<p class="font-medium text-on-surface">Michael Jenkins</p>
-<p class="text-on-surface-variant text-xs">mjenkins@assetflow.com</p>
-</div>
-</td>
-<td class="py-2 px-4 font-mono-md">EMP-0188</td>
-<td class="py-2 px-4">Engineering</td>
-<td class="py-2 px-4">
-<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-container text-on-primary-container">
-                                            Admin
-                                        </span>
-</td>
-<td class="py-2 px-4 text-right">
-<button class="px-3 py-1 border border-outline-variant text-on-surface-variant rounded hover:bg-surface-variant transition-colors font-title-md text-xs mr-2 opacity-50 cursor-not-allowed" title="Already an Admin">
-                                            Promote Employee
-                                        </button>
-<button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-variant transition-colors opacity-0 group-hover:opacity-100">
-<span class="material-symbols-outlined text-[18px]">more_vert</span>
-</button>
-</td>
-</tr>
+<tbody id="directory-tbody" class="divide-y divide-outline-variant font-body-md text-body-sm text-on-surface">
+<tr><td colspan="5" class="py-4 text-center text-on-surface-variant">Loading...</td></tr>
 </tbody>
 </table>
 </div>
@@ -468,12 +399,164 @@
             // Show selected tab
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             
-            // Add active styling to clicked button (hacky way finding it by onclick string for this demo)
+            // Add active styling to clicked button
             const activeBtn = document.querySelector(`button[onclick="switchTab('${tabId}')"]`);
             if(activeBtn) {
                 activeBtn.classList.add('text-secondary', 'border-secondary', 'bg-surface-container-lowest/50');
                 activeBtn.classList.remove('text-on-surface-variant', 'border-transparent');
             }
         }
+
+        // --- Org Setup Dynamic Logic ---
+        const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDepartments();
+            loadCategories();
+            loadDirectory();
+        });
+
+        // 1. Departments
+        function loadDepartments() {
+            fetch(API_BASE + '/api/departments')
+                .then(r => r.json())
+                .then(res => {
+                    if(!res.success) return console.error(res.error);
+                    const tree = document.getElementById('departments-tree');
+                    tree.innerHTML = '';
+                    
+                    res.data.forEach(d => {
+                        const isRoot = !d.parent_department_id;
+                        const mlClass = isRoot ? '' : 'ml-6 border-l border-outline-variant/30 pl-2';
+                        const icon = isRoot ? 'domain' : 'corporate_fare';
+                        const hoverClass = isRoot ? 'bg-surface-container-highest/30 text-secondary' : 'text-on-surface group';
+                        const arrow = isRoot ? 'keyboard_arrow_down' : 'keyboard_arrow_right';
+
+                        tree.innerHTML += `
+                            <div class="${mlClass} flex flex-col gap-1 mb-1">
+                                <div onclick="loadDepartmentDetails(${d.id})" class="flex items-center gap-2 py-1 px-2 hover:bg-surface-container-low rounded cursor-pointer ${hoverClass}">
+                                    <span class="material-symbols-outlined text-[16px]">${arrow}</span>
+                                    <span class="material-symbols-outlined text-[16px]">${icon}</span>
+                                    <span class="font-body-md text-body-sm font-medium flex-1">${d.name}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(console.error);
+        }
+
+        function loadDepartmentDetails(id) {
+            document.getElementById('department-details-empty').classList.add('hidden');
+            document.getElementById('department-details-content').classList.remove('hidden');
+            document.getElementById('detail-dept-name').textContent = 'Loading...';
+
+            fetch(API_BASE + '/api/departments/details?id=' + id)
+                .then(r => r.json())
+                .then(res => {
+                    if(!res.success) return console.error(res.error);
+                    const dept = res.data;
+                    document.getElementById('detail-dept-name').textContent = dept.name;
+                    document.getElementById('detail-dept-subtitle').textContent = 'ID: DEP-' + dept.id.toString().padStart(3, '0');
+                    document.getElementById('detail-field-name').textContent = dept.name;
+                    document.getElementById('detail-field-cc').textContent = dept.cost_center_code;
+                    document.getElementById('detail-field-desc').textContent = dept.description || 'No description provided.';
+                    
+                    const headContainer = document.getElementById('detail-head-container');
+                    if (dept.head) {
+                        headContainer.classList.remove('hidden');
+                        document.getElementById('detail-head-name').textContent = dept.head.name;
+                        document.getElementById('detail-head-role').textContent = dept.head.email;
+                        document.getElementById('detail-head-avatar').textContent = dept.head.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+                    } else {
+                        headContainer.classList.add('hidden');
+                    }
+                })
+                .catch(console.error);
+        }
+
+        // 2. Categories
+        function loadCategories() {
+            fetch(API_BASE + '/api/categories')
+                .then(r => r.json())
+                .then(res => {
+                    if(!res.success) return console.error(res.error);
+                    const list = document.getElementById('categories-list');
+                    list.innerHTML = '';
+                    res.data.forEach(c => {
+                        list.innerHTML += `
+                            <div class="p-2 bg-surface hover:bg-surface-container-low rounded cursor-pointer border border-transparent transition-colors">
+                                <p class="font-title-md text-body-sm text-on-surface">${c.name}</p>
+                                <p class="font-body-sm text-label-sm text-on-surface-variant truncate">${c.description}</p>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(console.error);
+        }
+
+        // 3. Employee Directory
+        function loadDirectory() {
+            fetch(API_BASE + '/api/employees')
+                .then(r => r.json())
+                .then(res => {
+                    if(!res.success) return console.error(res.error);
+                    const tbody = document.getElementById('directory-tbody');
+                    tbody.innerHTML = '';
+                    res.data.forEach(emp => {
+                        const isAdmin = emp.role === 'Admin';
+                        const initials = emp.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+                        const roleColor = isAdmin ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-highest text-on-surface';
+                        const avatarColor = isAdmin ? 'bg-tertiary-fixed/40 text-tertiary' : 'bg-secondary-container/20 text-secondary';
+                        const promoteBtn = isAdmin 
+                            ? `<button class="px-3 py-1 border border-outline-variant text-on-surface-variant rounded hover:bg-surface-variant transition-colors font-title-md text-xs mr-2 opacity-50 cursor-not-allowed" disabled>Admin</button>`
+                            : `<button onclick="promoteEmployee(${emp.id})" class="px-3 py-1 border border-secondary text-secondary rounded hover:bg-secondary/10 transition-colors font-title-md text-xs mr-2">Promote</button>`;
+
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-surface-container-low transition-colors group">
+                                <td class="py-2 px-4 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center font-title-md text-xs">${initials}</div>
+                                    <div>
+                                        <p class="font-medium text-on-surface">${emp.name}</p>
+                                        <p class="text-on-surface-variant text-xs">${emp.email}</p>
+                                    </div>
+                                </td>
+                                <td class="py-2 px-4 font-mono-md">EMP-${emp.id.toString().padStart(4, '0')}</td>
+                                <td class="py-2 px-4">${emp.department_name || 'N/A'}</td>
+                                <td class="py-2 px-4">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${roleColor}">${emp.role}</span>
+                                </td>
+                                <td class="py-2 px-4 text-right">
+                                    ${promoteBtn}
+                                    <button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-variant transition-colors opacity-0 group-hover:opacity-100">
+                                        <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                })
+                .catch(console.error);
+        }
+
+        function promoteEmployee(id) {
+            if (!confirm('Are you sure you want to promote this user to Admin?')) return;
+            
+            fetch(API_BASE + '/api/employees/promote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(r => r.json())
+            .then(res => {
+                if(res.success || res.message) {
+                    loadDirectory(); // refresh list
+                } else {
+                    alert('Error: ' + res.error);
+                }
+            })
+            .catch(console.error);
+        }
     </script>
+    <script src="assets/js/auth.js"></script>
 </body></html>

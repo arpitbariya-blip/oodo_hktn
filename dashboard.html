@@ -113,7 +113,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-background text-on-background antialiased flex">
+<body style="visibility: hidden;" class="bg-background text-on-background antialiased flex">
 <!-- SideNavBar -->
 <nav class="hidden md:flex flex-col h-full bg-primary text-on-primary font-label-md text-label-md w-sidebar-width h-screen fixed left-0 top-0 z-20">
 <!-- Brand / Header -->
@@ -168,13 +168,13 @@
             </a>
 </div>
 <!-- User Profile -->
-<div onclick="window.location.href='login.html'" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
+<div id="sidebar-logout-btn" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
 <div class="w-8 h-8 rounded-full bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-on-primary text-sm">person</span>
 </div>
 <div class="flex-1 min-w-0">
-<p class="truncate font-body-sm text-body-sm text-on-primary">Admin User</p>
-<p class="truncate font-label-sm text-label-sm text-on-primary/70">System Administrator</p>
+<p id="sidebar-profile-name" class="truncate font-body-sm text-body-sm text-on-primary">Loading...</p>
+<p id="sidebar-profile-role" class="truncate font-label-sm text-label-sm text-on-primary/70">Loading...</p>
 </div>
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
@@ -204,10 +204,12 @@
 <p class="font-body-md text-body-md text-on-surface-variant mt-1">Enterprise Asset Status &amp; Metrics</p>
 </div>
 <div class="flex space-x-space-sm">
-<button class="px-4 py-2 border border-outline-variant text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors flex items-center space-x-2">
+<button id="export-dashboard-btn" class="px-4 py-2 border border-outline-variant text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors flex items-center space-x-2">
 <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
 <span>Export</span>
 </button>
+<!-- Tailwind static scanner trick -->
+<div class="hidden text-tertiary-fixed-dim text-error text-secondary-container"></div>
 <button onclick="window.location.href='assets.html'" class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-DEFAULT hover:bg-primary/90 transition-colors flex items-center space-x-2">
 <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
 <span>Register Asset</span>
@@ -407,18 +409,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     data.data.forEach(alert => {
                         container.innerHTML += `
-                            <div class="flex items-start space-x-3 p-3 bg-surface-container-low rounded border border-outline-variant/30">
-                                <span class="material-symbols-outlined text-${alert.icon_color} mt-0.5" data-icon="${alert.icon}">${alert.icon}</span>
-                                <div>
-                                    <p class="font-label-sm text-label-sm text-on-surface">${alert.type}</p>
-                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">${alert.message}</p>
+                            <div class="flex items-start justify-between space-x-3 p-3 bg-surface-container-low rounded border border-outline-variant/30 group">
+                                <div class="flex items-start space-x-3">
+                                    <span class="material-symbols-outlined text-${alert.icon_color} mt-0.5" data-icon="${alert.icon}">${alert.icon}</span>
+                                    <div>
+                                        <p class="font-label-sm text-label-sm text-on-surface">${alert.type}</p>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">${alert.message}</p>
+                                    </div>
                                 </div>
+                                <button onclick="this.parentElement.style.display='none'" class="opacity-0 group-hover:opacity-100 transition-opacity text-on-surface-variant hover:text-error">
+                                    <span class="material-symbols-outlined text-sm">close</span>
+                                </button>
                             </div>
                         `;
                     });
                 }
             }
         }).catch(err => console.error("Error fetching Alerts:", err));
+
+    // Export Dashboard Functionality
+    document.getElementById('export-dashboard-btn').addEventListener('click', function() {
+        let csv = "AssetFlow Dashboard Export\\n\\nKPIs\\n";
+        csv += "Total Assets," + document.getElementById('kpi-total-assets').textContent.replace(/,/g, '') + "\\n";
+        csv += "Available," + document.getElementById('kpi-available').textContent.replace(/,/g, '') + "\\n";
+        csv += "Allocated," + document.getElementById('kpi-allocated').textContent.replace(/,/g, '') + "\\n";
+        csv += "In Maintenance," + document.getElementById('kpi-maintenance').textContent.replace(/,/g, '') + "\\n";
+        csv += "Overdue," + document.getElementById('kpi-overdue').textContent.replace(/,/g, '') + "\\n";
+        csv += "Total Value," + document.getElementById('kpi-value').textContent.replace(/,/g, '') + "\\n\\n";
+        
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'dashboard_export_' + new Date().toISOString().split('T')[0] + '.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
 });
 </script>
+<script src="assets/js/auth.js"></script>
 </body></html>

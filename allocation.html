@@ -110,7 +110,7 @@
         }
     </script>
 </head>
-<body class="bg-background text-on-background min-h-screen font-body-md">
+<body style="visibility: hidden;" class="bg-background text-on-background antialiased flex font-body-md">
 <!-- TopNavBar -->
 <header class="h-16 fixed top-0 right-0 left-[260px] bg-surface border-b border-outline-variant flex justify-between items-center px-space-xl z-40">
 <!-- AssetFlow Brand (handled in side nav, leaving left empty or for breadcrumbs if needed, but following JSON structure) -->
@@ -181,13 +181,13 @@
             </a>
 </div>
 <!-- User Profile -->
-<div onclick="window.location.href='login.html'" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
+<div id="sidebar-logout-btn" class="p-space-md border-t border-on-primary-container/20 flex items-center gap-space-sm hover:bg-surface-container-lowest/5 transition-colors cursor-pointer" title="Log out">
 <div class="w-8 h-8 rounded-full bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-on-primary text-sm">person</span>
 </div>
 <div class="flex-1 min-w-0">
-<p class="truncate font-body-sm text-body-sm text-on-primary">Admin User</p>
-<p class="truncate font-label-sm text-label-sm text-on-primary/70">System Administrator</p>
+<p id="sidebar-profile-name" class="truncate font-body-sm text-body-sm text-on-primary">Loading...</p>
+<p id="sidebar-profile-role" class="truncate font-label-sm text-label-sm text-on-primary/70">Loading...</p>
 </div>
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
@@ -460,4 +460,5 @@
 </div>
 </div>
 </div>
+<script src="assets/js/auth.js"></script>
 </body></html>
