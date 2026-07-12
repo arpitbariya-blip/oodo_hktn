@@ -196,30 +196,24 @@
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
 </nav>
-<!-- Main Content Wrapper -->
-<div class="flex-1 flex flex-col md:ml-sidebar-width min-h-screen overflow-hidden">
+<!-- Main Content Area Wrapper -->
+<div class="flex-1 ml-0 md:ml-sidebar-width flex flex-col min-h-screen">
 <!-- TopNavBar -->
-<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width bg-surface dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center px-space-xl z-10">
-<div class="flex items-center gap-space-md">
-<!-- Mobile Menu Button -->
-<button class="md:hidden p-space-xs rounded hover:bg-surface-container-low transition-colors text-on-surface">
-<span class="material-symbols-outlined" data-icon="menu">menu</span>
-</button>
-<div class="hidden md:flex items-center relative">
-<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant pointer-events-none" data-icon="search">search</span>
-<input class="pl-10 pr-space-md py-space-xs bg-surface-container-lowest border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary w-64 md:w-96 transition-all" placeholder="Search assets, tags, serials..." type="text"/>
+<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width bg-surface dark:bg-surface-dim text-on-surface border-b border-outline-variant flex justify-between items-center px-space-xl z-40">
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" placeholder="Search assets, locations..." type="text"/>
 </div>
-</div>
-<div class="flex items-center gap-space-sm">
-<button class="p-space-sm rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors hover:text-on-surface Click: bg-surface-container-high transition-all">
+<div class="flex items-center space-x-2">
+<a href="logs.html" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-space-sm rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors hover:text-on-surface Click: bg-surface-container-high transition-all">
+</a>
+<a href="#" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
+</a>
 </div>
 </header>
-<!-- Workspace / Canvas -->
+<!-- Main Workspace -->
 <main class="flex-1 overflow-y-auto mt-16 p-margin-page bg-background">
 <div class="max-w-container-max mx-auto h-full flex flex-col gap-space-lg">
 <!-- Page Header -->
@@ -449,7 +443,7 @@
             }, 300); // Wait for transition
         }
 
-        const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+        const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
         let currentAssets = [];
         let currentSort = { column: 'id', order: 'desc' };
 
@@ -491,7 +485,7 @@
             const category = document.getElementById('category-filter').value;
             const status = document.getElementById('status-filter').value;
             
-            let url = new URL(window.location.origin + API_BASE + '/api/assets');
+            let url = new URL(API_BASE + '/api/assets', window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1));
             if (search) url.searchParams.append('search', search);
             if (category) url.searchParams.append('category_id', category);
             if (status) url.searchParams.append('status', status);

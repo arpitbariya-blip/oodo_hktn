@@ -1,4 +1,4 @@
-const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAssets();

@@ -306,28 +306,25 @@
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
 </nav>
-<!-- Main Content Wrapper -->
-<div class="flex-1 ml-sidebar-width flex flex-col h-screen overflow-hidden bg-surface relative">
+<!-- Main Content Area Wrapper -->
+<div class="flex-1 ml-0 md:ml-sidebar-width flex flex-col min-h-screen">
 <!-- TopNavBar -->
-<header class="h-16 fixed top-0 right-0 left-sidebar-width bg-surface dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center px-space-xl z-10">
-<!-- Contextual Search -->
-<div class="relative w-96">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT pl-10 pr-4 py-1.5 font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-shadow" placeholder="Search reports, metrics..." type="text"/>
+<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width bg-surface dark:bg-surface-dim text-on-surface border-b border-outline-variant flex justify-between items-center px-space-xl z-40">
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" placeholder="Search reports, metrics..." type="text"/>
 </div>
-<!-- Actions -->
-<div class="flex items-center gap-2">
-<button class="w-10 h-10 rounded-DEFAULT flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors hover:text-on-surface">
+<div class="flex items-center space-x-2">
+<a href="logs.html" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<div class="h-6 w-px bg-outline-variant mx-2"></div>
-<button class="w-10 h-10 rounded-DEFAULT flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors hover:text-on-surface">
+</a>
+<a href="#" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
+</a>
 </div>
 </header>
-<!-- Main Scrollable Canvas -->
-<main class="flex-1 overflow-y-auto mt-16 p-margin-page">
+<!-- Main Workspace -->
+<main class="flex-1 overflow-y-auto mt-16 p-margin-page bg-background">
 <div class="max-w-container-max mx-auto space-y-6">
 <!-- Page Header & Global Filters -->
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">

@@ -193,37 +193,25 @@
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
 </nav>
-<!-- Main Workspace -->
-<main class="flex-1 ml-0 md:ml-sidebar-width min-h-screen flex flex-col">
-<!-- TopNavBar (Shared Component) -->
-<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width z-10 bg-surface flex justify-between items-center px-space-xl w-full border-b border-outline-variant">
-<!-- Mobile Menu Toggle -->
-<button class="md:hidden p-2 rounded hover:bg-surface-container-low transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<!-- Title (Mobile Only) -->
-<div class="md:hidden font-title-lg text-title-lg font-bold text-primary">
-                AssetFlow
-            </div>
-<!-- Empty left area on desktop since search is supposed to be 'on_left' but JSON says just justify-between, placing it contextually -->
-<div class="hidden md:flex items-center">
-<div class="relative w-64">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
-<input class="w-full pl-10 pr-3 py-1.5 bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface placeholder-on-surface-variant/70" placeholder="Search organization..." type="text"/>
+<!-- Main Content Area Wrapper -->
+<div class="flex-1 ml-0 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width bg-surface dark:bg-surface-dim text-on-surface border-b border-outline-variant flex justify-between items-center px-space-xl z-40">
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" placeholder="Search organization..." type="text"/>
 </div>
-</div>
-<!-- Actions -->
-<div class="flex items-center gap-space-sm">
-<button class="p-2 rounded hover:bg-surface-container-low transition-colors text-on-surface-variant click:bg-surface-container-high transition-all">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 rounded hover:bg-surface-container-low transition-colors text-on-surface-variant click:bg-surface-container-high transition-all">
-<span class="material-symbols-outlined">account_circle</span>
-</button>
+<div class="flex items-center space-x-2">
+<a href="logs.html" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</a>
+<a href="#" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</a>
 </div>
 </header>
-<!-- Page Content -->
-<div class="flex-1 mt-16 p-margin-page overflow-auto">
+<!-- Main Workspace -->
+<main class="flex-1 overflow-y-auto mt-16 p-margin-page bg-background">
 <!-- Page Header -->
 <div class="mb-space-xl flex flex-col sm:flex-row sm:items-end justify-between gap-space-md">
 <div>
@@ -379,8 +367,8 @@
 </div>
 </div>
 </div>
-</div>
 </main>
+</div>
 <script>
         // Simple tab switching logic
         function switchTab(tabId) {
@@ -408,7 +396,7 @@
         }
 
         // --- Org Setup Dynamic Logic ---
-        const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+        const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
 
         document.addEventListener('DOMContentLoaded', () => {
             loadDepartments();

@@ -2,7 +2,8 @@
 // Handles authentication checks and UI updates across all protected pages.
 
 document.addEventListener('DOMContentLoaded', function() {
-    const basePath = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+    // Dynamically resolve the API base so this works regardless of folder name or deployment path.
+    const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
     const currentPath = window.location.pathname;
 
     // Check session

@@ -267,23 +267,21 @@
 <span class="material-symbols-outlined text-on-primary/50 text-sm">logout</span>
 </div>
 </nav>
-<!-- Main Content Area -->
-<div class="flex-1 ml-sidebar-width flex flex-col h-screen">
-<!-- TopNavBar (Shared Component) -->
-<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant h-16 fixed top-0 right-0 left-sidebar-width z-40 flex justify-between items-center px-space-xl">
-<div class="flex items-center w-full max-w-md">
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT focus:ring-2 focus:ring-secondary focus:border-secondary outline-none font-body-sm transition-all text-on-surface" placeholder="Search logs and events..." type="text"/>
+<!-- Main Content Area Wrapper -->
+<div class="flex-1 ml-0 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 left-0 md:left-sidebar-width bg-surface dark:bg-surface-dim text-on-surface border-b border-outline-variant flex justify-between items-center px-space-xl z-40">
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" placeholder="Search logs and events..." type="text"/>
 </div>
-</div>
-<div class="flex items-center gap-space-md">
-<button class="p-2 text-primary font-bold hover:bg-surface-container-low rounded-DEFAULT transition-colors">
-<span class="material-symbols-outlined" data-icon="notifications" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
+<div class="flex items-center space-x-2">
+<a href="logs.html" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</a>
+<a href="#" class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-DEFAULT transition-colors">
 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
+</a>
 </div>
 </header>
 <!-- Main Workspace -->
@@ -341,10 +339,14 @@
 <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT flex flex-col h-[700px]">
 <div class="p-space-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
 <h3 class="font-title-md text-title-md text-on-surface">Recent Alerts</h3>
-<button onclick="markAllRead()" class="font-label-sm text-label-sm text-secondary hover:underline">Mark all read</button>
+<div class="flex gap-4">
+    <button onclick="markAllRead()" class="font-label-sm text-label-sm text-secondary hover:underline">Mark all read</button>
+    <button onclick="clearAlerts()" class="font-label-sm text-label-sm text-error hover:underline">Clear Alerts</button>
+</div>
 </div>
 <div id="notifications-feed" class="flex-1 overflow-y-auto p-space-sm flex flex-col gap-2">
 <!-- JS Populated -->
+</div>
 </div>
 </div>
 </div>

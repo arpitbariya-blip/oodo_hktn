@@ -65,6 +65,21 @@ class LogController {
         }
     }
 
+    public function clearAll() {
+        try {
+            $user = AuthMiddleware::getUser();
+            if (!$user) Response::error('Unauthorized', 401);
+            
+            $db = Database::getConnection();
+            $stmt = $db->prepare("DELETE FROM notifications WHERE user_id = ?");
+            $stmt->execute([$user['id']]);
+            
+            Response::json(['message' => 'Alerts cleared']);
+        } catch (PDOException $e) {
+            Response::error('Error clearing notifications', 500);
+        }
+    }
+
     public function seedData() {
         try {
             $db = Database::getConnection();

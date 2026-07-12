@@ -1,4 +1,4 @@
-const API_BASE = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Seed dummy data if needed (for demonstration)
@@ -100,5 +100,14 @@ async function markAllRead() {
         loadNotifications();
     } catch (e) {
         console.error("Failed to mark read", e);
+    }
+}
+
+async function clearAlerts() {
+    try {
+        await fetch(API_BASE + '/api/notifications/clear', { method: 'POST' });
+        loadNotifications();
+    } catch (e) {
+        console.error("Failed to clear alerts", e);
     }
 }

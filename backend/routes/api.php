@@ -202,6 +202,10 @@ $routes = [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'LogController@markAllRead'
     ],
+    'POST /api/notifications/clear' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'LogController@clearAll'
+    ],
     'POST /api/logs/seed' => [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'LogController@seedData'
