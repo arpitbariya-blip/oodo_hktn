@@ -42,7 +42,5 @@ New signups are always created as **Employee**. Only Admin can promote roles.
 - Only one auditor supported per audit cycle
 - Some dashboard/report metrics from the spec aren't implemented yet
 
-
-{ "success": true, "data": { } }
 { "success": false, "error": "message" }
 ```
