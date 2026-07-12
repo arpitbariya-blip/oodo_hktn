@@ -223,8 +223,8 @@
 <span class="material-symbols-outlined text-outline" data-icon="inventory_2">inventory_2</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface">14,285</div>
-<div class="font-label-sm text-label-sm text-secondary-container mt-1">+12% vs last month</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-total-assets">-</div>
+<div class="font-label-sm text-label-sm text-secondary-container mt-1" id="kpi-total-trend"></div>
 </div>
 </div>
 <!-- KPI 2 -->
@@ -234,8 +234,8 @@
 <span class="material-symbols-outlined text-outline" data-icon="check_circle">check_circle</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface">8,402</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">58.8% of total</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-available">-</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="kpi-available-pct">-% of total</div>
 </div>
 </a>
 <!-- KPI 3 -->
@@ -245,8 +245,8 @@
 <span class="material-symbols-outlined text-outline" data-icon="sync_alt">sync_alt</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface">5,110</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">35.7% of total</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-allocated">-</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="kpi-allocated-pct">-% of total</div>
 </div>
 </a>
 <!-- KPI 4 -->
@@ -256,7 +256,7 @@
 <span class="material-symbols-outlined text-outline" data-icon="build">build</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface">423</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-maintenance">-</div>
 <div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Avg 3.2 days repair</div>
 </div>
 </a>
@@ -267,7 +267,7 @@
 <span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-error-container">156</div>
+<div class="font-headline-lg text-headline-lg text-on-error-container" id="kpi-overdue">-</div>
 <div class="font-label-sm text-label-sm text-error mt-1">Action required</div>
 </div>
 </a>
@@ -278,7 +278,7 @@
 <span class="material-symbols-outlined text-outline" data-icon="payments">payments</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface">$12.4M</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-value">$-</div>
 <div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Book value</div>
 </div>
 </a>
@@ -305,43 +305,8 @@
 <th class="py-2 px-space-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Action</th>
 </tr>
 </thead>
-<tbody class="font-body-sm text-body-sm text-on-surface">
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-lowest/50 transition-colors bg-error-container/10">
-<td class="py-3 px-space-md font-mono-md text-mono-md text-error">LTP-9921</td>
-<td class="py-3 px-space-md">MacBook Pro 16"</td>
-<td class="py-3 px-space-md">Sarah Jenkins</td>
-<td class="py-3 px-space-md text-error font-medium">Oct 12, 2023</td>
-<td class="py-3 px-space-md text-right">
-<button class="px-3 py-1 border border-outline-variant rounded text-label-sm font-label-sm hover:bg-surface-container-low">Notify</button>
-</td>
-</tr>
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-lowest/50 transition-colors">
-<td class="py-3 px-space-md font-mono-md text-mono-md">VEH-042</td>
-<td class="py-3 px-space-md">Ford Transit Van</td>
-<td class="py-3 px-space-md">Logistics Team B</td>
-<td class="py-3 px-space-md">Oct 14, 2023</td>
-<td class="py-3 px-space-md text-right">
-<button class="px-3 py-1 border border-outline-variant rounded text-label-sm font-label-sm hover:bg-surface-container-low">Notify</button>
-</td>
-</tr>
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-lowest/50 transition-colors">
-<td class="py-3 px-space-md font-mono-md text-mono-md">PRJ-881</td>
-<td class="py-3 px-space-md">Epson Projector</td>
-<td class="py-3 px-space-md">Conf Room 4A</td>
-<td class="py-3 px-space-md">Oct 15, 2023</td>
-<td class="py-3 px-space-md text-right">
-<button class="px-3 py-1 border border-outline-variant rounded text-label-sm font-label-sm hover:bg-surface-container-low">Notify</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-lowest/50 transition-colors">
-<td class="py-3 px-space-md font-mono-md text-mono-md">DRN-005</td>
-<td class="py-3 px-space-md">DJI Mavic 3</td>
-<td class="py-3 px-space-md">Site Survey Team</td>
-<td class="py-3 px-space-md">Oct 16, 2023</td>
-<td class="py-3 px-space-md text-right">
-<button class="px-3 py-1 border border-outline-variant rounded text-label-sm font-label-sm hover:bg-surface-container-low">Notify</button>
-</td>
-</tr>
+<tbody id="overdue-table-body" class="font-body-sm text-body-sm text-on-surface">
+    <!-- Dynamic content -->
 </tbody>
 </table>
 </div>
@@ -373,25 +338,87 @@
 <!-- System Alerts -->
 <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex-1">
 <h3 class="font-title-md text-title-md text-on-surface mb-space-md">System Alerts</h3>
-<div class="space-y-3">
-<div class="flex items-start space-x-3 p-3 bg-surface-container-low rounded border border-outline-variant/30">
-<span class="material-symbols-outlined text-error mt-0.5" data-icon="error">error</span>
-<div>
-<p class="font-label-sm text-label-sm text-on-surface">Server Rack B Power Failure</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Datacenter 2 offline.</p>
-</div>
-</div>
-<div class="flex items-start space-x-3 p-3 bg-surface-container-low rounded border border-outline-variant/30">
-<span class="material-symbols-outlined text-tertiary-fixed-dim mt-0.5" data-icon="info">info</span>
-<div>
-<p class="font-label-sm text-label-sm text-on-surface">Software License Expiring</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Adobe CC suite expires in 5 days.</p>
-</div>
-</div>
+<div id="system-alerts-container" class="space-y-3">
+    <!-- Dynamic content -->
 </div>
 </div>
 </div>
 </div>
 </div>
 </main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Relative path to the backend router. Adjust if you deploy to a different subfolder.
+    const basePath = 'backend/index.php'; 
+    
+    // Fetch KPIs
+    fetch(basePath + '/api/dashboard/kpis')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                const kpis = data.data;
+                document.getElementById('kpi-total-assets').textContent = kpis.totalAssets.toLocaleString();
+                document.getElementById('kpi-available').textContent = kpis.available.toLocaleString();
+                document.getElementById('kpi-available-pct').textContent = kpis.availablePct + '% of total';
+                document.getElementById('kpi-allocated').textContent = kpis.allocated.toLocaleString();
+                document.getElementById('kpi-allocated-pct').textContent = kpis.allocatedPct + '% of total';
+                document.getElementById('kpi-maintenance').textContent = kpis.inMaintenance.toLocaleString();
+                document.getElementById('kpi-overdue').textContent = kpis.overdue.toLocaleString();
+                document.getElementById('kpi-value').textContent = '$' + (kpis.totalValue >= 1000000 ? (kpis.totalValue/1000000).toFixed(1) + 'M' : Number(kpis.totalValue).toLocaleString());
+            }
+        }).catch(err => console.error("Error fetching KPIs:", err));
+
+    // Fetch Overdue
+    fetch(basePath + '/api/dashboard/overdue')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                const tbody = document.getElementById('overdue-table-body');
+                tbody.innerHTML = '';
+                if(data.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="py-3 px-space-md text-center text-on-surface-variant">No overdue returns</td></tr>';
+                } else {
+                    data.data.forEach(item => {
+                        tbody.innerHTML += `
+                            <tr class="border-b border-outline-variant/50 hover:bg-surface-container-lowest/50 transition-colors bg-error-container/10">
+                                <td class="py-3 px-space-md font-mono-md text-mono-md text-error">${item.asset_tag}</td>
+                                <td class="py-3 px-space-md">${item.asset_name}</td>
+                                <td class="py-3 px-space-md">${item.assigned_to}</td>
+                                <td class="py-3 px-space-md text-error font-medium">${item.due_date_formatted}</td>
+                                <td class="py-3 px-space-md text-right">
+                                    <button class="px-3 py-1 border border-outline-variant rounded text-label-sm font-label-sm hover:bg-surface-container-low">Notify</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
+        }).catch(err => console.error("Error fetching Overdue:", err));
+        
+    // Fetch Alerts
+    fetch(basePath + '/api/dashboard/alerts')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                const container = document.getElementById('system-alerts-container');
+                container.innerHTML = '';
+                if(data.data.length === 0) {
+                    container.innerHTML = '<p class="text-on-surface-variant text-body-sm">No new alerts</p>';
+                } else {
+                    data.data.forEach(alert => {
+                        container.innerHTML += `
+                            <div class="flex items-start space-x-3 p-3 bg-surface-container-low rounded border border-outline-variant/30">
+                                <span class="material-symbols-outlined text-${alert.icon_color} mt-0.5" data-icon="${alert.icon}">${alert.icon}</span>
+                                <div>
+                                    <p class="font-label-sm text-label-sm text-on-surface">${alert.type}</p>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">${alert.message}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        }).catch(err => console.error("Error fetching Alerts:", err));
+});
+</script>
 </body></html>
