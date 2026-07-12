@@ -16,18 +16,24 @@ class EmployeeController {
         }
     }
 
-    public function promote() {
+    public function updateRole() {
         try {
             $input = json_decode(file_get_contents('php://input'), true);
             $userId = $input['id'] ?? null;
+            $newRole = $input['role'] ?? null;
             
-            if (!$userId) {
-                Response::error("User ID required", 400);
+            if (!$userId || !$newRole) {
+                Response::error("User ID and new role are required", 400);
+            }
+
+            $validRoles = ['Employee', 'Asset Manager', 'Department Head', 'Admin'];
+            if (!in_array($newRole, $validRoles)) {
+                Response::error("Invalid role provided.", 400);
             }
 
             $pdo = Database::getConnection();
             
-            // Check current role
+            // Check if user exists
             $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
             $stmt->execute([$userId]);
             $user = $stmt->fetch();
@@ -36,17 +42,17 @@ class EmployeeController {
                 Response::error("User not found", 404);
             }
 
-            if ($user['role'] === 'Admin') {
-                Response::error("User is already an Admin", 400);
+            if ($user['role'] === $newRole) {
+                Response::error("User already has this role.", 400);
             }
 
-            // Promote to Admin
-            $update = $pdo->prepare("UPDATE users SET role = 'Admin' WHERE id = ?");
-            $update->execute([$userId]);
+            // Update role
+            $update = $pdo->prepare("UPDATE users SET role = ? WHERE id = ?");
+            $update->execute([$newRole, $userId]);
             
-            Response::json(['message' => 'User promoted to Admin successfully']);
+            Response::json(['message' => 'Role updated successfully']);
         } catch (Exception $e) {
-            Response::error("Failed to promote user: " . $e->getMessage(), 500);
+            Response::error("Failed to update user role: " . $e->getMessage(), 500);
         }
     }
 }

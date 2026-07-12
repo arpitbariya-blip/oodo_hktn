@@ -1,15 +1,28 @@
 <?php
 $routes = [
     // Auth Routes (Public)
-    'POST /api/auth/login' => ['controller' => 'AuthController@login'],
-    'POST /api/auth/logout' => ['controller' => 'AuthController@logout'],
-    
-    // Protected Routes
+    'POST /api/auth/login' => [
+        'middleware' => [],
+        'controller' => 'AuthController@login'
+    ],
+    'POST /api/auth/signup' => [
+        'middleware' => [],
+        'controller' => 'AuthController@signup'
+    ],
+    'POST /api/auth/forgot-password' => [
+        'middleware' => [],
+        'controller' => 'AuthController@forgotPassword'
+    ],
+    'GET /api/auth/logout' => [
+        'middleware' => [],
+        'controller' => 'AuthController@logout'
+    ],
     'GET /api/auth/me' => [
-        'middleware' => ['AuthMiddleware'],
+        'middleware' => [],
         'controller' => 'AuthController@me'
     ],
     
+    // Dashboard Routes (Protected)
     'GET /api/dashboard/kpis' => [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'DashboardController@getKpis'
@@ -40,11 +53,11 @@ $routes = [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'EmployeeController@getDirectory'
     ],
-    'POST /api/employees/promote' => [
+    'POST /api/employees/update-role' => [
         'middleware' => [
             'AuthMiddleware',
-            ['RoleMiddleware', ['Admin']] // Only Admins can promote
+            ['RoleMiddleware', ['Admin']] // Only Admins can promote/update roles
         ],
-        'controller' => 'EmployeeController@promote'
+        'controller' => 'EmployeeController@updateRole'
     ]
 ];

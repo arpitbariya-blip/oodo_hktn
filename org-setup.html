@@ -508,9 +508,14 @@
                         const initials = emp.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
                         const roleColor = isAdmin ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-highest text-on-surface';
                         const avatarColor = isAdmin ? 'bg-tertiary-fixed/40 text-tertiary' : 'bg-secondary-container/20 text-secondary';
-                        const promoteBtn = isAdmin 
-                            ? `<button class="px-3 py-1 border border-outline-variant text-on-surface-variant rounded hover:bg-surface-variant transition-colors font-title-md text-xs mr-2 opacity-50 cursor-not-allowed" disabled>Admin</button>`
-                            : `<button onclick="promoteEmployee(${emp.id})" class="px-3 py-1 border border-secondary text-secondary rounded hover:bg-secondary/10 transition-colors font-title-md text-xs mr-2">Promote</button>`;
+                        const roleDropdown = `
+                            <select onchange="updateRole(${emp.id}, this.value, '${emp.role}')" class="px-2 py-1 bg-surface-container-lowest border border-outline-variant text-on-surface rounded text-xs font-title-md mr-2 focus:ring-1 focus:ring-secondary outline-none">
+                                <option value="Employee" ${emp.role === 'Employee' ? 'selected' : ''}>Employee</option>
+                                <option value="Asset Manager" ${emp.role === 'Asset Manager' ? 'selected' : ''}>Asset Manager</option>
+                                <option value="Department Head" ${emp.role === 'Department Head' ? 'selected' : ''}>Department Head</option>
+                                <option value="Admin" ${emp.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        `;
 
                         tbody.innerHTML += `
                             <tr class="hover:bg-surface-container-low transition-colors group">
@@ -527,7 +532,7 @@
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${roleColor}">${emp.role}</span>
                                 </td>
                                 <td class="py-2 px-4 text-right">
-                                    ${promoteBtn}
+                                    ${roleDropdown}
                                     <button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-variant transition-colors opacity-0 group-hover:opacity-100">
                                         <span class="material-symbols-outlined text-[18px]">more_vert</span>
                                     </button>
@@ -539,13 +544,16 @@
                 .catch(console.error);
         }
 
-        function promoteEmployee(id) {
-            if (!confirm('Are you sure you want to promote this user to Admin?')) return;
+        function updateRole(id, newRole, oldRole) {
+            if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
+                loadDirectory(); // reset dropdown visually if cancelled
+                return;
+            }
             
-            fetch(API_BASE + '/api/employees/promote', {
+            fetch(API_BASE + '/api/employees/update-role', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id })
+                body: JSON.stringify({ id: id, role: newRole })
             })
             .then(r => r.json())
             .then(res => {
@@ -553,9 +561,13 @@
                     loadDirectory(); // refresh list
                 } else {
                     alert('Error: ' + res.error);
+                    loadDirectory(); // reset on error
                 }
             })
-            .catch(console.error);
+            .catch(err => {
+                console.error(err);
+                loadDirectory();
+            });
         }
     </script>
     <script src="assets/js/auth.js"></script>

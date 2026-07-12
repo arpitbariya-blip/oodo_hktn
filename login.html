@@ -177,7 +177,7 @@
 <div>
 <div class="flex justify-between items-center mb-1">
 <label class="block font-label-md text-label-md text-on-surface" for="login-password">Password</label>
-<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">Forgot Password?</a>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="forgot-password.html">Forgot Password?</a>
 </div>
 <input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="login-password" placeholder="••••••••" type="password"/>
 </div>
@@ -192,6 +192,7 @@
 <div class="mb-6">
 <h2 class="font-headline-md text-headline-md text-on-surface mb-1">Request Access</h2>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Register for an Employee account. Administrator roles are assigned post-registration.</p>
+<div id="signup-error" class="hidden mt-2 p-2 bg-error-container text-on-error-container text-body-sm rounded"></div>
 </div>
 <form class="space-y-4">
 <div class="grid grid-cols-2 gap-4">
@@ -209,14 +210,20 @@
 <input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-email" placeholder="name@company.com" type="email"/>
 </div>
 <div>
-<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-department">Department Code</label>
-<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md font-mono-md" id="signup-department" placeholder="DEP-1234" type="text"/>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-password">Password</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-password" placeholder="••••••••" type="password"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="signup-department">Department</label>
+<select class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-shadow text-body-md" id="signup-department">
+    <option value="">Select a department...</option>
+</select>
 </div>
 <div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/50 flex items-start gap-2 mt-4">
 <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">info</span>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Default registration grants 'Employee' read-only access. Contact your IT admin for 'Manager' or 'Admin' provisioning.</p>
 </div>
-<button class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button" onclick="alert('Request submitted. An Admin will provision your account.'); switchTab('login')">
+<button id="signup-btn" class="w-full h-10 mt-6 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex justify-center items-center gap-2" type="button">
 <span>Submit Request</span>
 </button>
 </form>
@@ -263,39 +270,110 @@
             }
         }
 
-        // Login Logic
-        document.getElementById('login-btn').addEventListener('click', function() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const errorDiv = document.getElementById('login-error');
+        document.addEventListener('DOMContentLoaded', function() {
             const basePath = '/Enterprise%20Asset%20&%20Resource%20Management%20System/backend/index.php';
+            
+            // 1. Fetch departments for signup dropdown
+            fetch(basePath + '/api/departments')
+                .then(r => r.json())
+                .then(res => {
+                    if (res.success) {
+                        const select = document.getElementById('signup-department');
+                        res.data.forEach(d => {
+                            select.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+                        });
+                    }
+                }).catch(console.error);
 
-            errorDiv.classList.add('hidden');
+            // 2. Existing Login Logic
+            document.getElementById('login-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const errorDiv = document.getElementById('login-error');
 
-            if (!email || !password) {
-                errorDiv.textContent = 'Please enter both email and password.';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            fetch(basePath + '/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, password: password })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    errorDiv.textContent = data.error || 'Login failed';
+                if(!email || !password) {
+                    errorDiv.textContent = 'Please enter both email and password.';
                     errorDiv.classList.remove('hidden');
+                    return;
                 }
-            })
-            .catch(err => {
-                errorDiv.textContent = 'Network error. Please try again.';
-                errorDiv.classList.remove('hidden');
+
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Signing in...';
+                btn.disabled = true;
+
+                fetch(basePath + '/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email, password: password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        errorDiv.textContent = data.error || 'Login failed. Please try again.';
+                        errorDiv.classList.remove('hidden');
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    errorDiv.textContent = 'A network error occurred.';
+                    errorDiv.classList.remove('hidden');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            });
+
+            // 3. New Signup Logic
+            document.getElementById('signup-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                const firstName = document.getElementById('signup-first').value;
+                const lastName = document.getElementById('signup-last').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const departmentId = document.getElementById('signup-department').value;
+                const errorDiv = document.getElementById('signup-error');
+
+                if(!firstName || !lastName || !email || !password || !departmentId) {
+                    errorDiv.textContent = 'All fields are required.';
+                    errorDiv.classList.remove('hidden');
+                    return;
+                }
+
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Submitting...';
+                btn.disabled = true;
+
+                fetch(basePath + '/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName, lastName, email, password, departmentId })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if(data.success) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        errorDiv.textContent = data.error || 'Signup failed.';
+                        errorDiv.classList.remove('hidden');
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    errorDiv.textContent = 'A network error occurred.';
+                    errorDiv.classList.remove('hidden');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
             });
         });
     </script>
-</body></html>
+</body>
+</html>
