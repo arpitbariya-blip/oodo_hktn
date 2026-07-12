@@ -1,7 +1,9 @@
 const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
 let bookableAssets = [];
 let currentBookings = [];
+let myUpcoming = [];
 let today = new Date().toISOString().split('T')[0];
+let currentEditBookingId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Set default date to today
@@ -135,10 +137,11 @@ function renderCalendarBody() {
 
 async function loadUpcoming() {
     try {
-        const r = await fetch(API_BASE + '/api/bookings/upcoming');
+        const r = await fetch(API_BASE + '/api/bookings/my-upcoming');
         const res = await r.json();
         
         if (res.success) {
+            myUpcoming = res.data;
             const container = document.getElementById('upcoming-bookings-container');
             container.innerHTML = '';
             
@@ -171,6 +174,9 @@ async function loadUpcoming() {
                         </div>
                         <div class="flex items-center gap-2">
                             ${badge}
+                            <button onclick="editBooking(${b.id})" class="text-on-surface-variant hover:text-secondary transition-colors" title="Reschedule">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                            </button>
                             <button onclick="cancelBooking(${b.id})" class="text-error hover:text-error/80 transition-colors" title="Cancel Booking">
                                 <span class="material-symbols-outlined text-sm">cancel</span>
                             </button>
@@ -183,11 +189,13 @@ async function loadUpcoming() {
 }
 
 function resetBookingForm() {
+    currentEditBookingId = null;
     document.getElementById('booking-asset').value = '';
     document.getElementById('booking-start').value = '';
     document.getElementById('booking-end').value = '';
     document.getElementById('booking-purpose').value = '';
     document.getElementById('booking-conflict-alert').classList.add('hidden');
+    document.getElementById('book-btn').textContent = 'Book Resource';
 }
 
 async function submitBooking() {
@@ -217,23 +225,27 @@ async function submitBooking() {
 
     const btn = document.getElementById('book-btn');
     btn.disabled = true;
-    btn.textContent = 'Booking...';
+    btn.textContent = currentEditBookingId ? 'Rescheduling...' : 'Booking...';
+
+    const endpoint = currentEditBookingId ? '/api/bookings/reschedule' : '/api/bookings';
+    const payload = {
+        asset_id: assetId,
+        title: 'Reservation',
+        purpose: purpose,
+        start_time: startTime,
+        end_time: endTime
+    };
+    if (currentEditBookingId) payload.booking_id = currentEditBookingId;
 
     try {
-        const r = await fetch(API_BASE + '/api/bookings', {
+        const r = await fetch(API_BASE + endpoint, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                asset_id: assetId,
-                title: 'Reservation',
-                purpose: purpose,
-                start_time: startTime,
-                end_time: endTime
-            })
+            body: JSON.stringify(payload)
         });
         const res = await r.json();
 
-        if (res.success) {
+        if (res.success || res.message) {
             resetBookingForm();
             loadCalendar(date);
             loadUpcoming();
@@ -248,8 +260,37 @@ async function submitBooking() {
         console.error(err);
     } finally {
         btn.disabled = false;
-        btn.textContent = 'Book Resource';
+        btn.textContent = currentEditBookingId ? 'Reschedule Resource' : 'Book Resource';
     }
+}
+
+function editBooking(id) {
+    const booking = myUpcoming.find(b => b.id == id);
+    if (!booking) return;
+    
+    currentEditBookingId = id;
+    
+    const start = new Date(booking.start_time);
+    const end = new Date(booking.end_time);
+    
+    document.getElementById('booking-asset').value = booking.asset_id;
+    document.getElementById('booking-date').value = start.toISOString().split('T')[0];
+    
+    const startHour = start.getHours().toString().padStart(2, '0');
+    const startMin = start.getMinutes().toString().padStart(2, '0');
+    document.getElementById('booking-start').value = `${startHour}:${startMin}`;
+    
+    const endHour = end.getHours().toString().padStart(2, '0');
+    const endMin = end.getMinutes().toString().padStart(2, '0');
+    document.getElementById('booking-end').value = `${endHour}:${endMin}`;
+    
+    document.getElementById('booking-purpose').value = booking.purpose || '';
+    
+    const btn = document.getElementById('book-btn');
+    btn.textContent = 'Reschedule Resource';
+    
+    // Scroll to form
+    document.querySelector('main').scrollTo({top: 0, behavior: 'smooth'});
 }
 
 async function cancelBooking(id) {

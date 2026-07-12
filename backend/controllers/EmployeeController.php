@@ -12,7 +12,7 @@ class EmployeeController {
             $employees = $stmt->fetchAll();
             Response::json($employees);
         } catch (Exception $e) {
-            Response::error("Failed to load directory: " . $e->getMessage(), 500);
+            Response::error("Failed to load directory: " , 500);
         }
     }
 
@@ -26,9 +26,13 @@ class EmployeeController {
                 Response::error("User ID and new role are required", 400);
             }
 
-            $validRoles = ['Employee', 'Asset Manager', 'Department Head', 'Admin'];
+            $validRoles = ['Employee', 'Asset Manager', 'Department Head'];
             if (!in_array($newRole, $validRoles)) {
-                Response::error("Invalid role provided.", 400);
+                if ($newRole === 'Admin') {
+                    Response::error("Cannot promote to Admin via API. Contact System Administrator.", 403);
+                } else {
+                    Response::error("Invalid role provided.", 400);
+                }
             }
 
             $pdo = Database::getConnection();
@@ -52,7 +56,7 @@ class EmployeeController {
             
             Response::json(['message' => 'Role updated successfully']);
         } catch (Exception $e) {
-            Response::error("Failed to update user role: " . $e->getMessage(), 500);
+            Response::error("Failed to update user role: " , 500);
         }
     }
 }

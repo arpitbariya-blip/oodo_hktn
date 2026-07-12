@@ -4,51 +4,41 @@ class DashboardController {
         try {
             $pdo = Database::getConnection();
             
-            // Total Assets
-            $stmt = $pdo->query("SELECT COUNT(*) as count FROM assets");
-            $totalAssets = $stmt->fetch()['count'];
+            // 1. Assets Available
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM assets WHERE lifecycle_status = 'Available'");
+            $assetsAvailable = $stmt->fetch()['count'];
             
-            // Available
-            $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM assets WHERE lifecycle_status = 'Available'");
-            $stmt->execute();
-            $available = $stmt->fetch()['count'];
+            // 2. Assets Allocated
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM assets WHERE lifecycle_status = 'Allocated'");
+            $assetsAllocated = $stmt->fetch()['count'];
             
-            // Allocated
-            $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM assets WHERE lifecycle_status = 'Allocated'");
-            $stmt->execute();
-            $allocated = $stmt->fetch()['count'];
+            // 3. Maintenance Today
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM maintenance_requests WHERE DATE(raised_at) = CURRENT_DATE AND status IN ('Pending', 'Approved', 'Technician Assigned', 'In Progress')");
+            $maintenanceToday = $stmt->fetch()['count'];
             
-            // In Maintenance
-            $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM assets WHERE lifecycle_status = 'Under Maintenance'");
-            $stmt->execute();
-            $inMaintenance = $stmt->fetch()['count'];
+            // 4. Active Bookings
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM bookings WHERE status = 'Approved' AND end_time > NOW()");
+            $activeBookings = $stmt->fetch()['count'];
             
-            // Overdue
-            $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM allocations WHERE status = 'Overdue'");
-            $stmt->execute();
-            $overdue = $stmt->fetch()['count'];
+            // 5. Pending Transfers
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM transfer_requests WHERE status = 'Requested'");
+            $pendingTransfers = $stmt->fetch()['count'];
             
-            // Value (Est)
-            $stmt = $pdo->query("SELECT SUM(acquisition_cost) as total_value FROM assets");
-            $totalValue = $stmt->fetch()['total_value'] ?? 0;
-            
-            // Calculate percentages
-            $availablePct = $totalAssets > 0 ? round(($available / $totalAssets) * 100, 1) : 0;
-            $allocatedPct = $totalAssets > 0 ? round(($allocated / $totalAssets) * 100, 1) : 0;
+            // 6. Upcoming Returns (within next 7 days)
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM allocations WHERE status = 'Active' AND expected_return_date BETWEEN CURRENT_DATE AND DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)");
+            $upcomingReturns = $stmt->fetch()['count'];
             
             Response::json([
-                'totalAssets' => $totalAssets,
-                'available' => $available,
-                'availablePct' => $availablePct,
-                'allocated' => $allocated,
-                'allocatedPct' => $allocatedPct,
-                'inMaintenance' => $inMaintenance,
-                'overdue' => $overdue,
-                'totalValue' => $totalValue
+                'assetsAvailable' => $assetsAvailable,
+                'assetsAllocated' => $assetsAllocated,
+                'maintenanceToday' => $maintenanceToday,
+                'activeBookings' => $activeBookings,
+                'pendingTransfers' => $pendingTransfers,
+                'upcomingReturns' => $upcomingReturns
             ]);
             
         } catch (Exception $e) {
-            Response::error($e->getMessage(), 500);
+            Response::error('An internal error occurred', 500);
         }
     }
     
@@ -86,7 +76,7 @@ class DashboardController {
             Response::json($overdue);
             
         } catch (Exception $e) {
-            Response::error($e->getMessage(), 500);
+            Response::error('An internal error occurred', 500);
         }
     }
     
@@ -113,7 +103,7 @@ class DashboardController {
             
             Response::json($alerts);
         } catch (Exception $e) {
-            Response::error($e->getMessage(), 500);
+            Response::error('An internal error occurred', 500);
         }
     }
 }

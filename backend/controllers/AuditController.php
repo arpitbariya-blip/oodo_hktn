@@ -41,7 +41,7 @@ class AuditController {
                 'counts' => $counts
             ]);
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -77,9 +77,12 @@ class AuditController {
             $stmt->execute([$name, $dept_id, $user_id]);
             $cycle_id = $db->lastInsertId();
 
-            // 2. Insert Auditor (current user)
-            $db->prepare("INSERT INTO audit_cycle_auditors (audit_cycle_id, auditor_user_id) VALUES (?, ?)")
-               ->execute([$cycle_id, $user_id]);
+            // 2. Insert Auditors
+            $auditor_ids = !empty($data['auditor_ids']) && is_array($data['auditor_ids']) ? $data['auditor_ids'] : [$user_id];
+            $auditorStmt = $db->prepare("INSERT INTO audit_cycle_auditors (audit_cycle_id, auditor_user_id) VALUES (?, ?)");
+            foreach ($auditor_ids as $aid) {
+                $auditorStmt->execute([$cycle_id, $aid]);
+            }
 
             // 3. Find Assets and inject into audit_items
             // We only audit assets that are not Disposed or Retired
@@ -103,7 +106,7 @@ class AuditController {
             Response::json(['message' => 'Audit cycle created successfully.', 'cycle_id' => $cycle_id, 'asset_count' => count($assets)]);
         } catch(Exception $e) {
             if (isset($db) && $db->inTransaction()) $db->rollBack();
-            Response::error('Error creating audit: ' . $e->getMessage(), 500);
+            Response::error('Error creating audit: ' , 500);
         }
     }
 
@@ -127,7 +130,7 @@ class AuditController {
             
             Response::json(['message' => 'Item updated successfully.']);
         } catch(Exception $e) {
-            Response::error('Error updating item: ' . $e->getMessage(), 500);
+            Response::error('Error updating item: ' , 500);
         }
     }
 
@@ -172,7 +175,7 @@ class AuditController {
             Response::json(['message' => 'Audit closed successfully. ' . count($flagged) . ' assets auto-resolved.']);
         } catch(Exception $e) {
             if (isset($db) && $db->inTransaction()) $db->rollBack();
-            Response::error('Error closing audit: ' . $e->getMessage(), 500);
+            Response::error('Error closing audit: ' , 500);
         }
     }
 }

@@ -20,7 +20,7 @@ class BookingController {
             
             Response::json($stmt->fetchAll());
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -46,7 +46,7 @@ class BookingController {
             
             Response::json($stmt->fetchAll());
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -109,7 +109,7 @@ class BookingController {
 
             Response::json(['message' => 'Resource booked successfully.']);
         } catch(Exception $e) {
-            Response::error('Error processing booking: ' . $e->getMessage(), 500);
+            Response::error('Error processing booking: ' , 500);
         }
     }
 
@@ -141,7 +141,66 @@ class BookingController {
                 Response::error('Booking not found or not authorized to cancel.', 404);
             }
         } catch(Exception $e) {
-            Response::error('Error cancelling booking: ' . $e->getMessage(), 500);
+            Response::error('Error cancelling booking: ' , 500);
+        }
+    }
+
+    public function reschedule() {
+        $data = json_decode(file_get_contents("php://input"), true);
+        if (empty($data['booking_id']) || empty($data['start_time']) || empty($data['end_time'])) {
+            Response::error('Booking ID, Start Time, and End Time are required.', 400);
+            return;
+        }
+
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            Response::error('Unauthorized', 401);
+            return;
+        }
+
+        try {
+            $db = Database::getConnection();
+            
+            // Check if authorized to edit this booking
+            $authCheck = $db->prepare("SELECT asset_id FROM bookings WHERE id = ? AND booked_by = ? AND status != 'Cancelled'");
+            $authCheck->execute([$data['booking_id'], $user_id]);
+            $booking = $authCheck->fetch();
+            
+            if (!$booking) {
+                Response::error('Booking not found or not authorized to reschedule.', 404);
+                return;
+            }
+            
+            // Check for conflict
+            $conflictStmt = $db->prepare("
+                SELECT id FROM bookings 
+                WHERE asset_id = ? 
+                AND id != ?
+                AND status != 'Cancelled'
+                AND (start_time < ? AND end_time > ?)
+            ");
+            $conflictStmt->execute([
+                $booking['asset_id'],
+                $data['booking_id'],
+                $data['end_time'],
+                $data['start_time']
+            ]);
+            
+            if ($conflictStmt->fetch()) {
+                Response::error('The requested time slot conflicts with an existing booking.', 409);
+                return;
+            }
+
+            $stmt = $db->prepare("
+                UPDATE bookings 
+                SET start_time = ?, end_time = ?, updated_at = NOW()
+                WHERE id = ?
+            ");
+            $stmt->execute([$data['start_time'], $data['end_time'], $data['booking_id']]);
+
+            Response::json(['message' => 'Booking rescheduled successfully.']);
+        } catch(Exception $e) {
+            Response::error('Error rescheduling booking: ' , 500);
         }
     }
 }

@@ -72,7 +72,7 @@ async function loadNotifications() {
                 // We split message at colon for title/body purely for demo presentation since we packed it into `message`
                 let parts = n.message.split(': ');
                 let title = parts[0];
-                let body = parts.length > 1 ? parts.slice(1).join(': ') : parts[0];
+                let body = parts.length > 1 ? parts.slice(1).join(': ') : '';
 
                 feed.innerHTML += `
                     <div class="p-space-md border ${unreadClass} rounded-DEFAULT relative pl-10 cursor-pointer hover:bg-surface-container-low transition-colors block no-underline mb-2">

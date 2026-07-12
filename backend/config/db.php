@@ -4,11 +4,11 @@ class Database {
 
     public static function getConnection() {
         if (self::$pdo === null) {
-            $host = 'localhost';
-            $db   = 'assetflow';
-            $user = 'root';
-            $pass = ''; // Default XAMPP password
-            $charset = 'utf8mb4';
+            $host = getenv('DB_HOST') ?: 'localhost';
+            $db   = getenv('DB_NAME') ?: 'assetflow';
+            $user = getenv('DB_USER') ?: 'root';
+            $pass = getenv('DB_PASS') ?: '';
+            $charset = getenv('DB_CHARSET') ?: 'utf8mb4';
 
             $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
             $options = [

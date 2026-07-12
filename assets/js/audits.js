@@ -3,6 +3,7 @@ let activeCycle = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadDepartments();
+    loadUsers();
     loadActiveAudit();
 });
 
@@ -27,8 +28,7 @@ function closeCreateAuditModal() {
 
 async function loadDepartments() {
     try {
-        // Simple fetch of departments to populate scope dropdown
-        const r = await fetch(API_BASE + '/api/departments'); // assuming this exists, if not we ignore or use static
+        const r = await fetch(API_BASE + '/api/departments');
         if (r.ok) {
             const res = await r.json();
             const select = document.getElementById('audit-department');
@@ -41,15 +41,32 @@ async function loadDepartments() {
     } catch (e) { console.log('Could not load departments', e); }
 }
 
+async function loadUsers() {
+    try {
+        const r = await fetch(API_BASE + '/api/employees');
+        if (r.ok) {
+            const res = await r.json();
+            const select = document.getElementById('audit-auditors');
+            if (res.success && res.data) {
+                res.data.forEach(u => {
+                    select.innerHTML += `<option value="${u.id}">${u.name} (${u.role})</option>`;
+                });
+            }
+        }
+    } catch (e) { console.log('Could not load users', e); }
+}
+
 async function submitAuditCycle() {
     const name = document.getElementById('audit-name').value;
     const deptId = document.getElementById('audit-department').value;
+    const auditorOptions = document.getElementById('audit-auditors').selectedOptions;
+    const auditorIds = Array.from(auditorOptions).map(o => parseInt(o.value));
     
     try {
         const r = await fetch(API_BASE + '/api/audits', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, department_id: deptId || null })
+            body: JSON.stringify({ name: name, department_id: deptId || null, auditor_ids: auditorIds })
         });
         const res = await r.json();
         

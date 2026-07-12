@@ -30,7 +30,7 @@ class AuthController {
                 Response::error("Invalid credentials.", 401);
             }
         } catch (Exception $e) {
-            Response::error("Server error: " . $e->getMessage(), 500);
+            Response::error("Server error: " , 500);
         }
     }
 
@@ -52,7 +52,7 @@ class AuthController {
             }
             Response::json($user);
         } catch (Exception $e) {
-            Response::error("Server error: " . $e->getMessage(), 500);
+            Response::error("Server error: " , 500);
         }
     }
 
@@ -88,7 +88,7 @@ class AuthController {
             Response::json(['message' => 'Account created successfully', 'user' => $userData], 201);
             
         } catch (Exception $e) {
-            Response::error("Failed to create account: " . $e->getMessage(), 500);
+            Response::error("Failed to create account: " , 500);
         }
     }
 
@@ -110,7 +110,7 @@ class AuthController {
             
             Response::json(['message' => 'If that email exists in our system, a password reset link has been sent to it.']);
         } catch (Exception $e) {
-            Response::error("Server error: " . $e->getMessage(), 500);
+            Response::error("Server error: " , 500);
         }
     }
 }

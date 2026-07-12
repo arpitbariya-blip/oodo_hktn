@@ -220,69 +220,63 @@
 <!-- KPI Bento Grid -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-gutter mb-space-xl">
 <!-- KPI 1 -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors">
+<a href="assets.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
 <div class="flex justify-between items-start">
-<a href="assets.html" class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider hover:text-secondary transition-colors">Total Assets</a>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Assets Available</span>
 <span class="material-symbols-outlined text-outline" data-icon="inventory_2">inventory_2</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-total-assets">-</div>
-<div class="font-label-sm text-label-sm text-secondary-container mt-1" id="kpi-total-trend"></div>
-</div>
-</div>
-<!-- KPI 2 -->
-<a href="assets.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
-<div class="flex justify-between items-start">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Available</span>
-<span class="material-symbols-outlined text-outline" data-icon="check_circle">check_circle</span>
-</div>
-<div>
 <div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-available">-</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="kpi-available-pct">-% of total</div>
 </div>
 </a>
-<!-- KPI 3 -->
+<!-- KPI 2 -->
 <a href="allocation.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors border-l-4 border-l-secondary-container no-underline">
 <div class="flex justify-between items-start">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Allocated</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Assets Allocated</span>
 <span class="material-symbols-outlined text-outline" data-icon="sync_alt">sync_alt</span>
 </div>
 <div>
 <div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-allocated">-</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1" id="kpi-allocated-pct">-% of total</div>
 </div>
 </a>
-<!-- KPI 4 -->
+<!-- KPI 3 -->
 <a href="maintenance.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
 <div class="flex justify-between items-start">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">In Maintenance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Maintenance Today</span>
 <span class="material-symbols-outlined text-outline" data-icon="build">build</span>
 </div>
 <div>
 <div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-maintenance">-</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Avg 3.2 days repair</div>
+</div>
+</a>
+<!-- KPI 4 -->
+<a href="bookings.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Bookings</span>
+<span class="material-symbols-outlined text-outline" data-icon="event_available">event_available</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-bookings">-</div>
 </div>
 </a>
 <!-- KPI 5 -->
-<a href="allocation.html" class="bg-error-container border border-error/20 rounded-lg p-space-md flex flex-col justify-between h-32 no-underline hover:opacity-90 transition-opacity">
+<a href="allocation.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
 <div class="flex justify-between items-start">
-<span class="font-label-sm text-label-sm text-on-error-container uppercase tracking-wider">Overdue</span>
-<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pending Transfers</span>
+<span class="material-symbols-outlined text-outline" data-icon="move_up">move_up</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-error-container" id="kpi-overdue">-</div>
-<div class="font-label-sm text-label-sm text-error mt-1">Action required</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-transfers">-</div>
 </div>
 </a>
 <!-- KPI 6 -->
-<a href="reports.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
+<a href="allocation.html" class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col justify-between h-32 hover:bg-surface-container-low transition-colors no-underline">
 <div class="flex justify-between items-start">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Value (Est)</span>
-<span class="material-symbols-outlined text-outline" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Upcoming Returns</span>
+<span class="material-symbols-outlined text-outline" data-icon="assignment_return">assignment_return</span>
 </div>
 <div>
-<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-value">$-</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">Book value</div>
+<div class="font-headline-lg text-headline-lg text-on-surface" id="kpi-returns">-</div>
 </div>
 </a>
 </div>
@@ -361,14 +355,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if(data.success) {
                 const kpis = data.data;
-                document.getElementById('kpi-total-assets').textContent = kpis.totalAssets.toLocaleString();
-                document.getElementById('kpi-available').textContent = kpis.available.toLocaleString();
-                document.getElementById('kpi-available-pct').textContent = kpis.availablePct + '% of total';
-                document.getElementById('kpi-allocated').textContent = kpis.allocated.toLocaleString();
-                document.getElementById('kpi-allocated-pct').textContent = kpis.allocatedPct + '% of total';
-                document.getElementById('kpi-maintenance').textContent = kpis.inMaintenance.toLocaleString();
-                document.getElementById('kpi-overdue').textContent = kpis.overdue.toLocaleString();
-                document.getElementById('kpi-value').textContent = '$' + (kpis.totalValue >= 1000000 ? (kpis.totalValue/1000000).toFixed(1) + 'M' : Number(kpis.totalValue).toLocaleString());
+                document.getElementById('kpi-available').textContent = kpis.assetsAvailable.toLocaleString();
+                document.getElementById('kpi-allocated').textContent = kpis.assetsAllocated.toLocaleString();
+                document.getElementById('kpi-maintenance').textContent = kpis.maintenanceToday.toLocaleString();
+                document.getElementById('kpi-bookings').textContent = kpis.activeBookings.toLocaleString();
+                document.getElementById('kpi-transfers').textContent = kpis.pendingTransfers.toLocaleString();
+                document.getElementById('kpi-returns').textContent = kpis.upcomingReturns.toLocaleString();
             }
         }).catch(err => console.error("Error fetching KPIs:", err));
 
@@ -432,12 +424,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Export Dashboard Functionality
     document.getElementById('export-dashboard-btn').addEventListener('click', function() {
         let csv = "AssetFlow Dashboard Export\\n\\nKPIs\\n";
-        csv += "Total Assets," + document.getElementById('kpi-total-assets').textContent.replace(/,/g, '') + "\\n";
-        csv += "Available," + document.getElementById('kpi-available').textContent.replace(/,/g, '') + "\\n";
-        csv += "Allocated," + document.getElementById('kpi-allocated').textContent.replace(/,/g, '') + "\\n";
-        csv += "In Maintenance," + document.getElementById('kpi-maintenance').textContent.replace(/,/g, '') + "\\n";
-        csv += "Overdue," + document.getElementById('kpi-overdue').textContent.replace(/,/g, '') + "\\n";
-        csv += "Total Value," + document.getElementById('kpi-value').textContent.replace(/,/g, '') + "\\n\\n";
+        csv += "Assets Available," + document.getElementById('kpi-available').textContent.replace(/,/g, '') + "\\n";
+        csv += "Assets Allocated," + document.getElementById('kpi-allocated').textContent.replace(/,/g, '') + "\\n";
+        csv += "Maintenance Today," + document.getElementById('kpi-maintenance').textContent.replace(/,/g, '') + "\\n";
+        csv += "Active Bookings," + document.getElementById('kpi-bookings').textContent.replace(/,/g, '') + "\\n";
+        csv += "Pending Transfers," + document.getElementById('kpi-transfers').textContent.replace(/,/g, '') + "\\n";
+        csv += "Upcoming Returns," + document.getElementById('kpi-returns').textContent.replace(/,/g, '') + "\\n\\n";
         
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);

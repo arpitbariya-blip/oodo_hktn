@@ -21,7 +21,11 @@ async function loadDashboardData() {
             renderMaintenanceFrequency(res.data.maintenanceFrequency);
             
             // For the trend chart, we mock the historical data points but end at the real current utilization
-            renderUtilizationChart(res.data.kpis.utilizationPct);
+            renderUtilizationChart(res.data.kpis.utilizationPct, res.data.utilTrends);
+            
+            renderDueMaintenance(res.data.dueMaintenance);
+            renderMostUsed(res.data.mostUsed);
+            renderIdleList(res.data.idleList);
         }
     } catch (e) {
         console.error("Failed to load reports data", e);
@@ -126,19 +130,15 @@ function renderAllocationChart(deptData, totalCount) {
     });
 }
 
-function renderUtilizationChart(currentPct) {
+function renderUtilizationChart(currentPct, utilTrends) {
     const ctxUtil = document.getElementById('utilizationChart').getContext('2d');
     
     const gradient = ctxUtil.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(33, 112, 228, 0.2)'); 
     gradient.addColorStop(1, 'rgba(33, 112, 228, 0)');
     
-    // We mock history that ramps up to the current real pct
-    const history1 = [currentPct-15, currentPct-8, currentPct-12, currentPct-5, currentPct-2, currentPct];
-    // Ensure bounds
-    const data1 = history1.map(v => Math.max(0, Math.min(100, v)));
-    
-    const labels = ['Week -5', 'Week -4', 'Week -3', 'Week -2', 'Week -1', 'Current'];
+    const labels = utilTrends && utilTrends.labels ? utilTrends.labels : ['Week -5', 'Week -4', 'Week -3', 'Week -2', 'Week -1', 'Current'];
+    const data1 = utilTrends && utilTrends.data ? utilTrends.data : [currentPct-15, currentPct-8, currentPct-12, currentPct-5, currentPct-2, currentPct].map(v => Math.max(0, Math.min(100, v)));
 
     new Chart(ctxUtil, {
         type: 'line',
@@ -264,4 +264,69 @@ function renderMaintenanceFrequency(freqData) {
 
 function exportReport() {
     window.location.href = API_BASE + '/api/reports/export';
+}
+
+function renderDueMaintenance(data) {
+    const container = document.getElementById('due-maint-list');
+    container.innerHTML = '';
+    if (!data || data.length === 0) {
+        container.innerHTML = '<p class="text-on-surface-variant font-body-sm text-center py-4">No assets due for maintenance.</p>';
+        return;
+    }
+    data.forEach(item => {
+        container.innerHTML += `
+            <div class="p-3 bg-surface rounded flex flex-col border border-outline-variant hover:border-error transition-colors">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="font-label-md text-label-md text-on-surface">${item.name}</span>
+                    <span class="font-mono-sm text-mono-sm text-error bg-error/10 px-2 rounded">${item.asset_tag}</span>
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">${item.location || 'Unknown Location'}</span>
+            </div>
+        `;
+    });
+}
+
+function renderMostUsed(data) {
+    const container = document.getElementById('most-used-list');
+    container.innerHTML = '';
+    if (!data || data.length === 0) {
+        container.innerHTML = '<p class="text-on-surface-variant font-body-sm text-center py-4">No usage data.</p>';
+        return;
+    }
+    data.forEach(item => {
+        container.innerHTML += `
+            <div class="p-3 bg-surface rounded flex justify-between items-center border border-outline-variant hover:border-secondary transition-colors">
+                <div>
+                    <div class="font-label-md text-label-md text-on-surface">${item.name}</div>
+                    <div class="font-mono-sm text-mono-sm text-on-surface-variant">${item.asset_tag}</div>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="font-title-md text-title-md text-secondary">${item.usage_count}</span>
+                    <span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Bookings</span>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function renderIdleList(data) {
+    const container = document.getElementById('idle-list');
+    container.innerHTML = '';
+    if (!data || data.length === 0) {
+        container.innerHTML = '<p class="text-on-surface-variant font-body-sm text-center py-4">No idle assets.</p>';
+        return;
+    }
+    data.forEach(item => {
+        container.innerHTML += `
+            <div class="p-3 bg-surface rounded flex justify-between items-center border border-outline-variant hover:border-on-surface-variant transition-colors">
+                <div>
+                    <div class="font-label-md text-label-md text-on-surface">${item.name}</div>
+                    <div class="font-mono-sm text-mono-sm text-on-surface-variant">${item.asset_tag}</div>
+                </div>
+                <span class="px-2 py-1 bg-surface-container font-label-sm text-label-sm text-on-surface-variant rounded flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">history_toggle_off</span> Idle
+                </span>
+            </div>
+        `;
+    });
 }

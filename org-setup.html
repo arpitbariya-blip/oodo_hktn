@@ -242,91 +242,76 @@
                 </button>
 </div>
 <!-- Tab Content: Department Management -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter h-[calc(100vh-280px)] min-h-[500px]" id="tab-departments">
-<!-- Tree View Panel -->
-<div class="col-span-1 bg-surface-container-lowest border border-outline-variant rounded flex flex-col">
-<div class="p-space-sm border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-<h3 class="font-title-md text-body-md text-on-surface">Hierarchy</h3>
-<button class="p-1 rounded hover:bg-surface-container-low text-on-surface-variant" title="Add Root Department">
-<span class="material-symbols-outlined text-[18px]">add</span>
-</button>
-</div>
-<div class="flex-1 p-space-md overflow-y-auto" id="departments-tree">
-<p class="text-on-surface-variant text-body-sm text-center">Loading hierarchy...</p>
-</div>
-</div>
-</div>
-<!-- Department Details Panel -->
-<div class="col-span-1 lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded flex flex-col">
-<div id="department-details-empty" class="flex-1 flex items-center justify-center h-full">
-<p class="text-on-surface-variant font-body-md">Select a department from the hierarchy to view details</p>
-</div>
-
-<div id="department-details-content" class="hidden flex-1 flex flex-col">
-<div class="p-space-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-<div>
-<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary">domain</span>
-<span id="detail-dept-name">Global Headquarters</span>
-</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="detail-dept-subtitle">ID: DEP-001</p>
-</div>
-<div class="flex gap-2">
-<button class="px-3 py-1.5 border border-outline-variant rounded font-title-md text-body-sm hover:bg-surface-container-low text-error border-error-container hover:bg-error-container/20">Delete</button>
-<button class="px-3 py-1.5 border border-outline-variant rounded font-title-md text-body-sm hover:bg-surface-container-low text-on-surface">Edit</button>
-</div>
-</div>
-<div class="p-space-xl flex-1 overflow-y-auto">
-<div class="grid grid-cols-2 gap-x-gutter gap-y-space-lg max-w-2xl">
-<!-- Field -->
-<div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-<label class="font-label-md text-label-sm text-on-surface-variant">Department Name</label>
-<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent" id="detail-field-name">--</div>
-</div>
-<!-- Field -->
-<div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-<label class="font-label-md text-label-sm text-on-surface-variant">Cost Center Code</label>
-<div class="font-mono-md text-mono-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent" id="detail-field-cc">--</div>
-</div>
-<!-- Field -->
-<div class="col-span-2 flex flex-col gap-1">
-<label class="font-label-md text-label-sm text-on-surface-variant">Description</label>
-<div class="font-body-md text-body-md text-on-surface p-2 bg-surface-container-low rounded border border-transparent min-h-[80px]" id="detail-field-desc">--</div>
-</div>
-<!-- Assigned Manager -->
-<div class="col-span-2 flex flex-col gap-2 mt-4" id="detail-head-container">
-<h4 class="font-title-md text-body-md text-on-surface border-b border-outline-variant pb-2">Department Head</h4>
-<div class="flex items-center justify-between p-3 border border-outline-variant rounded bg-surface-bright">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-title-md" id="detail-head-avatar">
---
-</div>
-<div>
-<p class="font-title-md text-body-md text-on-surface" id="detail-head-name">--</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant" id="detail-head-role">--</p>
-</div>
-</div>
-<button class="text-secondary font-title-md text-body-sm hover:underline">Reassign</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<div class="hidden flex flex-col h-[calc(100vh-280px)] min-h-[500px]" id="tab-departments">
+    <!-- Toolbar -->
+    <div class="flex justify-between items-center mb-space-md">
+        <div class="flex gap-2">
+            <div class="relative w-64">
+                <span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                <input class="w-full pl-8 pr-3 py-1.5 bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface placeholder-on-surface-variant/70" placeholder="Search departments..." type="text">
+            </div>
+        </div>
+        <button class="px-3 py-1.5 bg-primary text-on-primary rounded font-title-md text-body-sm hover:bg-primary/90 transition-colors flex items-center gap-1" title="Add Root Department" onclick="openDeptModal()">
+            <span class="material-symbols-outlined text-[16px]">add</span>
+            Add Department
+        </button>
+    </div>
+    
+    <!-- Data Table -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded flex-1 flex flex-col overflow-hidden">
+        <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead class="sticky top-0 bg-surface-bright border-b border-outline-variant z-10 shadow-sm">
+                    <tr>
+                        <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-1/3">Department Name</th>
+                        <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Cost Center</th>
+                        <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Manager</th>
+                        <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+                        <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="departments-tree" class="divide-y divide-outline-variant/30 text-body-sm text-on-surface font-body-sm">
+                    <tr><td colspan="5" class="text-center py-4 text-on-surface-variant">Loading hierarchy...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <!-- Tab Content: Asset Categories (Hidden by default) -->
-<div class="hidden h-[calc(100vh-280px)] min-h-[500px] flex gap-gutter" id="tab-categories">
-<!-- Implementation omitted for brevity to focus on Tab C requirement, but structure remains -->
-<div class="w-1/3 bg-surface-container-lowest border border-outline-variant rounded flex flex-col overflow-hidden">
-<div class="p-space-sm border-b border-outline-variant bg-surface-bright"><h3 class="font-title-md text-on-surface px-2">Categories</h3></div>
-<div class="flex-1 overflow-y-auto p-2 space-y-1" id="categories-list">
-<p class="text-on-surface-variant text-center my-auto font-body-md mt-4">Loading...</p>
-</div>
-</div>
-<div class="w-2/3 bg-surface-container-lowest border border-outline-variant rounded flex flex-col p-4">
-<p class="text-on-surface-variant text-center my-auto font-body-md">Custom Field Builder Placeholder</p>
-</div>
-</div>
+                    <div class="hidden flex flex-col h-[calc(100vh-280px)] min-h-[500px]" id="tab-categories">
+                        <!-- Toolbar -->
+                        <div class="flex justify-between items-center mb-space-md">
+                            <div class="flex gap-2">
+                                <div class="relative w-64">
+                                    <span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                                    <input class="w-full pl-8 pr-3 py-1.5 bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface placeholder-on-surface-variant/70" placeholder="Search categories..." type="text">
+                                </div>
+                            </div>
+                            <button onclick="document.getElementById('catModal').showModal(); document.getElementById('catId').value=''; document.getElementById('catName').value=''; document.getElementById('catDesc').value=''; document.getElementById('customFieldsContainer').innerHTML='';" class="px-3 py-1.5 bg-primary text-on-primary rounded font-title-md text-body-sm hover:bg-primary/90 transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">add</span>
+                                Add Category
+                            </button>
+                        </div>
+                        
+                        <!-- Data Table -->
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded flex-1 flex flex-col overflow-hidden">
+                            <div class="overflow-x-auto flex-1">
+                                <table class="w-full text-left border-collapse whitespace-nowrap">
+                                    <thead class="sticky top-0 bg-surface-bright border-b border-outline-variant z-10 shadow-sm">
+                                        <tr>
+                                            <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Category Name</th>
+                                            <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Description</th>
+                                            <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Custom Fields</th>
+                                            <th class="py-2.5 px-space-md font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categories-table-body" class="divide-y divide-outline-variant/30 text-body-sm text-on-surface font-body-sm">
+                                        <tr><td colspan="4" class="text-center py-4 text-on-surface-variant">Loading...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 <!-- Tab Content: Employee Directory -->
 <div class="hidden flex flex-col h-[calc(100vh-280px)] min-h-[500px]" id="tab-directory">
 <!-- Toolbar -->
@@ -373,10 +358,10 @@
         // Simple tab switching logic
         function switchTab(tabId) {
             // Hide all tabs
-            document.getElementById('tab-departments').classList.add('hidden');
-            document.getElementById('tab-categories').classList.add('hidden');
-            document.getElementById('tab-directory').classList.add('hidden');
-            
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
             // Remove active styling from all buttons
             const buttons = document.querySelectorAll('button[onclick^="switchTab"]');
             buttons.forEach(btn => {
@@ -496,6 +481,373 @@
                         const initials = emp.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
                         const roleColor = isAdmin ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-highest text-on-surface';
                         const avatarColor = isAdmin ? 'bg-tertiary-fixed/40 text-tertiary' : 'bg-secondary-container/20 text-secondary';
+                        const roleDropdown = `
+                            <select onchange="updateRole(${emp.id}, this.value, '${emp.role}')" class="px-2 py-1 bg-surface-container-lowest border border-outline-variant text-on-surface rounded text-xs font-title-md mr-2 focus:ring-1 focus:ring-secondary outline-none">
+                                <option value="Employee" ${emp.role === 'Employee' ? 'selected' : ''}>Employee</option>
+                                <option value="Asset Manager" ${emp.role === 'Asset Manager' ? 'selected' : ''}>Asset Manager</option>
+                                <option value="Department Head" ${emp.role === 'Department Head' ? 'selected' : ''}>Department Head</option>
+                                <option value="Admin" ${emp.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        `;
+
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-surface-container-low transition-colors group">
+                                <td class="py-2 px-4 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center font-title-md text-xs">${initials}</div>
+                                    <div>
+                                        <p class="font-medium text-on-surface">${emp.name}</p>
+                                        <p class="text-on-surface-variant text-xs">${emp.email}</p>
+                                    </div>
+                                </td>
+                                <td class="py-2 px-4 font-mono-md">EMP-${emp.id.toString().padStart(4, '0')}</td>
+                                <td class="py-2 px-4">${emp.department_name || 'N/A'}</td>
+                                <td class="py-2 px-4">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${roleColor}">${emp.role}</span>
+                                </td>
+                                <td class="py-2 px-4 text-right">
+                                    ${roleDropdown}
+                                    <button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-variant transition-colors opacity-0 group-hover:opacity-100">
+                                        <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                })
+                .catch(console.error);
+        }
+    </script>
+
+    <dialog id="deptModal" class="bg-surface rounded-xl shadow-elevation-3 p-0 backdrop:bg-surface-dim/50 backdrop:backdrop-blur-sm border border-outline-variant w-full max-w-md">
+        <div class="p-space-lg border-b border-outline-variant flex justify-between items-center">
+            <h2 class="font-title-lg text-title-lg text-on-surface" id="deptModalTitle">Add Department</h2>
+            <button onclick="document.getElementById('deptModal').close()" class="text-on-surface-variant hover:text-on-surface rounded-full p-1 hover:bg-surface-container"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="p-space-lg flex flex-col gap-space-md">
+            <input type="hidden" id="deptId">
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface-variant">Name *</label>
+                <input type="text" id="deptName" class="px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:ring-2 focus:ring-secondary outline-none text-on-surface w-full">
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface-variant">Parent Department</label>
+                <select id="deptParent" class="px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:ring-2 focus:ring-secondary outline-none text-on-surface w-full">
+                    <option value="">None (Root)</option>
+                    <!-- Populated via JS -->
+                </select>
+            </div>
+        </div>
+        <div class="p-space-lg border-t border-outline-variant flex justify-end gap-3 bg-surface-container-lowest/50">
+            <button onclick="document.getElementById('deptModal').close()" class="px-4 py-2 text-on-surface font-label-md hover:bg-surface-container-low rounded transition-colors">Cancel</button>
+            <button onclick="saveDept()" class="px-4 py-2 bg-primary text-on-primary font-label-md rounded hover:bg-primary/90 transition-colors">Save</button>
+        </div>
+    </dialog>
+
+    <dialog id="catModal" class="bg-surface rounded-xl shadow-elevation-3 p-0 backdrop:bg-surface-dim/50 backdrop:backdrop-blur-sm border border-outline-variant w-full max-w-2xl">
+        <div class="p-space-lg border-b border-outline-variant flex justify-between items-center">
+            <h2 class="font-title-lg text-title-lg text-on-surface" id="catModalTitle">Add Category</h2>
+            <button onclick="document.getElementById('catModal').close()" class="text-on-surface-variant hover:text-on-surface rounded-full p-1 hover:bg-surface-container"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="p-space-lg flex flex-col gap-space-md max-h-[70vh] overflow-y-auto">
+            <input type="hidden" id="catId">
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface-variant">Category Name *</label>
+                <input type="text" id="catName" class="px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:ring-2 focus:ring-secondary outline-none text-on-surface w-full">
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="font-label-md text-label-md text-on-surface-variant">Description</label>
+                <textarea id="catDesc" class="px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:ring-2 focus:ring-secondary outline-none text-on-surface w-full"></textarea>
+            </div>
+            
+            <div class="mt-4 border-t border-outline-variant pt-4">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-title-md text-title-md text-on-surface">Custom Fields</h4>
+                    <button type="button" onclick="addCustomFieldRow()" class="px-2 py-1 bg-secondary text-on-secondary rounded text-xs font-medium">Add Field</button>
+                </div>
+                <div id="customFieldsContainer" class="flex flex-col gap-2">
+                    <!-- Fields added here -->
+                </div>
+            </div>
+        </div>
+        <div class="p-space-lg border-t border-outline-variant flex justify-end gap-3 bg-surface-container-lowest/50">
+            <button onclick="document.getElementById('catModal').close()" class="px-4 py-2 text-on-surface font-label-md hover:bg-surface-container-low rounded transition-colors">Cancel</button>
+            <button onclick="saveCategory()" class="px-4 py-2 bg-primary text-on-primary font-label-md rounded hover:bg-primary/90 transition-colors">Save</button>
+        </div>
+    </dialog>
+
+    <script>
+        function switchTab(tab) {
+            document.getElementById('tab-departments').classList.add('hidden');
+            document.getElementById('tab-categories').classList.add('hidden');
+            document.getElementById('tab-directory').classList.add('hidden');
+            
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('flex'); // directory requires flex
+            
+            if (tab === 'departments') document.getElementById('tab-departments').classList.replace('hidden', 'grid');
+        }
+
+        // const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
+        let allDepts = [];
+        let allCategories = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDepartments();
+            loadDirectory();
+            loadCategories();
+        });
+
+        // ================= DEPARTMENTS =================
+        function loadDepartments() {
+            fetch(API_BASE + '/api/departments')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success) return console.error(res.error);
+                    allDepts = res.data;
+                    
+                    const tree = document.getElementById('departments-tree');
+                    tree.innerHTML = '';
+                    
+                    const parentSelect = document.getElementById('deptParent');
+                    parentSelect.innerHTML = '<option value="">None (Root)</option>';
+                    
+                    res.data.forEach(d => {
+                        if (d.status === 'Active') {
+                            parentSelect.add(new Option(d.name, d.id));
+                        }
+                    });
+
+                    // Build hierarchy recursively for the table
+                    const buildTree = (parentId, level) => {
+                        return res.data.filter(d => d.parent_department_id == parentId).map(d => {
+                            const isRoot = !d.parent_department_id;
+                            const indent = level > 0 ? `style="padding-left: ${level * 2}rem;"` : '';
+                            const icon = isRoot ? 'domain' : 'corporate_fare';
+                            const children = buildTree(d.id, level + 1);
+                            
+                            const manager = d.head_name ? `
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary text-[10px] font-bold">
+                                        ${d.head_name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}
+                                    </div>
+                                    <span>${d.head_name}</span>
+                                </div>
+                            ` : '<span class="text-on-surface-variant italic">Unassigned</span>';
+                            
+                            const statusBadge = d.status === 'Active' 
+                                ? '<span class="px-2 py-0.5 bg-primary-container text-on-primary-container rounded text-xs">Active</span>'
+                                : '<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded text-xs">Inactive</span>';
+                            
+                            return `
+                                <tr class="hover:bg-surface-container-low group transition-colors border-b border-outline-variant/30 last:border-0 ${d.status === 'Inactive' ? 'opacity-70' : ''}">
+                                    <td class="px-space-md py-3 font-medium flex items-center gap-2" ${indent}>
+                                        <span class="material-symbols-outlined text-[18px] ${isRoot ? 'text-primary' : 'text-on-surface-variant'}">${icon}</span>
+                                        ${d.name}
+                                    </td>
+                                    <td class="px-space-md py-3 font-mono-md text-on-surface-variant">${d.cost_center_code || '-'}</td>
+                                    <td class="px-space-md py-3">${manager}</td>
+                                    <td class="px-space-md py-3">${statusBadge}</td>
+                                    <td class="px-space-md py-3 text-right">
+                                        <button onclick="currentDeptId=${d.id}; openDeptModal(true)" class="text-secondary hover:underline text-xs mr-2">Edit</button>
+                                    </td>
+                                </tr>
+                                ${children.join('')}
+                            `;
+                        });
+                    };
+                    
+                    const roots = buildTree(null, 0);
+                    tree.innerHTML = roots.join('');
+                });
+        }
+
+        let currentDeptId = null;
+        
+        function openDeptModal(isEdit = false) {
+            if (isEdit && !currentDeptId) return;
+            
+            document.getElementById('deptModalTitle').textContent = isEdit ? 'Edit Department' : 'Add Department';
+            document.getElementById('deptId').value = isEdit ? currentDeptId : '';
+            
+            if (isEdit) {
+                const dept = allDepts.find(d => d.id == currentDeptId);
+                document.getElementById('deptName').value = dept.name;
+                document.getElementById('deptParent').value = dept.parent_id || '';
+            } else {
+                document.getElementById('deptName').value = '';
+                document.getElementById('deptParent').value = '';
+            }
+            
+            document.getElementById('deptModal').showModal();
+        }
+        
+        function saveDept() {
+            const id = document.getElementById('deptId').value;
+            const name = document.getElementById('deptName').value;
+            const parent = document.getElementById('deptParent').value;
+            
+            const method = id ? 'PUT' : 'POST';
+            fetch(API_BASE + '/api/departments', {
+                method: method,
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: id, name: name, parent_id: parent})
+            }).then(r=>r.json()).then(res => {
+                document.getElementById('deptModal').close();
+                loadDepartments();
+            });
+        }
+        
+        function deleteDept() {
+            if(!currentDeptId) return;
+            if(confirm("Are you sure you want to deactivate this department?")) {
+                fetch(API_BASE + '/api/departments', {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({id: currentDeptId})
+                }).then(r=>r.json()).then(res => {
+                    loadDepartments();
+                    document.getElementById('department-details-empty').classList.remove('hidden');
+                    document.getElementById('department-details-content').classList.add('hidden');
+                    document.getElementById('department-details-content').classList.remove('flex');
+                    currentDeptId = null;
+                });
+            }
+        }
+
+        // ================= CATEGORIES =================
+        function loadCategories() {
+            fetch(API_BASE + '/api/categories')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success) return console.error(res.error);
+                    allCategories = res.data;
+                    const tbody = document.getElementById('categories-table-body');
+                    tbody.innerHTML = '';
+                    
+                    res.data.forEach(c => {
+                        let cfBadges = (c.custom_fields || []).map(cf => `<span class="bg-surface-container-high px-2 py-0.5 rounded text-xs">${cf.field_name}</span>`).join(' ');
+                        tbody.innerHTML += `
+                            <tr>
+                                <td class="px-space-md py-3 font-medium">${c.name}</td>
+                                <td class="px-space-md py-3 text-on-surface-variant">${c.description || '-'}</td>
+                                <td class="px-space-md py-3 flex gap-1 flex-wrap">${cfBadges || '-'}</td>
+                                <td class="px-space-md py-3 text-right">
+                                    <button onclick="openCategoryModal(${c.id})" class="text-secondary hover:underline text-xs mr-2">Edit</button>
+                                    <button onclick="deleteCategory(${c.id})" class="text-error hover:underline text-xs">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+        
+        function addCustomFieldRow(name='', type='text', isReq=false) {
+            const container = document.getElementById('customFieldsContainer');
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-center custom-field-row';
+            row.innerHTML = `
+                <input type="text" placeholder="Field Name" value="${name}" class="cf-name px-2 py-1 bg-surface-container border border-outline-variant rounded flex-1 text-sm outline-none">
+                <select class="cf-type px-2 py-1 bg-surface-container border border-outline-variant rounded text-sm outline-none">
+                    <option value="text" ${type==='text'?'selected':''}>Text</option>
+                    <option value="number" ${type==='number'?'selected':''}>Number</option>
+                    <option value="date" ${type==='date'?'selected':''}>Date</option>
+                </select>
+                <label class="flex items-center gap-1 text-xs"><input type="checkbox" class="cf-req" ${isReq?'checked':''}> Req.</label>
+                <button type="button" onclick="this.parentElement.remove()" class="text-error hover:bg-error-container/20 p-1 rounded"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+            `;
+            container.appendChild(row);
+        }
+        
+        function openCategoryModal(id = null) {
+            document.getElementById('catModalTitle').textContent = id ? 'Edit Category' : 'Add Category';
+            document.getElementById('catId').value = id || '';
+            document.getElementById('customFieldsContainer').innerHTML = '';
+            
+            if (id) {
+                const cat = allCategories.find(c => c.id == id);
+                document.getElementById('catName').value = cat.name;
+                document.getElementById('catDesc').value = cat.description || '';
+                if(cat.custom_fields) {
+                    cat.custom_fields.forEach(cf => addCustomFieldRow(cf.field_name, cf.field_type, cf.is_required == 1));
+                }
+            } else {
+                document.getElementById('catName').value = '';
+                document.getElementById('catDesc').value = '';
+            }
+            
+            document.getElementById('catModal').showModal();
+        }
+        
+        function saveCategory() {
+            const id = document.getElementById('catId').value;
+            const payload = {
+                id: id,
+                name: document.getElementById('catName').value,
+                description: document.getElementById('catDesc').value,
+                custom_fields: []
+            };
+            
+            document.querySelectorAll('.custom-field-row').forEach(row => {
+                const name = row.querySelector('.cf-name').value;
+                if(name) {
+                    payload.custom_fields.push({
+                        field_name: name,
+                        field_type: row.querySelector('.cf-type').value,
+                        is_required: row.querySelector('.cf-req').checked
+                    });
+                }
+            });
+            
+            const method = id ? 'PUT' : 'POST';
+            fetch(API_BASE + '/api/categories', {
+                method: method,
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            }).then(r=>r.json()).then(res => {
+                document.getElementById('catModal').close();
+                loadCategories();
+            });
+        }
+        
+        function deleteCategory(id) {
+            if(confirm("Delete this category? This might fail if assets exist in it.")) {
+                fetch(API_BASE + '/api/categories', {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({id: id})
+                }).then(r=>r.json()).then(res => {
+                    if(res.error) alert(res.error);
+                    loadCategories();
+                });
+            }
+        }
+
+        // ================= EMPLOYEES =================
+        function loadDirectory() {
+            fetch(API_BASE + '/api/employees')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success) return console.error(res.error);
+                    const tbody = document.getElementById('directory-tbody');
+                    tbody.innerHTML = '';
+                    
+                    res.data.forEach(emp => {
+                        // Generate avatar based on name
+                        const initials = emp.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                        
+                        // Hash color
+                        const colors = ['bg-primary-container text-on-primary-container', 'bg-secondary-container text-on-secondary-container', 'bg-tertiary-container text-on-tertiary-container', 'bg-error-container text-on-error-container'];
+                        const colorIdx = emp.name.charCodeAt(0) % colors.length;
+                        const avatarColor = colors[colorIdx];
+
+                        // Role badge style
+                        let roleColor = 'bg-surface-container-high text-on-surface-variant';
+                        if (emp.role === 'Admin') roleColor = 'bg-primary/10 text-primary';
+                        if (emp.role === 'Asset Manager') roleColor = 'bg-secondary/10 text-secondary';
+                        if (emp.role === 'Department Head') roleColor = 'bg-tertiary/10 text-tertiary';
+
+                        // Dropdown for inline role editing
+                        // In real life, only admins could do this. We assume the current user has access to this page (checked in auth.js)
                         const roleDropdown = `
                             <select onchange="updateRole(${emp.id}, this.value, '${emp.role}')" class="px-2 py-1 bg-surface-container-lowest border border-outline-variant text-on-surface rounded text-xs font-title-md mr-2 focus:ring-1 focus:ring-secondary outline-none">
                                 <option value="Employee" ${emp.role === 'Employee' ? 'selected' : ''}>Employee</option>

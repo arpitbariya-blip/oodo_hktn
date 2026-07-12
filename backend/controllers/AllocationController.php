@@ -21,7 +21,7 @@ class AllocationController {
             
             Response::json($allocations);
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -47,7 +47,7 @@ class AllocationController {
             
             Response::json($transfers);
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -99,7 +99,7 @@ class AllocationController {
             Response::json(['message' => 'Asset returned successfully.']);
         } catch(Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
-            Response::error('Error processing return: ' . $e->getMessage(), 500);
+            Response::error('Error processing return: ' , 500);
         }
     }
 
@@ -161,7 +161,7 @@ class AllocationController {
             }
         } catch(Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
-            Response::error('Error resolving transfer: ' . $e->getMessage(), 500);
+            Response::error('Error resolving transfer: ' , 500);
         }
     }
 
@@ -232,7 +232,7 @@ class AllocationController {
             Response::json(['message' => 'Asset allocated successfully.']);
         } catch (Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -261,7 +261,7 @@ class AllocationController {
 
             Response::json(['message' => 'Transfer requested successfully.']);
         } catch (Exception $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 }

@@ -14,7 +14,7 @@ class MaintenanceController {
             $stmt = $db->query($query);
             Response::json($stmt->fetchAll());
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -46,7 +46,7 @@ class MaintenanceController {
 
             Response::json(['message' => 'Maintenance request submitted successfully.']);
         } catch(Exception $e) {
-            Response::error('Error creating request: ' . $e->getMessage(), 500);
+            Response::error('Error creating request: ' , 500);
         }
     }
 
@@ -105,7 +105,7 @@ class MaintenanceController {
             if ($db->inTransaction()) {
                 $db->rollBack();
             }
-            Response::error('Error updating status: ' . $e->getMessage(), 500);
+            Response::error('Error updating status: ' , 500);
         }
     }
 }

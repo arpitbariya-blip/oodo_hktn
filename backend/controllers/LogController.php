@@ -128,7 +128,7 @@ class LogController {
             
             Response::json(['message' => 'Seeded successfully']);
         } catch (PDOException $e) {
-            Response::error('Error seeding data: ' . $e->getMessage(), 500);
+            Response::error('Error seeding data: ' , 500);
         }
     }
 }

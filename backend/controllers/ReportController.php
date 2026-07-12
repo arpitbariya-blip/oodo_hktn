@@ -49,6 +49,45 @@ class ReportController {
             ");
             $maintFrequency = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            // 4. Utilization Trends (Mocked last 6 months for chart)
+            $months = [];
+            for($i=5; $i>=0; $i--) {
+                $months[] = date('M Y', strtotime("-$i months"));
+            }
+            $utilTrends = [
+                'labels' => $months,
+                'data' => [65, 68, 72, 70, 78, $utilizationPct]
+            ];
+
+            // 5. Due for Maintenance
+            $stmt = $db->query("
+                SELECT a.id, a.name, a.asset_tag, a.location 
+                FROM assets a 
+                WHERE a.lifecycle_status = 'Under Maintenance' 
+                OR a.id IN (SELECT asset_id FROM maintenance_requests WHERE status = 'Scheduled')
+                LIMIT 5
+            ");
+            $dueMaint = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // 6. Most Used vs Idle (Top 5 booked assets vs 5 assets never booked/allocated)
+            $stmt = $db->query("
+                SELECT a.name, a.asset_tag, COUNT(b.id) as usage_count
+                FROM assets a
+                JOIN bookings b ON a.id = b.asset_id
+                GROUP BY a.id ORDER BY usage_count DESC LIMIT 5
+            ");
+            $mostUsed = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $stmt = $db->query("
+                SELECT a.name, a.asset_tag
+                FROM assets a
+                LEFT JOIN bookings b ON a.id = b.asset_id
+                LEFT JOIN allocations al ON a.id = al.asset_id
+                WHERE b.id IS NULL AND al.id IS NULL
+                LIMIT 5
+            ");
+            $idleList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             Response::json([
                 'kpis' => [
                     'totalValue' => $totalValue,
@@ -57,11 +96,16 @@ class ReportController {
                     'maintCosts' => $maintCosts
                 ],
                 'departmentAllocation' => $deptAllocation,
-                'maintenanceFrequency' => $maintFrequency
+                'maintenanceFrequency' => $maintFrequency,
+                'utilTrends' => $utilTrends,
+                'dueMaintenance' => $dueMaint,
+                'mostUsed' => $mostUsed,
+                'idleList' => $idleList
+
             ]);
 
         } catch(PDOException $e) {
-            Response::error('Database error: ' . $e->getMessage(), 500);
+            Response::error('Database error: ' , 500);
         }
     }
 
@@ -97,7 +141,7 @@ class ReportController {
             exit;
             
         } catch(PDOException $e) {
-            echo "Error generating report: " . $e->getMessage();
+            echo "Error generating report.";
         }
     }
 }

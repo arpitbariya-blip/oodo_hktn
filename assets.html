@@ -316,8 +316,8 @@
 <div>
 <label class="block font-label-md text-label-md text-on-surface mb-1">Asset Tag <span class="text-error">*</span></label>
 <div class="flex">
-<span class="inline-flex items-center px-3 border border-r-0 border-outline-variant bg-surface-container-low text-on-surface-variant text-sm rounded-l-md font-mono-md">AST-</span>
-<input id="new-asset-tag" class="flex-1 px-space-sm py-2 border border-outline-variant rounded-r-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="1045" type="text"/>
+<span class="inline-flex items-center px-3 border border-r-0 border-outline-variant bg-surface-container-low text-on-surface-variant text-sm rounded-l-md font-mono-md">AF-</span>
+<input id="new-asset-tag" class="flex-1 px-space-sm py-2 border border-outline-variant rounded-r-md font-body-md text-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Leave blank to auto-generate" type="text"/>
 </div>
 </div>
 <div>
@@ -344,7 +344,7 @@
 </div>
 </div>
 <div class="pt-4 border-t border-outline-variant mt-6">
-<label class="flex items-center gap-3 cursor-pointer group">
+<label class="flex items-center gap-3 cursor-pointer group mb-4">
 <div class="relative">
 <input id="new-asset-bookable" class="sr-only peer" type="checkbox"/>
 <div class="w-10 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
@@ -354,6 +354,10 @@
 <span class="block font-body-sm text-body-sm text-on-surface-variant">Allow employees to reserve this asset via the Booking portal.</span>
 </div>
 </label>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Upload Photos / Documents</label>
+<input type="file" id="new-asset-docs" multiple class="text-sm">
+</div>
 </div>
 </div>
 </div>
@@ -398,33 +402,34 @@
 </div>
 </div>
 <!-- Allocation History Timeline -->
-<h4 class="font-title-md text-title-md font-semibold text-on-surface mb-space-md flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-semibold text-on-surface mb-space-md flex items-center gap-2 mt-6">
 <span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="history">history</span>
                 Allocation History
             </h4>
-<div class="relative border-l-2 border-surface-container-high ml-3 space-y-6 pb-4">
-<div class="relative pl-6">
-<div class="absolute w-3 h-3 bg-secondary rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
-<p class="font-label-sm text-label-sm text-secondary font-bold mb-0.5">CURRENT (Returned)</p>
-<p class="font-body-md text-body-md text-on-surface">Returned to Inventory</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Nov 28, 2023 by System</p>
+<div class="relative border-l-2 border-surface-container-high ml-3 space-y-6 pb-4" id="detail-alloc-history">
+    <!-- Populated via JS -->
 </div>
-<div class="relative pl-6">
-<div class="absolute w-3 h-3 bg-outline-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-0.5">Oct 15 - Nov 28, 2023</p>
-<p class="font-body-md text-body-md text-on-surface font-medium">Allocated to <span class="text-secondary">Sarah Jenkins</span></p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Project: Project Alpha Alpha</p>
+
+<!-- Maintenance History -->
+<h4 class="font-title-md text-title-md font-semibold text-on-surface mb-space-md flex items-center gap-2 mt-6">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="build">build</span>
+                Maintenance History
+            </h4>
+<div class="relative border-l-2 border-surface-container-high ml-3 space-y-6 pb-4" id="detail-maint-history">
+    <!-- Populated via JS -->
 </div>
-<div class="relative pl-6">
-<div class="absolute w-3 h-3 bg-outline-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-0.5">Oct 12, 2023</p>
-<p class="font-body-md text-body-md text-on-surface">Asset Registered</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">By Admin User</p>
-</div>
+
+<!-- Documents -->
+<h4 class="font-title-md text-title-md font-semibold text-on-surface mb-space-md flex items-center gap-2 mt-6">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="description">description</span>
+                Documents
+            </h4>
+<div class="flex flex-col gap-2" id="detail-docs">
+    <!-- Populated via JS -->
 </div>
 </div>
 <div class="p-space-md border-t border-outline-variant bg-surface-container-low flex justify-end gap-space-sm">
-<button class="px-space-md py-2 border border-outline-variant bg-surface-container-lowest rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<button onclick="openEditAsset()" class="px-space-md py-2 border border-outline-variant bg-surface-container-lowest rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-2">
 <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
                 Edit Asset
              </button>
@@ -446,6 +451,7 @@
         const API_BASE = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'backend/index.php';
         let currentAssets = [];
         let currentSort = { column: 'id', order: 'desc' };
+        let currentEditAssetId = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             loadCategories();
@@ -565,14 +571,32 @@
         }
 
         function saveAsset() {
-            const data = {
-                asset_tag: document.getElementById('new-asset-tag').value,
-                category_id: document.getElementById('new-asset-category').value,
-                name: document.getElementById('new-asset-name').value,
-                acquisition_date: document.getElementById('new-asset-date').value,
-                acquisition_cost: document.getElementById('new-asset-cost').value,
-                is_shared_bookable: document.getElementById('new-asset-bookable').checked ? 1 : 0
-            };
+            const formData = new FormData();
+            
+            if (currentEditAssetId) {
+                formData.append('id', currentEditAssetId);
+            }
+            
+            const tagVal = document.getElementById('new-asset-tag').value;
+            if (tagVal.trim() !== '') {
+                formData.append('asset_tag', 'AF-' + tagVal);
+            }
+            
+            formData.append('category_id', document.getElementById('new-asset-category').value);
+            formData.append('name', document.getElementById('new-asset-name').value);
+            formData.append('acquisition_date', document.getElementById('new-asset-date').value);
+            formData.append('acquisition_cost', document.getElementById('new-asset-cost').value);
+            formData.append('is_shared_bookable', document.getElementById('new-asset-bookable').checked ? 1 : 0);
+            
+            const docsInput = document.getElementById('new-asset-docs');
+            if (docsInput.files.length > 0) {
+                for(let i=0; i<docsInput.files.length; i++) {
+                    formData.append('documents[]', docsInput.files[i]);
+                }
+            }
+
+            const category_id = document.getElementById('new-asset-category').value;
+            const name = document.getElementById('new-asset-name').value;
 
             if(!data.category_id || !data.name) {
                 alert('Please fill out all required fields.');
@@ -583,10 +607,11 @@
             btn.innerHTML = 'Saving...';
             btn.disabled = true;
 
-            fetch(API_BASE + '/api/assets', {
+            const endpoint = currentEditAssetId ? '/api/assets/update' : '/api/assets';
+            
+            fetch(API_BASE + endpoint, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: formData // No Content-Type header so browser sets multipart/form-data boundary
             })
             .then(r => r.json())
             .then(res => {
@@ -596,6 +621,10 @@
                     document.getElementById('new-asset-tag').value = '';
                     document.getElementById('new-asset-name').value = '';
                     document.getElementById('new-asset-cost').value = '';
+                    document.getElementById('new-asset-date').value = '';
+                    document.getElementById('new-asset-docs').value = '';
+                    currentEditAssetId = null;
+                    document.querySelector('#register-drawer h3').textContent = 'Register New Asset';
                     loadAssets(); // Refresh table
                 } else {
                     alert('Error: ' + res.error);
@@ -611,17 +640,89 @@
             });
         }
 
-        function openDetail(id) {
-            // Just basic open for now, can implement fetch /api/assets/details later if detailed view is fully built
-            const asset = currentAssets.find(a => a.id == id);
+        function openEditAsset() {
+            const asset = currentAssets.find(a => a.id == currentEditAssetId);
             if(!asset) return;
             
-            // You can populate the detail-drawer elements here.
-            // Example:
-            // document.getElementById('detail-drawer-title').textContent = asset.name;
+            document.querySelector('#register-drawer h3').textContent = 'Edit Asset';
+            document.getElementById('new-asset-tag').value = asset.asset_tag ? asset.asset_tag.replace('AF-', '') : '';
+            document.getElementById('new-asset-category').value = asset.category_id;
+            document.getElementById('new-asset-name').value = asset.name;
+            document.getElementById('new-asset-date').value = asset.acquisition_date || '';
+            document.getElementById('new-asset-cost').value = asset.acquisition_cost || '';
+            document.getElementById('new-asset-bookable').checked = asset.is_shared_bookable == 1;
             
-            document.getElementById('detail-drawer').classList.remove('translate-x-full'); 
-            document.getElementById('drawer-overlay').classList.remove('hidden');
+            document.getElementById('detail-drawer').classList.add('translate-x-full');
+            document.getElementById('register-drawer').classList.remove('translate-x-full');
+        }
+
+        function openDetail(id) {
+            currentEditAssetId = id;
+            
+            fetch(API_BASE + '/api/assets/details?id=' + id)
+                .then(r => r.json())
+                .then(asset => {
+                    if(!asset) return;
+                    
+                    document.querySelector('#detail-drawer h3').textContent = asset.name;
+                    document.querySelector('#detail-drawer .font-mono-md').textContent = asset.asset_tag;
+                    document.querySelector('#detail-drawer p').textContent = (asset.serial_number ? asset.serial_number + ' • ' : '') + (asset.category_name || 'No Category');
+                    
+                    // Metadata box
+                    const metas = document.querySelectorAll('#detail-drawer .bg-surface-container-low .font-medium');
+                    metas[0].textContent = asset.department_name || 'Unassigned';
+                    metas[1].textContent = asset.acquisition_date || 'Unknown';
+                    metas[2].textContent = asset.is_shared_bookable == 1 ? 'Yes' : 'No';
+                    metas[3].textContent = asset.lifecycle_status;
+                    
+                    // Alloc History
+                    const allocContainer = document.getElementById('detail-alloc-history');
+                    allocContainer.innerHTML = '';
+                    if(asset.allocation_history && asset.allocation_history.length > 0) {
+                        asset.allocation_history.forEach(h => {
+                            allocContainer.innerHTML += `
+                            <div class="relative pl-6">
+                                <div class="absolute w-3 h-3 bg-outline-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant mb-0.5">${h.allocated_at} - ${h.returned_at || 'Present'}</p>
+                                <p class="font-body-md text-body-md text-on-surface font-medium">Allocated to <span class="text-secondary">${h.user_name || 'User'}</span></p>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Status: ${h.status}</p>
+                            </div>`;
+                        });
+                    } else {
+                        allocContainer.innerHTML = '<p class="text-sm text-on-surface-variant">No allocation history.</p>';
+                    }
+                    
+                    // Maint History
+                    const maintContainer = document.getElementById('detail-maint-history');
+                    maintContainer.innerHTML = '';
+                    if(asset.maintenance_history && asset.maintenance_history.length > 0) {
+                        asset.maintenance_history.forEach(h => {
+                            maintContainer.innerHTML += `
+                            <div class="relative pl-6">
+                                <div class="absolute w-3 h-3 bg-outline-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant mb-0.5">${h.reported_at}</p>
+                                <p class="font-body-md text-body-md text-on-surface">${h.issue_description}</p>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Status: ${h.status}</p>
+                            </div>`;
+                        });
+                    } else {
+                        maintContainer.innerHTML = '<p class="text-sm text-on-surface-variant">No maintenance history.</p>';
+                    }
+                    
+                    // Docs
+                    const docContainer = document.getElementById('detail-docs');
+                    docContainer.innerHTML = '';
+                    if(asset.documents && asset.documents.length > 0) {
+                        asset.documents.forEach(d => {
+                            docContainer.innerHTML += `<a href="${d.file_path}" target="_blank" class="text-secondary hover:underline text-sm break-all flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">attachment</span> ${d.file_name}</a>`;
+                        });
+                    } else {
+                        docContainer.innerHTML = '<p class="text-sm text-on-surface-variant">No documents.</p>';
+                    }
+                    
+                    document.getElementById('detail-drawer').classList.remove('translate-x-full'); 
+                    document.getElementById('drawer-overlay').classList.remove('hidden');
+                }).catch(err => console.error(err));
         }
     </script>
     <script src="assets/js/auth.js"></script>

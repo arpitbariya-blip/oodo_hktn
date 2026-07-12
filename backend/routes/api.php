@@ -45,9 +45,33 @@ $routes = [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'DepartmentController@getDetails'
     ],
+    'POST /api/departments' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'DepartmentController@create'
+    ],
+    'PUT /api/departments' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'DepartmentController@update'
+    ],
+    'DELETE /api/departments' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'DepartmentController@delete'
+    ],
     'GET /api/categories' => [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'CategoryController@getAll'
+    ],
+    'POST /api/categories' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'CategoryController@create'
+    ],
+    'PUT /api/categories' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'CategoryController@update'
+    ],
+    'DELETE /api/categories' => [
+        'middleware' => ['AuthMiddleware', ['RoleMiddleware', ['Admin']]],
+        'controller' => 'CategoryController@delete'
     ],
     'GET /api/employees' => [
         'middleware' => ['AuthMiddleware'],
@@ -76,6 +100,13 @@ $routes = [
             ['RoleMiddleware', ['Admin', 'Asset Manager']] // Only Admins and Asset Managers can register assets
         ],
         'controller' => 'AssetController@create'
+    ],
+    'POST /api/assets/update' => [
+        'middleware' => [
+            'AuthMiddleware',
+            ['RoleMiddleware', ['Admin', 'Asset Manager']]
+        ],
+        'controller' => 'AssetController@update'
     ],
 
     // Allocation & Transfer Routes
@@ -136,6 +167,10 @@ $routes = [
     'POST /api/bookings/cancel' => [
         'middleware' => ['AuthMiddleware'],
         'controller' => 'BookingController@cancel'
+    ],
+    'POST /api/bookings/reschedule' => [
+        'middleware' => ['AuthMiddleware'],
+        'controller' => 'BookingController@reschedule'
     ],
 
     // Maintenance Routes
